@@ -1,8 +1,8 @@
-import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 
 function App() {
   return (
-    <div className="App">
+    <div className="bg-black h-screen">
       <Editor
         height="90vh"
         theme="vs-dark"
