@@ -1,6 +1,7 @@
 {
   "name": "browser-engine",
   "version": "0.1.0",
+  "homepage": "https://parssak.github.io/browser-engine",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.2.0",
@@ -29,7 +30,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pages": "craco build && git add build -f && git commit -m 'Updated build' && git subtree push --prefix build origin gh-pages"
   },
   "eslintConfig": {
     "extends": [

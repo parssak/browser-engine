@@ -11,3 +11,7 @@ interface IEntityParams {
     inGroup?: boolean;
   },
 };
+
+enum Component {
+  Transform = 'transform'
+};
