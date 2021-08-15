@@ -4,7 +4,7 @@ import Entity from '../../engine/core';
 import Agent from '../../engine/entities/Agent';
 import getComponentProps from '../../engine/utils/getComponentProps';
 
-export default function Controls({ }) {
+export default function Controls() {
   const [entity, setEntity] = useState<Entity>();
   const addEntity = () => {
     setEntity(new Agent());
