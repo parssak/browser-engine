@@ -1,4 +1,4 @@
-interface IEntity {
+interface IEntity implements THREE.Object3D{
   inGroup: boolean;
   mesh?: THREE.Mesh;
   group?: THREE.Group;

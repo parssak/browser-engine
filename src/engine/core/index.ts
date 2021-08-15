@@ -30,6 +30,7 @@ export default abstract class Entity implements IEntity {
   material: THREE.Material;
   geometry: THREE.BufferGeometry;
   mesh: THREE.Mesh;
+  
   constructor(params?: IEntityParams) {
     this.inGroup = params?.entityParams?.inGroup ?? this.inGroup;
     this.material = new THREE.MeshBasicMaterial();
