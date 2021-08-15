@@ -1,5 +1,4 @@
 import { useContext, useEffect, useRef } from "react";
-import { connectContainerToScene } from "../engine/core";
 import { SceneContext } from "./SceneContext";
 
 const useScene = () => {

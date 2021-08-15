@@ -14,12 +14,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 // All Entities use the same scene singleton
 export const scene = new Scene();
-export const connectContainerToScene = container => {
-  scene.Initialize(container);
-  scene.Run();
-}
-new EventController(scene);
 
+new EventController(scene);
 
 /**
  * Abstract Class Entity.
