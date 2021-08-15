@@ -44,9 +44,7 @@ export default class CameraController {
     this.controls.update();
   }
 
-  /** Handles recalibrating the camera when
-   *  the window is resized.
-   */
+  /** Handles recalibrating the camera when container is resized. */
   HandleResize() {
     if (!this.camera) return;
     this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
