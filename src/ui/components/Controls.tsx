@@ -35,7 +35,6 @@ export default function Controls({ }) {
     // agent.transform.position.x = controls.Position.x;
     // agent.transform.position.y = controls.Position.y;
     // agent.transform.position.z = controls.Position.z;
-    // agent.speed = controls.Speed;
   }, [controls]);
   return <></>;
 }

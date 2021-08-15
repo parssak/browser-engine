@@ -2,9 +2,10 @@
 import { ReactElement, useMemo } from 'react';
 import { createContext } from 'react';
 import { scene as activeScene } from '../engine/core';
+import Scene from '../engine/core/Scene';
 
 interface ISceneContext {
-  scene: any | undefined;
+  scene: Scene | undefined;
 };
 
 const initialValue = {

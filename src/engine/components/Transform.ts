@@ -32,5 +32,8 @@ export default class Transform {
     this._mesh.position.setX(this.position.x);
     this._mesh.position.setY(this.position.y);
     this._mesh.position.setZ(this.position.z);
+    this._mesh.rotation.x = this.rotation.x;
+    this._mesh.rotation.y = this.rotation.y;
+    // this._mesh.rotation.z = this.rotation.z;
   }
 }

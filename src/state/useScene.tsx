@@ -6,8 +6,8 @@ const useScene = () => {
   const ref = useRef<any>();
 
   useEffect(() => {
-    scene.Initialize(ref.current);
-    scene.Run();
+    scene?.Initialize(ref.current);
+    scene?.Run();
   }, [ref, scene]);
 
 
