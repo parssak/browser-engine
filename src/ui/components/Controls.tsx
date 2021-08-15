@@ -30,22 +30,26 @@ export default function Controls({ }) {
 
   useEffect(() => {
     if (!entity) return;
-    // todo: get entity props updating from inspector values
     const inspectorProps = Object.entries(controls[0]);
     const entityProps = entity.GetProps();
-    console.debug(entityProps);
     for (const ep of entityProps) {
       if (typeof ep[1] === 'object') {
         const subProps = getComponentProps(ep[0] as Component, ep[1])
-        console.debug('sub props', subProps);
+        for (const sp of Object.entries(subProps)) {
+          const inspectorSubProp = inspectorProps.find(p => p[0] === sp[0]);
+          if (inspectorSubProp) {
+            // @ts-ignore
+            entity[ep[0]][sp[0]] = inspectorSubProp[1];
+          }
+        }
         continue;
       }
-      console.debug('basic prop', ep, inspectorProps.find(p => p[0] === ep[0]));
+      const inspectorBasicProp = inspectorProps.find(p => p[0] === ep[0]);
+      if (inspectorBasicProp) {
+        // @ts-ignore
+        entity[ep[0]] = inspectorBasicProp[1];
+      }
     }
-      // entity.SetProp(prop[0], prop[1]);
-    // agent.transform.position.x = controls.Position.x;
-    // agent.transform.position.y = controls.Position.y;
-    // agent.transform.position.z = controls.Position.z;
-  }, [controls]);
+  }, [controls, entity]);
   return <></>;
 }
