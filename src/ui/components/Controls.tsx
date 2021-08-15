@@ -16,8 +16,6 @@ export default function Controls({ }) {
     const propControls: any = {};
     for (const prop of props) {
       if (typeof prop[1] === 'object') {
-        console.debug(prop[0], 'is a component', getComponentProps(prop[0] as Component, prop[1]));
-        // todo create helper for parsing components (left off here)
         propControls[prop[0]] = folder(getComponentProps(prop[0] as Component, prop[1]) as any);
         continue;
       }
@@ -26,15 +24,25 @@ export default function Controls({ }) {
     return propControls;
   }, [entity]);
   
-  // todo make each component have it's own controls dynamically
 
   const controls = useControls(() => getControls(),  [entity]);
   useControls({'New Agent': button(addEntity)})
 
   useEffect(() => {
     if (!entity) return;
-    console.debug(controls);
-    // console.debug(entity.GetProps());
+    // todo: get entity props updating from inspector values
+    const inspectorProps = Object.entries(controls[0]);
+    const entityProps = entity.GetProps();
+    console.debug(entityProps);
+    for (const ep of entityProps) {
+      if (typeof ep[1] === 'object') {
+        const subProps = getComponentProps(ep[0] as Component, ep[1])
+        console.debug('sub props', subProps);
+        continue;
+      }
+      console.debug('basic prop', ep, inspectorProps.find(p => p[0] === ep[0]));
+    }
+      // entity.SetProp(prop[0], prop[1]);
     // agent.transform.position.x = controls.Position.x;
     // agent.transform.position.y = controls.Position.y;
     // agent.transform.position.z = controls.Position.z;
