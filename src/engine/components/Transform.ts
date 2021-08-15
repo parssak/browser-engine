@@ -20,7 +20,6 @@ export default class Transform {
   }
 
   SetMesh(mesh: THREE.Mesh) {
-    console.debug('set mesh!')
     this._mesh = mesh;
   }
 
@@ -34,6 +33,9 @@ export default class Transform {
     this._mesh.position.setZ(this.position.z);
     this._mesh.rotation.x = this.rotation.x;
     this._mesh.rotation.y = this.rotation.y;
-    // this._mesh.rotation.z = this.rotation.z;
+    this._mesh.rotation.z = this.rotation.z;
+    this._mesh.scale.setX(this.scale.x);
+    this._mesh.scale.setY(this.scale.y);
+    this._mesh.scale.setZ(this.scale.z);
   }
 }
