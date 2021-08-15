@@ -1,15 +1,23 @@
 import * as THREE from 'three';
-import oc from 'three-orbit-controls'
-const OrbitControls = oc(THREE)
+import oc from 'three-orbit-controls';
+const OrbitControls = oc(THREE);
 
 export default class CameraController {
-  constructor(scene) {
+  scene: THREE.Scene;
+  fov = 45;
+  near = 0.01;
+  far = 20000;
+  camera: THREE.PerspectiveCamera | undefined;
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  container: any;
+  controls: any;
+
+  constructor(scene: THREE.Scene) {
     this.scene = scene;
   }
 
 
-  Initialize(container) {
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+  Initialize(container: any) {
     this.renderer.setSize(container.clientWidth, container.clientHeight);
     this.container = container;
     this.container.appendChild(this.renderer.domElement);
@@ -21,9 +29,6 @@ export default class CameraController {
 
   /** Initializes Camera */
   AddCamera() {
-    this.fov = 45;
-    this.near = 0.01;
-    this.far = 20000;
     this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, this.near, this.far);
     this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
@@ -32,12 +37,10 @@ export default class CameraController {
   /** Initializes Controls */
   AddControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-
     this.controls.autoRotate = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.39;
-    this.camera.position.z = 200;
-
+    if (this.camera) { this.camera.position.z = 200; }
     this.controls.update();
   }
 
@@ -45,6 +48,7 @@ export default class CameraController {
    *  the window is resized.
    */
   HandleResize() {
+    if (!this.camera) return;
     this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
 
@@ -59,7 +63,7 @@ export default class CameraController {
     if (this.controls) {
       this.controls.update();
     }
-    if (this.camera) {
+    if (this.camera && this.scene) {
       this.renderer.render(this.scene, this.camera);
     }
   }
