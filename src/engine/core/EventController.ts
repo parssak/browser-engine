@@ -1,5 +1,6 @@
 export default class EventController {
-  constructor(scene) {
+  scene: any;
+  constructor(scene: any) {
     this.scene = scene;
     this.SetupEvents();
   }
