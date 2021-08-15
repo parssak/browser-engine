@@ -53,7 +53,7 @@ export default class Scene {
     }
   }
 
-  AddContainer(container) {
-    this.cameraController.AddContainer(container);
+  Initialize(container) {
+    this.cameraController.Initialize(container);
   }
 }

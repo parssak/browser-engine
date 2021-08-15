@@ -5,28 +5,12 @@ const OrbitControls = oc(THREE)
 export default class CameraController {
   constructor(scene) {
     this.scene = scene;
-
-    // Renderer
-    // this.AddRenderer()
-
-    // Set up Camera
-    // this.AddCamera();
-
-    // Set up Controls
-    // this.AddControls();
   }
 
-  /** Initializes Renderer and appends 
-   *  it to the #container element.
-  */
-  AddRenderer() {
-    // this.renderer = new THREE.WebGLRenderer({ antialias: true });
-  }
 
-  AddContainer(container) {
+  Initialize(container) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(container.clientWidth, container.clientHeight);
-    
     this.container = container;
     this.container.appendChild(this.renderer.domElement);
     this.AddCamera();
