@@ -26,9 +26,9 @@ export default function Controls({ }) {
   
 
   const controls = useControls(() => getControls(),  [entity]);
-  useControls({'New Agent': button(addEntity)})
-
-  useEffect(() => {
+  useControls({ 'New Agent': button(addEntity) })
+  
+  const onInspectorValueChange = () => {
     if (!entity) return;
     const inspectorProps = Object.entries(controls[0]);
     const entityProps = entity.GetProps();
@@ -50,6 +50,10 @@ export default function Controls({ }) {
         entity[ep[0]] = inspectorBasicProp[1];
       }
     }
-  }, [controls, entity]);
+  }
+
+  useEffect(() => {
+    onInspectorValueChange();
+  }, [controls]);
   return <></>;
 }
