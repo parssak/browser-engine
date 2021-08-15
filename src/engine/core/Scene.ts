@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 import CameraController from './CameraController'
 export default class Scene {
-  entities = [];
-  scene = new THREE.Scene();
-  cameraController = new CameraController(this.scene);
-  running = false;
+  // todo determine if these need to be public
+  public entities: IEntity[] = [];
+  public scene = new THREE.Scene();
+  public cameraController = new CameraController(this.scene);
+  public running = false;
 
   constructor() {
     this.SetupScene()
-    // this.Run();
   }
 
   /** Include any Scene setup logic here */
@@ -19,7 +19,7 @@ export default class Scene {
    * Adds a new mesh to the scene.
    * @param {THREE.Mesh} mesh New Mesh to add to scene
    */
-  Add(entity) {
+  Add(entity: IEntity) {
     if (entity.mesh) {
       this.scene.add(entity.mesh)
       this.entities.push(entity)
@@ -34,15 +34,15 @@ export default class Scene {
    * Runs once per frame, call's Update for each entity
    * @param {float} time Time since the Scene began
    */
-  Update(time) {
+  Update(time: number) {
     if (this.running)
       this.entities.forEach(entity => !entity.inGroup && entity.Update(time));
     this.cameraController.Update()
   }
 
   Run() {
-    if (!this.running) {
-      this.cameraController.renderer.setAnimationLoop(time => this.Update(time))
+    if (!this.running || !this.cameraController || !this.cameraController.renderer) {
+      this?.cameraController?.renderer?.setAnimationLoop(time => this.Update(time))
       this.running = true;
     }
   }
@@ -53,7 +53,7 @@ export default class Scene {
     }
   }
 
-  Initialize(container) {
+  Initialize(container: any) {
     this.cameraController.Initialize(container);
   }
 }
