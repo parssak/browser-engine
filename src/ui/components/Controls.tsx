@@ -1,26 +1,37 @@
-import * as THREE from 'three';
 import { button, useControls } from 'leva'
 import { useEffect, useState } from 'react';
+import Entity from '../../engine/core';
 import Agent from '../../engine/entities/Agent';
 
-export default function Controls({}) {
-  const [agent, setAgent] = useState<any>();
-  const addAgent = () => {
-    const a = new Agent({
-      transform: {
-        position: new THREE.Vector3(10, 3, 3)
-      }
-    });
-    setAgent(a);
+export default function Controls({ }) {
+  const [entity, setEntity] = useState<Entity>();
+  const addEntity = () => {
+    setEntity(new Agent());
   }
-  const agentControls = useControls({ 'New Agent': button(addAgent), 'Position': { x: 0, y: 0, z: 0 }, 'Speed': { min: 0, max: 0.1, value: 0.03 } })
+
+  const getControls = (): any => {
+    if (!entity) return {};
+    const props = entity.GetProps();
+    const propControls: any = {};
+    for (const prop of props) {
+      if (typeof prop[1] === 'object') {
+        console.debug(prop[0], 'is a component');
+        continue;
+      }
+      propControls[prop[0]] = prop[1];
+    }
+    return propControls;
+  }
+  const controls = useControls(getControls());
+  useControls({'New Agent': button(addEntity)})
 
   useEffect(() => {
-    if (!agent) return;
-    agent.transform.position.x = agentControls.Position.x;
-    agent.transform.position.y = agentControls.Position.y;
-    agent.transform.position.z = agentControls.Position.z;
-    agent.speed = agentControls.Speed;
-  }, [agentControls]);
+    if (!entity) return;
+    console.debug(entity.GetProps());
+    // agent.transform.position.x = controls.Position.x;
+    // agent.transform.position.y = controls.Position.y;
+    // agent.transform.position.z = controls.Position.z;
+    // agent.speed = controls.Speed;
+  }, [controls]);
   return <></>;
 }

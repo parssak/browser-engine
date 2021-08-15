@@ -2,6 +2,7 @@ import Scene from './Scene'
 import EventController from './EventController'
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
+import excludedEntityProps from '../utils/excludedEntityProps';
 
 /**
  * -  THREE-SETUP -
@@ -29,13 +30,12 @@ export default abstract class Entity implements IEntity {
   material: THREE.Material;
   geometry: THREE.BufferGeometry;
   mesh: THREE.Mesh;
-  constructor(params: IEntityParams) {
-    this.inGroup = params.entityParams.inGroup ?? this.inGroup;
+  constructor(params?: IEntityParams) {
+    this.inGroup = params?.entityParams?.inGroup ?? this.inGroup;
     this.material = new THREE.MeshBasicMaterial();
     this.geometry = new THREE.BoxBufferGeometry(3, 3, 3);
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.Awake();
-    this.Start()
   }
 
   // Use this to define the mesh of the Entity
@@ -50,9 +50,12 @@ export default abstract class Entity implements IEntity {
     this._scene.Add(this)
   }
 
-  // Called Once on Initialization
-  abstract Start(): void;
-
   // Called every frame
   abstract Update(time?: number): void;
+
+
+  GetProps(): [string, any][] {
+    const allProps = Object.entries(this);
+    return allProps.filter(([key, _]) => !excludedEntityProps.some(prop => prop === key));
+  };
 }

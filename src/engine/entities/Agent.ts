@@ -1,9 +1,24 @@
 import * as THREE from 'three';
+import Transform from '../components/Transform';
 import Entity from '../core'
 
+interface Props extends IEntityParams {
+  transform?: {
+    position?: THREE.Vector3;
+    rotation?: THREE.Euler;
+    scale?: THREE.Vector3;
+  }
+  speed?: number;
+};
 export default class Agent extends Entity {
-  constructor(props: any) {
+  transform: Transform;
+  speed: number = 0.03;
+
+  constructor(props?: Props) {
     super(props);
+    this.transform = new Transform(props?.transform);
+    this.transform.SetMesh(this.mesh);
+    this.speed = props?.speed ?? this.speed;
   }
 
   BuildMesh() {
@@ -12,19 +27,14 @@ export default class Agent extends Entity {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
   }
 
-  Start() {
-    this.mesh.position.setX(this.transform.position.x);
-    this.mesh.position.setY(this.transform.position.y);
-    this.mesh.position.setZ(this.transform.position.z);
-    this.speed = 0.03;
-  }
 
   Update() {
-    console.log(this.transform.position.x);
-    this.mesh.position.setX(this.transform.position.x);
-    this.mesh.position.setY(this.transform.position.y);
-    this.mesh.position.setZ(this.transform.position.z);
-    this.mesh.rotation.x += this.speed;
-    this.mesh.rotation.y += this.speed;
+    // console.log(this.transform.position.x);
+    this.transform.Update();
+    // this.mesh.position.setX(this.transform.position.x);
+    // this.mesh.position.setY(this.transform.position.y);
+    // this.mesh.position.setZ(this.transform.position.z);
+    // this.mesh.rotation.x += this.speed;
+    // this.mesh.rotation.y += this.speed;
   }
 }

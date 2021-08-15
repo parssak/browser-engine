@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import CameraController from './CameraController'
+
+const _entities: IEntity[] = [];
 export default class Scene {
   // todo determine if these need to be public
-  public entities: IEntity[] = [];
   public scene = new THREE.Scene();
   public cameraController = new CameraController(this.scene);
   public running = false;
@@ -22,11 +23,11 @@ export default class Scene {
   Add(entity: IEntity) {
     if (entity.mesh) {
       this.scene.add(entity.mesh)
-      this.entities.push(entity)
+      _entities.push(entity)
     }
     else if (entity.group) {
       this.scene.add(entity.group)
-      this.entities.push(entity)
+      _entities.push(entity)
     }
   }
 
@@ -36,7 +37,7 @@ export default class Scene {
    */
   Update(time: number) {
     if (this.running)
-      this.entities.forEach(entity => !entity.inGroup && entity.Update(time));
+      _entities.forEach(entity => !entity.inGroup && entity.Update(time));
     this.cameraController.Update()
   }
 

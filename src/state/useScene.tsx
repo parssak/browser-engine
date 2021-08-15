@@ -8,7 +8,7 @@ const useScene = () => {
   useEffect(() => {
     scene.Initialize(ref.current);
     scene.Run();
-  }, [ref]);
+  }, [ref, scene]);
 
 
   return { ref, scene };
