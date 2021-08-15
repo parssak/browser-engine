@@ -25,10 +25,15 @@ export default class Agent extends Entity {
     this.mesh.position.setX(this.transform.position.x);
     this.mesh.position.setY(this.transform.position.y);
     this.mesh.position.setZ(this.transform.position.z);
+    this.speed = 0.03;
   }
 
   Update() {
-    this.mesh.rotation.x += 0.03;
-    this.mesh.rotation.y += 0.03;
+    console.log(this.transform.position.x);
+    this.mesh.position.setX(this.transform.position.x);
+    this.mesh.position.setY(this.transform.position.y);
+    this.mesh.position.setZ(this.transform.position.z);
+    this.mesh.rotation.x += this.speed;
+    this.mesh.rotation.y += this.speed;
   }
 }
