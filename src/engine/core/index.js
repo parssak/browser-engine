@@ -49,7 +49,6 @@ export default class Entity {
       throw new Error("Abstract classes can't be instantiated.");
     this.BuildMesh()
     this._scene.Add(this)
-    console.log('added mesh to scene');
   }
 
   // Called once on initialization
