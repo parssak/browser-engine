@@ -25,7 +25,7 @@ export default function Controls() {
   }, [entity]);
   
 
-  const controls = useControls(() => getControls(),  [entity]);
+  const controls = useControls(() => ({...getControls()}),  [entity]);
   useControls({ 'New Agent': button(addEntity) })
   
   const onInspectorValueChange = () => {
@@ -54,6 +54,7 @@ export default function Controls() {
 
   useEffect(() => {
     onInspectorValueChange();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controls]);
   return <></>;
 }
