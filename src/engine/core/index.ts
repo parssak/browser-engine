@@ -1,6 +1,7 @@
 import Scene from './Scene'
 import EventController from './EventController'
 import { v4 as uuidv4 } from 'uuid';
+import * as THREE from 'three';
 
 /**
  * -  THREE-SETUP -
@@ -25,9 +26,14 @@ export default abstract class Entity implements IEntity {
   _id = uuidv4();
   _scene = scene;
   inGroup: boolean = false;
-  mesh: THREE.Mesh | undefined;
+  material: THREE.Material;
+  geometry: THREE.BufferGeometry;
+  mesh: THREE.Mesh;
   constructor(params: IEntityParams) {
     this.inGroup = params.entityParams.inGroup ?? this.inGroup;
+    this.material = new THREE.MeshBasicMaterial();
+    this.geometry = new THREE.BoxBufferGeometry(3, 3, 3);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.Awake();
     this.Start()
   }
