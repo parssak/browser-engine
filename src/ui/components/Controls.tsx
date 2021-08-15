@@ -1,5 +1,5 @@
-import { button, useControls } from 'leva'
-import { useEffect, useState } from 'react';
+import { button, folder, useControls } from 'leva'
+import { useCallback, useEffect, useState } from 'react';
 import Entity from '../../engine/core';
 import Agent from '../../engine/entities/Agent';
 
@@ -9,20 +9,24 @@ export default function Controls({ }) {
     setEntity(new Agent());
   }
 
-  const getControls = (): any => {
+  const getControls: any = useCallback(() => {
     if (!entity) return {};
     const props = entity.GetProps();
     const propControls: any = {};
     for (const prop of props) {
       if (typeof prop[1] === 'object') {
         console.debug(prop[0], 'is a component');
+        // todo create helper for parsing components (left off here)
         continue;
       }
       propControls[prop[0]] = prop[1];
     }
     return propControls;
-  }
-  const controls = useControls(getControls());
+  }, [entity]);
+  
+  // todo make each component have it's own controls dynamically
+
+  const controls = useControls(() => getControls(),  [entity]);
   useControls({'New Agent': button(addEntity)})
 
   useEffect(() => {
