@@ -6,9 +6,9 @@ export default class EventController {
   }
 
   SetupEvents() {
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode !== 32) return;
-      this.scene.running ? this.scene.Stop() : this.scene.Run();
-    });
+    // document.addEventListener('keydown', (e) => {
+    //   if (e.keyCode !== 32) return;
+    //   this.scene.running ? this.scene.Stop() : this.scene.Run();
+    // });
   }
 }

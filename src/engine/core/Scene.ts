@@ -4,7 +4,7 @@ import CameraController from './CameraController'
 const _entities: IEntity[] = [];
 export default class Scene {
   // todo determine if these need to be public
-  public scene = new THREE.Scene();
+  private scene = new THREE.Scene();
   public cameraController = new CameraController(this.scene);
   public running = false;
 
