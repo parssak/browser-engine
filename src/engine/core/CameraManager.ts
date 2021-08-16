@@ -16,6 +16,7 @@ export default class CameraManager {
     this.sceneManager = sceneManager;
 }
   Start() {
+    console.debug('[CameraManager]: Starting...');
     if (!this.renderElement) throw new Error("Cannot start camera before setting renderElement");
     this.renderer.setSize(this.renderElement.clientWidth, this.renderElement.clientHeight);
     this.renderElement.appendChild(this.renderer.domElement);
@@ -25,6 +26,7 @@ export default class CameraManager {
   
   SetRenderElement(element: HTMLElement) {
     this.renderElement = element;
+    console.debug('[CameraManager]: Set render element');
   }
 
   /** Handles recalibrating the camera when renderElement is resized. */
