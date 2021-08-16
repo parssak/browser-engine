@@ -1,8 +1,7 @@
-import Scene from './Scene'
-import EventController from './EventController'
 import { v4 as uuidv4 } from 'uuid';
+import * as ENGINE from '../../types';
 import * as THREE from 'three';
-import excludedEntityProps from '../utils/excludedEntityProps';
+import excludedEntityProps from '../../utils/excludedEntityProps';
 import ComponentManager from './ComponentManager';
 import SceneManager from './SceneManager';
 
@@ -16,27 +15,26 @@ import SceneManager from './SceneManager';
  */
 
 // All Entities use the same scene singleton
-export const scene = new Scene();
-
-new EventController(scene);
+// export const scene = new SceneManager();
+// new EventController(scene);
 
 /**
  * Abstract Class Entity.
  *
  * @class Entity
  */
-export default class Entity implements IEntity {
+export default class Entity implements ENGINE.IEntity {
   name: string = "";
   _id = uuidv4();
-  parent: IEntity | null = null
-  children: IEntity[] = []
+  parent: ENGINE.IEntity | null = null
+  children: ENGINE.IEntity[] = []
   mesh: THREE.Mesh;
-  components: Record<ComponentType, IComponent> = {} // Standard components  & Custom Script Files
+  components: Record<ENGINE.ComponentType, ENGINE.IComponent> = {} // Standard components  & Custom Script Files
 
-  constructor(props: IEntityProps) {
+  constructor(props: ENGINE.IEntityProps) {
     const mat = props.material ?? new THREE.MeshBasicMaterial();
     const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
-    this.mesh = new THREE.Mesh(mat, geometry);
+    this.mesh = new THREE.Mesh(geometry, mat);
 
     if (props.children) {
       props.children.forEach(entityProps => {
@@ -50,15 +48,15 @@ export default class Entity implements IEntity {
     }
   }
 
-  AddComponent(type: ComponentType, props: ComponentProps) {
-    const component: IComponent | undefined = ComponentManager.CreateComponent(type, props, this);
+  AddComponent(type: ENGINE.ComponentType, props: ENGINE.ComponentProps) {
+    const component: ENGINE.IComponent | undefined = ComponentManager.CreateComponent(type, props, this);
     if (component) this.components[type] = component;
   }
 
   static AddChild(parent: Entity, child: Entity) { }
 
   Update() { };
-  
+
   GetProps(): [string, any][] {
     const allProps = Object.entries(this);
     return allProps.filter(([key, _]) => !excludedEntityProps.some(prop => prop === key));

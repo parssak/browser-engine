@@ -1,13 +1,13 @@
 import { button, folder, useControls } from 'leva'
 import { useCallback, useEffect, useState } from 'react';
 import Entity from '../../engine/core';
-import Agent from '../../engine/entities/Agent';
-import getComponentProps from '../../engine/utils/getComponentProps';
+// import Agent from '../../engine/entities/Agent';
+import getComponentProps from '../../utils/getComponentProps';
 
 export default function Controls() {
   const [entity, setEntity] = useState<Entity>();
   const addEntity = () => {
-    setEntity(new Agent());
+    // setEntity(new Agent());
   }
 
   const getControls: any = useCallback(() => {
@@ -16,7 +16,7 @@ export default function Controls() {
     const propControls: any = {};
     for (const prop of props) {
       if (typeof prop[1] === 'object') {
-        propControls[prop[0]] = folder(getComponentProps(prop[0] as Component, prop[1]) as any);
+        propControls[prop[0]] = folder(getComponentProps(prop[0], prop[1]) as any);
         continue;
       }
       propControls[prop[0]] = prop[1];
@@ -34,7 +34,7 @@ export default function Controls() {
     const entityProps = entity.GetProps();
     for (const ep of entityProps) {
       if (typeof ep[1] === 'object') {
-        const subProps = getComponentProps(ep[0] as Component, ep[1])
+        const subProps = getComponentProps(ep[0], ep[1])
         for (const sp of Object.entries(subProps)) {
           const inspectorSubProp = inspectorProps.find(p => p[0] === sp[0]);
           if (inspectorSubProp) {

@@ -1,19 +1,25 @@
 import * as THREE from 'three';
 import Entity from ".";
 import CameraManager from './CameraManager';
+import * as ENGINE from '../../types';
 
 export default class SceneManager {
-
+  static instance: SceneManager;
   static scene: THREE.Scene = new THREE.Scene();
   static entities: Entity[] = [];
   static cameraManager: CameraManager = new CameraManager(SceneManager);
+  
+  constructor() {
+    console.log('scene managed singleton');
+    SceneManager.instance = this;
+  }
 
   static ResetScene() {
     this.scene = new THREE.Scene();
     this.entities = [];
   }
 
-  static Run(sceneConfig: ISceneConfig) {
+  static Run(sceneConfig: ENGINE.ISceneConfig, renderElement: HTMLElement) {
     // Reset the scene
     this.ResetScene();
 
@@ -24,11 +30,12 @@ export default class SceneManager {
     sceneConfig.entities.forEach(entityProps => this.CreateEntity(entityProps));
 
     // Initialize camera
+    this.cameraManager.SetRenderElement(renderElement);
     this.cameraManager.Start();
 
   }
 
-  static CreateEntity(entityProps: IEntityProps, parent?: Entity) {
+  static CreateEntity(entityProps: ENGINE.IEntityProps, parent?: Entity) {
     const entity = new Entity(entityProps);
     this._AddEntityToScene(entity);
     return entity;

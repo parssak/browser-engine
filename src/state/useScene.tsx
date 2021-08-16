@@ -1,17 +1,11 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import { SceneContext } from "./SceneContext";
 
 const useScene = () => {
-  const { scene } = useContext(SceneContext);
+  const {  } = useContext(SceneContext);
   const ref = useRef<any>();
 
-  useEffect(() => {
-    scene?.Initialize(ref.current);
-    scene?.Run();
-  }, [ref, scene]);
-
-
-  return { ref, scene };
+  return { ref };
 }
 
 export default useScene;

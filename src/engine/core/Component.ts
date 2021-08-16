@@ -1,8 +1,9 @@
+import * as ENGINE from '../../types';
 export default abstract class Component {
-  name: ComponentType = "";
-  _entity: IEntity;
+  name: ENGINE.ComponentType = "";
+  _entity: ENGINE.IEntity;
 
-  constructor(entity: IEntity) {
+  constructor(entity: ENGINE.IEntity) {
     this._entity = entity;
   }
 
