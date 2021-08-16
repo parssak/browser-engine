@@ -27,12 +27,12 @@ export default function BrowserEngine(): ReactElement {
         </Resizable>
         <div className="h-full">
           <Controls />
-          {/* <Editor
+          <Editor
             height="100%"
             theme="vs-dark"
             defaultLanguage="typescript"
             defaultValue={defaultEditorValue}
-          /> */}
+          />
         </div>
       </section>
     </main>

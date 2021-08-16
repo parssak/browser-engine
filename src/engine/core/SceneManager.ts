@@ -21,7 +21,6 @@ export default class SceneManager {
   }
 
   static Run(sceneConfig: ENGINE.ISceneConfig, renderElement: HTMLElement) {
-    // Reset the scene
     this.ResetScene();
 
     // TODO v2: Compile all scripts
