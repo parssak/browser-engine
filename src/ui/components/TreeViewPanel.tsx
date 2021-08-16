@@ -4,12 +4,19 @@ import * as ENGINE from '../../types';
 
 interface Props {
   entity: ENGINE.IEntityProps;
-  isSelected: boolean;
-  onClick: () => void;
 }
-function TreeNode({ entity, isSelected = false, onClick }: Props): ReactElement {
+
+function TreeNode({ entity }: Props): ReactElement {
+  const { config, selectedEntity, setSelectedEntity } = useScene();
+  const isSelected = selectedEntity === entity.id;
   return (
-    <div className={`p-1 rounded-md transition cursor-pointer hover:bg-red-400 ${isSelected && 'bg-red-300'}`} onClick={onClick}>
+    <div className={`
+    p-1
+    rounded-md
+    transition
+    cursor-pointer
+    hover:bg-red-400
+    ${isSelected && 'bg-red-300'}`} onClick={() => isSelected ? setSelectedEntity(null) : setSelectedEntity(entity.id)}>
       {entity?.name ?? '__ENTITY__'}
     </div>
   )
@@ -25,9 +32,7 @@ export default function TreeViewPanel(): ReactElement {
         config.entities.map(entity =>
           <TreeNode
             key={entity.id}
-            isSelected={selectedEntity === entity.id}
             entity={entity}
-            onClick={() => setSelectedEntity(entity.id)}
           />
         )
 

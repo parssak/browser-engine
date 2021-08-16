@@ -7,7 +7,7 @@ import TreeViewPanel from '../components/TreeViewPanel'
 
 
 export default function BrowserEngine(): ReactElement {
-  const { ref, runScene, addEntity } = useScene()
+  const { ref, runScene, addEntity, selectedEntity } = useScene()
 
   return (
     <main className="w-screen h-screen overflow-hidden">
@@ -21,7 +21,7 @@ export default function BrowserEngine(): ReactElement {
         </Resizable> */}
        <TreeViewPanel />
       </section>
-      {/* <Controls /> */}
+      {selectedEntity && <Controls />}
     </main>
   )
 }

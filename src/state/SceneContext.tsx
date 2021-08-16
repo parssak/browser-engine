@@ -10,7 +10,7 @@ interface ISceneContext {
   config: ISceneConfig;
   setEntities: (props: IEntityProps[]) => void;
   selectedEntity: string | null;
-  setSelectedEntity: (entityID: string) => void;
+  setSelectedEntity: (entityID: string | null) => void;
 };
 
 const initialValue = {
@@ -19,7 +19,7 @@ const initialValue = {
   },
   setEntities: (props: IEntityProps[]) => { },
   selectedEntity: null,
-  setSelectedEntity: (entityID: string) => { }
+  setSelectedEntity: (entityID: string | null) => { }
 };
 
 export const SceneContext = createContext<ISceneContext>(initialValue);
