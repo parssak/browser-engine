@@ -12,7 +12,7 @@ interface Props extends IEntityParams {
 };
 export default class Agent extends Entity {
   transform: Transform;
-  speed: number = 0.03;
+  speed: number = 0.07;
 
   constructor(props?: Props) {
     super(props);
