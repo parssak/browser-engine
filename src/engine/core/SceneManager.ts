@@ -32,7 +32,6 @@ export default class SceneManager {
     // Initialize camera
     this.cameraManager.SetRenderElement(renderElement);
     this.cameraManager.Start();
-
   }
 
   static CreateEntity(entityProps: ENGINE.IEntityProps, parent?: Entity) {

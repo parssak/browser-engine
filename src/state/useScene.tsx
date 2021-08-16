@@ -4,13 +4,17 @@ import { SceneContext } from "./SceneContext";
 
 const useScene = () => {
   const ref = useRef<any>();
-  const { config } = useContext(SceneContext);
+  const { config, setEntities } = useContext(SceneContext);
   
   const runScene = () => {
     SceneManager.Run(config, ref.current);
   }
 
-  return { ref, runScene };
+  const addEntity = () => {
+    setEntities([...config.entities, { name: 'New Entity' }]);
+  }
+
+  return { ref, config, runScene, addEntity };
 }
 
 export default useScene;
