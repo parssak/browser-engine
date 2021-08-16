@@ -3,6 +3,8 @@ import EventController from './EventController'
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import excludedEntityProps from '../utils/excludedEntityProps';
+import ComponentManager from './ComponentManager';
+import SceneManager from './SceneManager';
 
 /**
  * -  THREE-SETUP -
@@ -24,36 +26,48 @@ new EventController(scene);
  * @class Entity
  */
 export default abstract class Entity implements IEntity {
+  name: string = "";
   _id = uuidv4();
-  _scene = scene;
-  inGroup: boolean = false;
-  material: THREE.Material;
-  geometry: THREE.BufferGeometry;
+  parent: IEntity | null = null
+  children: IEntity[] = []
   mesh: THREE.Mesh;
-  
-  constructor(params?: IEntityParams) {
-    this.inGroup = params?.entityParams?.inGroup ?? this.inGroup;
-    this.material = new THREE.MeshBasicMaterial();
-    this.geometry = new THREE.BoxBufferGeometry(3, 3, 3);
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.Awake();
+  components: Record<ComponentType, IComponent> = {} // Standard components  & Custom Script Files
+
+  constructor(props: IEntityProps) {
+    const mat = props.material ?? new THREE.MeshBasicMaterial();
+    const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
+    this.mesh = new THREE.Mesh(mat, geometry);
+
+    if (props.children) {
+      props.children.forEach(entityProps => {
+        const child = SceneManager.CreateEntity(entityProps, this);
+        Entity.AddChild(this, child);
+      });
+    }
+
+    if (props.components) {
+      props.components.forEach(([type, componentProps]) => this.AddComponent(type, componentProps));
+    }
   }
 
-  // Use this to define the mesh of the Entity
-  abstract BuildMesh(): void;
+  AddComponent(type: ComponentType, props: ComponentProps) {
+    const component: IComponent | undefined = ComponentManager.CreateComponent(type, props, this);
+    if (component) this.components[type] = component;
+  }
+
+  static AddChild(parent: Entity, child: Entity) { }
+
 
   // Called Once on Initialization, before Start()
-  Awake() {
-    this.BuildMesh()
-    if (!this.mesh) {
-      throw new Error('Entity.BuildMesh() must set .mesh field')
-    }
-    this._scene.Add(this)
-  }
+  // Awake() {
+  //   this.BuildMesh()
+  //   if (!this.mesh) {
+  //     throw new Error('Entity.BuildMesh() must set .mesh field')
+  //   }
+  //   this._scene.Add(this)
+  // }
 
   // Called every frame
-  abstract Update(time?: number): void;
-
 
   GetProps(): [string, any][] {
     const allProps = Object.entries(this);
