@@ -6,7 +6,7 @@ export default class SceneManager {
 
   static scene: THREE.Scene = new THREE.Scene();
   static entities: Entity[] = [];
-  static cameraManager: CameraManager = new CameraManager();
+  static cameraManager: CameraManager = new CameraManager(SceneManager);
 
   static ResetScene() {
     this.scene = new THREE.Scene();
