@@ -4,11 +4,13 @@ import { ReactElement, useMemo, useReducer } from 'react';
 import { createContext } from 'react';
 import { IEntityProps, ISceneConfig } from '../types';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 interface ISceneContext {
   config: ISceneConfig;
   setEntities: (props: IEntityProps[]) => void;
-  selectedEntity: IEntityProps | null;
-  setSelectedEntity: (props: IEntityProps) => void;
+  selectedEntity: string | null;
+  setSelectedEntity: (entityID: string) => void;
 };
 
 const initialValue = {
@@ -17,7 +19,7 @@ const initialValue = {
   },
   setEntities: (props: IEntityProps[]) => { },
   selectedEntity: null,
-  setSelectedEntity: (props: IEntityProps) => { }
+  setSelectedEntity: (entityID: string) => { }
 };
 
 export const SceneContext = createContext<ISceneContext>(initialValue);
@@ -25,12 +27,13 @@ export const SceneContext = createContext<ISceneContext>(initialValue);
 export const SceneProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [entities, setEntities] = useState<IEntityProps[]>([
     {
+      id: uuidv4(),
       name: "Entity A",
       material: new THREE.MeshNormalMaterial(),
       geometry: new THREE.SphereBufferGeometry(),
     }
   ])
-  const [selectedEntity, setSelectedEntity] = useState<IEntityProps | null>(null);
+  const [selectedEntity, setSelectedEntity] = useState<string | null>(null);
 
   const contextValue = {
     config: { entities },

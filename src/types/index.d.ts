@@ -2,6 +2,7 @@ export type ComponentType = string;
 export type ComponentProps = any;
 
 export interface IEntityProps {
+  id: string;
   name?: string;
   children?: IEntityProps[];
   material?: THREE.Material;
