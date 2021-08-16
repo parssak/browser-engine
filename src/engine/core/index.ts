@@ -25,7 +25,7 @@ new EventController(scene);
  *
  * @class Entity
  */
-export default abstract class Entity implements IEntity {
+export default class Entity implements IEntity {
   name: string = "";
   _id = uuidv4();
   parent: IEntity | null = null
