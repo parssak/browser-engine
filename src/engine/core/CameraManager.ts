@@ -3,7 +3,6 @@ import oc from 'three-orbit-controls';
 import SceneManager from './SceneManager';
 const OrbitControls = oc(THREE);
 export default class CameraManager {
-  sceneManager: SceneManager;
   private renderer = new THREE.WebGLRenderer({ antialias: true });
   private renderElement: HTMLElement | undefined;
   private camera: THREE.PerspectiveCamera | undefined;
@@ -12,9 +11,6 @@ export default class CameraManager {
   private far = 20000;
   private controls: any;
 
-  constructor(sceneManager: SceneManager) {
-    this.sceneManager = sceneManager;
-}
   Start() {
     console.debug('[CameraManager]: Starting...');
     if (!this.renderElement) throw new Error("Cannot start camera before setting renderElement");
@@ -22,6 +18,10 @@ export default class CameraManager {
     this.renderElement.appendChild(this.renderer.domElement);
     this.AddCamera();
     this.AddControls();
+    this.renderer.setAnimationLoop(() => {
+      SceneManager.Update();
+      this.Update();
+    });
   }
   
   SetRenderElement(element: HTMLElement) {
@@ -47,12 +47,25 @@ export default class CameraManager {
   }
 
   AddControls() {
+    console.debug('added controls');
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.autoRotate = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.39;
     if (this.camera) { this.camera.position.z = 200; }
     this.controls.update();
+  }
+
+  /** Updates the controls, and re-renders everything.
+   *  Note: This is called by the Scene update loop externally.
+   */
+  Update() {
+    if (this.controls) {
+      this.controls.update();
+    }
+    if (this.camera) {
+      this.renderer.render(SceneManager.scene, this.camera);
+    }
   }
 
 }

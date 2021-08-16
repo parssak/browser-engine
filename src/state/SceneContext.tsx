@@ -7,7 +7,13 @@ interface ISceneContext {
 };
 
 const initialValue = {
-  config: { entities: [] }
+  config: {
+    entities: [
+      {
+        name: "Entity A",
+      }
+    ]
+  }
 };
 
 export const SceneContext = createContext<ISceneContext>(initialValue);

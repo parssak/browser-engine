@@ -4,10 +4,11 @@ import CameraManager from './CameraManager';
 import * as ENGINE from '../../types';
 
 export default class SceneManager {
+  static isRunning: boolean = false;
   static instance: SceneManager;
   static scene: THREE.Scene = new THREE.Scene();
   static entities: Entity[] = [];
-  static cameraManager: CameraManager = new CameraManager(SceneManager);
+  static cameraManager: CameraManager = new CameraManager();
   
   constructor() {
     console.log('scene managed singleton');
@@ -44,5 +45,15 @@ export default class SceneManager {
   static _AddEntityToScene(entity: Entity) {
     this.entities.push(entity);
     this.scene.add(entity.mesh);
+  }
+
+  /**
+   * Runs once per frame, call's Update for each entity
+   * @param {float} time Time since the Scene began
+   */
+  static Update() {
+    if (this.isRunning)
+      this.entities.forEach(entity => entity.Update());
+    this.cameraManager.Update();
   }
 }

@@ -7,7 +7,6 @@ const useScene = () => {
   const { config } = useContext(SceneContext);
   
   const runScene = () => {
-    console.debug('running scene from UI');
     SceneManager.Run(config, ref.current);
   }
 
