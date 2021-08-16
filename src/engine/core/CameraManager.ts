@@ -21,11 +21,11 @@ export default class CameraManager {
 
   /** Handles recalibrating the camera when container is resized. */
   HandleResize() {
-    if (!this.camera) return;
-    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+    if (!this.camera || !this.renderElement) return;
+    this.camera.aspect = this.renderElement.clientWidth / this.renderElement.clientHeight;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setSize(this.renderElement.clientWidth, this.renderElement.clientHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
