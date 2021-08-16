@@ -1,3 +1,5 @@
 export default class CameraManager {
-  // todo
+  Start() {
+    // todo
+  }
 }
