@@ -57,18 +57,8 @@ export default class Entity implements IEntity {
 
   static AddChild(parent: Entity, child: Entity) { }
 
-
-  // Called Once on Initialization, before Start()
-  // Awake() {
-  //   this.BuildMesh()
-  //   if (!this.mesh) {
-  //     throw new Error('Entity.BuildMesh() must set .mesh field')
-  //   }
-  //   this._scene.Add(this)
-  // }
-
-  // Called every frame
-
+  Update() { };
+  
   GetProps(): [string, any][] {
     const allProps = Object.entries(this);
     return allProps.filter(([key, _]) => !excludedEntityProps.some(prop => prop === key));

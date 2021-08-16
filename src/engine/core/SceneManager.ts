@@ -31,6 +31,7 @@ export default class SceneManager {
   static CreateEntity(entityProps: IEntityProps, parent?: Entity) {
     const entity = new Entity(entityProps);
     this._AddEntityToScene(entity);
+    return entity;
   }
 
   static _AddEntityToScene(entity: Entity) {
