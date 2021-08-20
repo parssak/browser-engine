@@ -29,45 +29,6 @@ declare namespace Engine {
     geometry?: THREE.BufferGeometry;
     material?: THREE.Material;
   }
-
-  // class Entity {
-  //   public name: string = "";
-  //   public mesh: THREE.Mesh;
-  //   private _id = uuidv4();
-  //   private children: Entity[];
-  //   private components: Record<ComponentType, Component>;
-
-  //   constructor(props: EntityProps) {
-  //     const mat = props.material ?? new THREE.MeshBasicMaterial();
-  //     const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
-  //     this.mesh = new THREE.Mesh(geometry, mat);
-
-  //     if (props) {
-  //       props.children.forEach(entityProps => {
-  //         const child: Entity = SceneManager.CreateEntity(entityProps, this);
-  //         this.addChild(child);
-  //       });
-  //     }
-  //   }
-
-  //   addChild(child: Entity) {
-  //     // TODO: Implement
-  //   }
-
-  //   addComponent(type: ComponentType, componentProps: ComponentProps) {
-  //     // TODO: Implement
-  //   }
-
-  //   getProps(): Record<ComponentType, ComponentProps> {
-  //     // TODO: Implement
-  //     return {};
-  //   }
-
-  //   update() {
-  //     // TODO: Implement
-  //   }
-  // }
-
   // #endregion
 
   // #region -- Camera --
@@ -80,15 +41,6 @@ declare namespace Engine {
     far: number;
     controls: ControlType
   }
-
-  // class CameraManager {
-  //   public static instance: CameraManager;
-
-  //   constructor() {
-  //     if (CameraManager.instance) return;
-  //     CameraManager.instance = this;
-  //   }
-  // }
 
   // #endregion
 
@@ -120,44 +72,5 @@ declare namespace Engine {
     sceneConfig: SceneConfig; // all entities & camera
     scripts: Script[] // all custom scripts
   }
-
-  // class SceneManager {
-  //   // TODO: Figure out which values can be made private
-  //   public static instance: SceneManager;
-  //   isRunning: boolean = false;
-
-  //   static _entities: Entity[] = [];
-  //   static _components: Record<ComponentType, Component> = {};
-  //   static cameraManager: CameraManager = new CameraManager();
-
-  //   constructor() {
-  //     if (SceneManager.instance) return;
-  //     SceneManager.instance = this;
-  //   }
-
-  //   static CreateEntity(props: EntityProps, parent?: Entity): Entity {
-  //     const entity = new Entity(props);
-  //     if (parent) {
-  //       parent.addChild(entity);
-  //     }
-  //     SceneManager._entities.push(entity);
-  //     return entity;
-  //   }
-
-  //   static CreateComponent(type: ComponentType, componentProps: ComponentProps) {
-  //     const component = new Component(type, componentProps);
-  //     SceneManager._components[type] = component;
-  //     return component;
-  //   }
-
-  //   static Run(scenePayload: ScenePayload, renderElement: HTMLElement) {
-  //     // TODO: Implement this
-  //   }
-    
-  //   static Stop() {
-  //     // TODO: Implement this
-  //   }
-  // }
-
   // #endregion 
 }
