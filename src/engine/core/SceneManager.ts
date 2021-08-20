@@ -11,7 +11,6 @@ export default class SceneManager {
   static cameraManager: CameraManager = new CameraManager();
   
   constructor() {
-    console.log('scene managed singleton');
     SceneManager.instance = this;
   }
 
