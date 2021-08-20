@@ -1,7 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
-const OrbitControls = oc(THREE);
-import oc from 'three-orbit-controls';
 declare namespace Engine {
+  import { v4 as uuidv4 } from 'uuid';
+  const OrbitControls = oc(THREE);
+  import oc from 'three-orbit-controls';
+  
   // #region -- Script -- 
   type Language = "typescript" | "javascript" | "glsl"
   type ScriptType = "component" | "shader"
@@ -65,39 +66,6 @@ declare namespace Engine {
     update() {
       // TODO: Implement
     }
-
-  }
-
-  class SceneManager {
-    // TODO: Figure out which values can be made private
-    public static instance: SceneManager;
-    static isRunning: boolean = false;
-    
-    static _entities: Entity[] = [];
-    static _components: Record<ComponentType, Component> = {};
-    static cameraManager: CameraManager = new CameraManager();
-
-    constructor() {
-      if (SceneManager.instance) return;
-      SceneManager.instance = this;
-    }
-
-
-
-    static CreateEntity(props: EntityProps, parent?: Entity): Entity {
-      const entity = new Entity(props);
-      if (parent) {
-        parent.addChild(entity);
-      }
-      SceneManager._entities.push(entity);
-      return entity;
-    }
-
-    static CreateComponent(type: ComponentType, componentProps: ComponentProps) {
-      const component = new Component(type, componentProps);
-      SceneManager._components[type] = component;
-      return component;
-    }
   }
 
   // #endregion
@@ -106,6 +74,7 @@ declare namespace Engine {
   type ControlType = "orbit" | "firstPerson" | "fixed";
   
   interface CameraProps {
+    position: THREE.Vector3;
     fov: number;
     near: number;
     far: number;
@@ -151,5 +120,36 @@ declare namespace Engine {
     sceneConfig: SceneConfig; // all entities & camera
     scripts: Script[] // all custom scripts
   }
+
+  class SceneManager {
+    // TODO: Figure out which values can be made private
+    public static instance: SceneManager;
+    static isRunning: boolean = false;
+
+    static _entities: Entity[] = [];
+    static _components: Record<ComponentType, Component> = {};
+    static cameraManager: CameraManager = new CameraManager();
+
+    constructor() {
+      if (SceneManager.instance) return;
+      SceneManager.instance = this;
+    }
+
+    static CreateEntity(props: EntityProps, parent?: Entity): Entity {
+      const entity = new Entity(props);
+      if (parent) {
+        parent.addChild(entity);
+      }
+      SceneManager._entities.push(entity);
+      return entity;
+    }
+
+    static CreateComponent(type: ComponentType, componentProps: ComponentProps) {
+      const component = new Component(type, componentProps);
+      SceneManager._components[type] = component;
+      return component;
+    }
+  }
+
   // #endregion 
 }

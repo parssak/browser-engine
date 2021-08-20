@@ -12,7 +12,14 @@ const useScene = () => {
   }
 
   const addEntity = () => {
-    setEntities([...config.entities, { name: 'New Entity', id: uuidv4() }]);
+    const newEntity: Engine.EntityProps = {
+      id: uuidv4(),
+      name: "New Entity",
+      children: [],
+      components: {},
+    }
+
+    setEntities([...config.entities, newEntity]);
   }
 
   return { ref, config, runScene, addEntity, selectedEntity, setSelectedEntity };

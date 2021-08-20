@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import CameraManager from './CameraManager';
+// import CameraManager from './CameraManager';
 
 export default class SceneManager {
   // static isRunning: boolean = false;

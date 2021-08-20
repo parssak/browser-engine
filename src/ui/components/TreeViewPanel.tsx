@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import useScene from '../../state/useScene';
-import * as ENGINE from '../../types';
 
 interface Props {
-  entity: ENGINE.IEntityProps;
+  entity: Engine.EntityProps;
 }
 
 function TreeNode({ entity }: Props): ReactElement {

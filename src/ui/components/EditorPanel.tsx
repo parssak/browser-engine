@@ -12,12 +12,12 @@ const defaultEditorValue = `// Welcome to Browser Engine!
 export default function EditorPanel(): ReactElement {
   return (
     <div>
-      <Editor
+      {/* <Editor
         height="100%"
         theme="vs-dark"
         defaultLanguage="typescript"
         defaultValue={defaultEditorValue}
-      />
+      /> */}
     </div>
   )
 }

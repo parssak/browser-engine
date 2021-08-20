@@ -1,8 +1,6 @@
 import { button, folder, useControls } from 'leva'
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Entity from '../../engine/core';
 import useScene from '../../state/useScene';
-import { IEntityProps } from '../../types';
 // import Agent from '../../engine/entities/Agent';
 import getComponentProps from '../../utils/getComponentProps';
 
