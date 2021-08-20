@@ -26,7 +26,7 @@ export default function TreeViewPanel(): ReactElement {
   const { sceneConfig } = useScene();
 
   return (
-    <div className="bg-red-500 space-y-0.5">
+    <div className="bg-red-500 p-1.5 space-y-1">
       {
         sceneConfig.entities.map(entity =>
           <TreeNode

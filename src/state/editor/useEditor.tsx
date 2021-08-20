@@ -15,7 +15,7 @@ const useEditor = () => {
   const init = () => {
     if (!renderElement || !renderElement.current) { return; }
     console.debug('ran init!');
-    // TODO: Implement this
+    SceneManager.Initialize(renderElement.current);
     // Engine.Initialize(localConfig, renderElement);
   }
 
@@ -26,10 +26,13 @@ const useEditor = () => {
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) { return; }
     if (SceneManager.isRunning) {
+      console.debug('stopping scene');
       SceneManager.Stop();
       return;
     }
+    console.debug('Going to run scene...')
     const payload: Engine.ScenePayload = generateScenePayload();
+    console.debug('Made payload:', payload)
     SceneManager.Run(payload, renderElement.current);
   };
 

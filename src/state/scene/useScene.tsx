@@ -6,7 +6,7 @@ const useScene = () => {
   const { sceneConfig, setEntities, selectedEntity, setSelectedEntity } = useContext(SceneContext);
 
   const selectEntity = (id: Engine.EntityID) => {
-    // TODO: Implement this
+    setSelectedEntity(id);
   };
 
   const updateEntity = (entity: Engine.EntityProps) => {

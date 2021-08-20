@@ -36,7 +36,8 @@ export default class Entity {
     return {};
   }
 
-  update() {
+  Update() {
     // TODO: Implement
+    console.debug('calling update on entity', this._id);
   }
 }

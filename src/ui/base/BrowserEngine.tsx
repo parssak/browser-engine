@@ -11,8 +11,8 @@ export default function BrowserEngine(): ReactElement {
   return (
     <main className="w-screen h-screen overflow-hidden">
       <nav className="bg-gray-900 p-2 space-x-2">
-        <button onClick={toggleRun} className="p-2 bg-gray-700 rounded-md transition hover:bg-gray-600">Run Scene</button>
-        <button onClick={createEntity} className="p-2 bg-gray-700 rounded-md transition hover:bg-gray-600">Add Entity</button>
+        <button onClick={toggleRun} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">Run Scene</button>
+        <button onClick={createEntity} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">Add Entity</button>
       </nav>
       <section className="w-full h-full grid" style={{ gridTemplateColumns: '1fr 14rem' }}>
         {renderElement && (<div className="bg-gray-600" id="scene" ref={renderElement} />)}
