@@ -1,6 +1,6 @@
 import { button, folder, useControls } from 'leva'
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import useScene from '../../state/useScene';
+import useScene from '../../state/scene/useScene';
 // import Agent from '../../engine/entities/Agent';
 import getComponentProps from '../../utils/getComponentProps';
 

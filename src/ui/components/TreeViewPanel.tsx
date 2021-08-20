@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import useScene from '../../state/useScene';
+import useScene from '../../state/scene/useScene';
 
 interface Props {
   entity: Engine.EntityProps;

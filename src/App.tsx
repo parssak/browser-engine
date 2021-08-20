@@ -1,4 +1,4 @@
-import { SceneProvider } from "./state/SceneContext";
+import { SceneProvider } from "./state/scene/SceneContext";
 import BrowserEngine from "./ui/base/BrowserEngine";
 
 function App() {

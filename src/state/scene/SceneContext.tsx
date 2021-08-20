@@ -1,8 +1,6 @@
-// create a typescript react global context and provider for SceneContext and SceneProvider
 import * as THREE from 'three';
-import { ReactElement, useMemo, useReducer } from 'react';
+import { ReactElement } from 'react';
 import { createContext } from 'react';
-// import { IEntityProps, ISceneConfig } from '../types';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,6 +9,7 @@ interface ISceneContext {
   setEntities: (props: Engine.EntityProps[]) => void;
   selectedEntity: string | null;
   setSelectedEntity: (entityID: string | null) => void;
+  setCameraProps: (cameraProps: Engine.CameraProps) => void;
 };
 
 const initialValue = {
@@ -24,9 +23,10 @@ const initialValue = {
       controls: "orbit" as Engine.ControlType
     }
   },
-  setEntities: (props: Engine.EntityProps[]) => { },
   selectedEntity: null,
-  setSelectedEntity: (entityID: string | null) => { }
+  setEntities: (entities: Engine.EntityProps[]) => { },
+  setSelectedEntity: (entityID: string | null) => { },
+  setCameraProps: (cameraProps: Engine.CameraProps) => { }
 };
 
 export const SceneContext = createContext<ISceneContext>(initialValue);
@@ -39,6 +39,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
     far: 1000,
     controls: "orbit" as Engine.ControlType
   });
+
   const [entities, setEntities] = useState<Engine.EntityProps[]>([
     {
       id: uuidv4(),
@@ -54,6 +55,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
   const contextValue = {
     config: { entities, camera: cameraProps },
     setEntities,
+    setCameraProps,
     selectedEntity,
     setSelectedEntity
   }
