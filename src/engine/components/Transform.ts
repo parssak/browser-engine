@@ -1,18 +1,16 @@
 import * as THREE from 'three';
-import Component from '../core/Component';
-import * as ENGINE from '../../types';
 interface ITransformProps {
   position?: THREE.Vector3;
   rotation?: THREE.Euler;
   scale?: THREE.Vector3;
 }
 
-export default class Transform extends Component {
+export default class Transform extends Engine.Component {
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
 
-  constructor(entity: ENGINE.IEntity, props?: ITransformProps) {
+  constructor(entity: Engine.Entity, props?: ITransformProps) {
     super(entity);
     console.debug('created new transform');
     this.position = props?.position ?? this.position;

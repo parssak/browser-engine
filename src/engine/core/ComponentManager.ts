@@ -1,15 +1,12 @@
-import * as ENGINE from '../../types';
-import Component from "./Component";
-
-const components: Record<ENGINE.ComponentType, Component> = {};
+const components: Record<Engine.ComponentType, Engine.Component> = {};
 
 export default class ComponentManager {
   
-  static GetComponentByType(type: ENGINE.ComponentType): Component | undefined {
+  static GetComponentByType(type: Engine.ComponentType): Engine.Component | undefined {
     return components[type];
   };
 
-  static CreateComponent(type: ENGINE.ComponentType, props: ENGINE.ComponentProps, entity: ENGINE.IEntity): Component | undefined {
+  static CreateComponent(type: Engine.ComponentType, props: Engine.ComponentProps, entity: Engine.Entity): Engine.Component | undefined {
     const component = this.GetComponentByType(type);
     if (!component) return undefined;
     // @ts-ignore TODO: Come back

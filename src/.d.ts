@@ -23,6 +23,10 @@ declare namespace Engine {
     children: EntityProps[];
   }
 
+  class Entity {
+    mesh: THREE.Mesh;
+  }
+
   // #endregion
 
   // #region -- Camera --
@@ -33,6 +37,24 @@ declare namespace Engine {
     near: number;
     far: number;
     controls: ControlType
+  }
+
+  // #endregion
+
+  // #region -- Component -- 
+
+  type ComponentType = "transform" | string;
+  type ComponentProps = unknown;
+
+  abstract class Component {
+    name: string;
+    _entity: Entity;
+
+    constructor(entity: Engine.IEntity) {
+      this._entity = entity;
+    }
+
+    abstract Update(): void;
   }
 
   // #endregion
