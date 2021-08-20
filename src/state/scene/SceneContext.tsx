@@ -45,7 +45,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
       id: uuidv4(),
       name: "Entity A",
       material: new THREE.MeshNormalMaterial(),
-      geometry: new THREE.SphereBufferGeometry(),
+      geometry: new THREE.BoxBufferGeometry(),
       children: [],
       components: {}
     }
