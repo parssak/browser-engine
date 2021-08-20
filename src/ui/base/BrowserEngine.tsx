@@ -1,6 +1,5 @@
 import { Resizable } from 're-resizable'
 import React, { ReactElement } from 'react'
-import SceneManager from '../../engine/core/SceneManager'
 import useScene from '../../state/useScene'
 import Controls from '../components/Controls'
 import TreeViewPanel from '../components/TreeViewPanel'

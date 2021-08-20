@@ -1,10 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
-import * as ENGINE from '../../types';
-import * as THREE from 'three';
-import excludedEntityProps from '../../utils/excludedEntityProps';
-import ComponentManager from './ComponentManager';
-import SceneManager from './SceneManager';
-
+// // import * as ENGINE from '../../types';
+// import * as THREE from 'three';
+// import excludedEntityProps from '../../utils/excludedEntityProps';
+// import ComponentManager from './ComponentManager';
+// import SceneManager from './SceneManager';
+export const foo = "";
 /**
  * -  THREE-SETUP -
  * 
@@ -23,42 +22,42 @@ import SceneManager from './SceneManager';
  *
  * @class Entity
  */
-export default class Entity implements ENGINE.IEntity {
-  name: string = "";
-  _id = uuidv4();
-  parent: ENGINE.IEntity | null = null
-  children: ENGINE.IEntity[] = []
-  mesh: THREE.Mesh;
-  components: Record<ENGINE.ComponentType, ENGINE.IComponent> = {} // Standard components  & Custom Script Files
+// export default class Entity implements Engine.Entity {
+//   name: string = "";
+//   _id = uuidv4();
+//   // parent: ENGINE.IEntity | null = null
+//   children: ENGINE.IEntity[] = []
+//   mesh: THREE.Mesh;
+//   components: Record<ENGINE.ComponentType, ENGINE.IComponent> = {} // Standard components  & Custom Script Files
 
-  constructor(props: ENGINE.IEntityProps) {
-    const mat = props.material ?? new THREE.MeshBasicMaterial();
-    const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
-    this.mesh = new THREE.Mesh(geometry, mat);
+//   constructor(props: ENGINE.IEntityProps) {
+//     const mat = props.material ?? new THREE.MeshBasicMaterial();
+//     const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
+//     this.mesh = new THREE.Mesh(geometry, mat);
 
-    if (props.children) {
-      props.children.forEach(entityProps => {
-        const child = SceneManager.CreateEntity(entityProps, this);
-        Entity.AddChild(this, child);
-      });
-    }
+//     if (props.children) {
+//       props.children.forEach(entityProps => {
+//         const child = SceneManager.CreateEntity(entityProps, this);
+//         Entity.AddChild(this, child);
+//       });
+//     }
 
-    if (props.components) {
-      props.components.forEach(([type, componentProps]) => this.AddComponent(type, componentProps));
-    }
-  }
+//     if (props.components) {
+//       props.components.forEach(([type, componentProps]) => this.AddComponent(type, componentProps));
+//     }
+//   }
 
-  AddComponent(type: ENGINE.ComponentType, props: ENGINE.ComponentProps) {
-    const component: ENGINE.IComponent | undefined = ComponentManager.CreateComponent(type, props, this);
-    if (component) this.components[type] = component;
-  }
+//   AddComponent(type: ENGINE.ComponentType, props: ENGINE.ComponentProps) {
+//     const component: ENGINE.IComponent | undefined = ComponentManager.CreateComponent(type, props, this);
+//     if (component) this.components[type] = component;
+//   }
 
-  static AddChild(parent: Entity, child: Entity) { }
+//   static AddChild(parent: Entity, child: Entity) { }
 
-  Update() { };
+//   Update() { };
 
-  GetProps(): [string, any][] {
-    const allProps = Object.entries(this);
-    return allProps.filter(([key, _]) => !excludedEntityProps.some(prop => prop === key));
-  };
-}
+//   GetProps(): [string, any][] {
+//     const allProps = Object.entries(this);
+//     return allProps.filter(([key, _]) => !excludedEntityProps.some(prop => prop === key));
+//   };
+// }
