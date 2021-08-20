@@ -6,7 +6,7 @@ interface Props {
 }
 
 function TreeNode({ entity }: Props): ReactElement {
-  const { config, selectedEntity, setSelectedEntity } = useScene();
+  const { selectedEntity, selectEntity } = useScene();
   const isSelected = selectedEntity === entity.id;
   return (
     <div className={`
@@ -15,7 +15,7 @@ function TreeNode({ entity }: Props): ReactElement {
     transition
     cursor-pointer
     hover:bg-red-400
-    ${isSelected && 'bg-red-300'}`} onClick={() => isSelected ? setSelectedEntity(null) : setSelectedEntity(entity.id)}>
+    ${isSelected && 'bg-red-300'}`} onClick={() => isSelected ? selectEntity('') : selectEntity(entity.id)}>
       {entity?.name ?? '__ENTITY__'}
     </div>
   )
@@ -23,12 +23,12 @@ function TreeNode({ entity }: Props): ReactElement {
 }
 
 export default function TreeViewPanel(): ReactElement {
-  const { config, selectedEntity, setSelectedEntity } = useScene();
+  const { sceneConfig } = useScene();
 
   return (
     <div className="bg-red-500 space-y-0.5">
       {
-        config.entities.map(entity =>
+        sceneConfig.entities.map(entity =>
           <TreeNode
             key={entity.id}
             entity={entity}

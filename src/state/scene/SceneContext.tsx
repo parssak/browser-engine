@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 interface ISceneContext {
-  config: Engine.SceneConfig;
+  sceneConfig: Engine.SceneConfig;
   setEntities: (props: Engine.EntityProps[]) => void;
   selectedEntity: string | null;
   setSelectedEntity: (entityID: string | null) => void;
@@ -13,7 +13,7 @@ interface ISceneContext {
 };
 
 const initialValue = {
-  config: {
+  sceneConfig: {
     entities: [] as Engine.EntityProps[],
     camera: {
       position: new THREE.Vector3(),
@@ -53,7 +53,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
   const [selectedEntity, setSelectedEntity] = useState<string | null>(null);
 
   const contextValue = {
-    config: { entities, camera: cameraProps },
+    sceneConfig: { entities, camera: cameraProps },
     setEntities,
     setCameraProps,
     selectedEntity,

@@ -5,16 +5,16 @@ import useScene from '../../state/scene/useScene';
 import getComponentProps from '../../utils/getComponentProps';
 
 export default function Controls() {
-  const { config, selectedEntity } = useScene();
+  const { sceneConfig, selectedEntity } = useScene();
 
   const entity = useMemo(() => {
-    const selected = config.entities.flatMap(e => e.id === selectedEntity && e)
+    const selected = sceneConfig.entities.flatMap(e => e.id === selectedEntity && e)
     if (selected.length < 1) return null;
     return selected[0] || null;
   }, []);
 
   // const [entity, setEntity] = useState<Entity>();
-  // const addEntity = () => {
+  // const createEntity = () => {
     // setEntity(new Agent());
   // }
 
@@ -34,7 +34,7 @@ export default function Controls() {
   
 
   const controls = useControls(() => ({...getControls()}),  [entity]);
-  // useControls({ 'New Agent': button(addEntity) })
+  // useControls({ 'New Agent': button(createEntity) })
   
   const onInspectorValueChange = () => {
     if (!entity) return;

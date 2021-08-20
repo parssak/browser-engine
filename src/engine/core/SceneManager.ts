@@ -1,54 +1,37 @@
-import * as THREE from 'three';
-// import CameraManager from './CameraManager';
-
 export default class SceneManager {
-  // static isRunning: boolean = false;
-  // static instance: SceneManager;
-  // static scene: THREE.Scene = new THREE.Scene();
-  // static entities: Engine.Entity[] = [];
-  // static cameraManager: CameraManager = new CameraManager();
-  
+  // TODO: Figure out which values can be made private
+  public static instance: SceneManager;
+  isRunning: boolean = false;
+
+  static _entities: Engine.Entity[] = [];
+  static _components: Record<Engine.ComponentType, Engine.Component> = {};
+  static cameraManager: CameraManager = new CameraManager();
+
   constructor() {
-    // SceneManager.instance = this;
+    if (SceneManager.instance) return;
+    SceneManager.instance = this;
   }
 
-  static ResetScene() {
-    // this.scene = new THREE.Scene();
-    // this.entities = [];
+  static CreateEntity(props: Engine.EntityProps, parent?: Entity): Entity {
+    const entity = new Entity(props);
+    if (parent) {
+      parent.addChild(entity);
+    }
+    SceneManager._entities.push(entity);
+    return entity;
   }
 
-  // static Run(sceneConfig: ENGINE.ISceneConfig, renderElement: HTMLElement) {
-  //   // this.ResetScene();
+  static CreateComponent(type: Engine.ComponentType, componentProps: Engine.ComponentProps) {
+    const component = new Component(type, componentProps);
+    SceneManager._components[type] = component;
+    return component;
+  }
 
-  //   // TODO v2: Compile all scripts
-  //   // TODO v2: Create custom component classes from scripts
+  static Run(scenePayload: Engine.ScenePayload, renderElement: HTMLElement) {
+    // TODO: Implement this
+  }
 
-  //   // Add all entities to scene
-  //   sceneConfig.entities.forEach(entityProps => this.CreateEntity(entityProps));
-
-  //   // Initialize camera
-  //   this.cameraManager.SetRenderElement(renderElement);
-  //   this.cameraManager.Start();
-  // }
-
-  // static CreateEntity(entityProps: ENGINE.IEntityProps, parent?: Entity) {
-  //   const entity = new Entity(entityProps);
-  //   this._AddEntityToScene(entity);
-  //   return entity;
-  // }
-
-  // static _AddEntityToScene(entity: Entity) {
-  //   this.entities.push(entity);
-  //   this.scene.add(entity.mesh);
-  // }
-
-  // /**
-  //  * Runs once per frame, call's Update for each entity
-  //  * @param {float} time Time since the Scene began
-  //  */
-  // static Update() {
-  //   if (this.isRunning)
-  //     this.entities.forEach(entity => entity.Update());
-  //   this.cameraManager.Update();
-  // }
+  static Stop() {
+    // TODO: Implement this
+  }
 }
