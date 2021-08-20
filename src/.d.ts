@@ -30,43 +30,43 @@ declare namespace Engine {
     material?: THREE.Material;
   }
 
-  class Entity {
-    public name: string = "";
-    public mesh: THREE.Mesh;
-    private _id = uuidv4();
-    private children: Entity[];
-    private components: Record<ComponentType, Component>;
+  // class Entity {
+  //   public name: string = "";
+  //   public mesh: THREE.Mesh;
+  //   private _id = uuidv4();
+  //   private children: Entity[];
+  //   private components: Record<ComponentType, Component>;
 
-    constructor(props: EntityProps) {
-      const mat = props.material ?? new THREE.MeshBasicMaterial();
-      const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
-      this.mesh = new THREE.Mesh(geometry, mat);
+  //   constructor(props: EntityProps) {
+  //     const mat = props.material ?? new THREE.MeshBasicMaterial();
+  //     const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
+  //     this.mesh = new THREE.Mesh(geometry, mat);
 
-      if (props) {
-        props.children.forEach(entityProps => {
-          const child: Entity = SceneManager.CreateEntity(entityProps, this);
-          this.addChild(child);
-        });
-      }
-    }
+  //     if (props) {
+  //       props.children.forEach(entityProps => {
+  //         const child: Entity = SceneManager.CreateEntity(entityProps, this);
+  //         this.addChild(child);
+  //       });
+  //     }
+  //   }
 
-    addChild(child: Entity) {
-      // TODO: Implement
-    }
+  //   addChild(child: Entity) {
+  //     // TODO: Implement
+  //   }
 
-    addComponent(type: ComponentType, componentProps: ComponentProps) {
-      // TODO: Implement
-    }
+  //   addComponent(type: ComponentType, componentProps: ComponentProps) {
+  //     // TODO: Implement
+  //   }
 
-    getProps(): Record<ComponentType, ComponentProps> {
-      // TODO: Implement
-      return {};
-    }
+  //   getProps(): Record<ComponentType, ComponentProps> {
+  //     // TODO: Implement
+  //     return {};
+  //   }
 
-    update() {
-      // TODO: Implement
-    }
-  }
+  //   update() {
+  //     // TODO: Implement
+  //   }
+  // }
 
   // #endregion
 
@@ -81,14 +81,14 @@ declare namespace Engine {
     controls: ControlType
   }
 
-  class CameraManager {
-    public static instance: CameraManager;
+  // class CameraManager {
+  //   public static instance: CameraManager;
 
-    constructor() {
-      if (CameraManager.instance) return;
-      CameraManager.instance = this;
-    }
-  }
+  //   constructor() {
+  //     if (CameraManager.instance) return;
+  //     CameraManager.instance = this;
+  //   }
+  // }
 
   // #endregion
 

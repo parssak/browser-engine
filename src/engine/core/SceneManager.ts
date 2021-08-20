@@ -1,9 +1,12 @@
+import CameraManager from "./CameraManager";
+import Entity from "./Entity";
+
 export default class SceneManager {
   // TODO: Figure out which values can be made private
   public static instance: SceneManager;
-  isRunning: boolean = false;
+  static isRunning: boolean = false;
 
-  static _entities: Engine.Entity[] = [];
+  static _entities: Entity[] = [];
   static _components: Record<Engine.ComponentType, Engine.Component> = {};
   static cameraManager: CameraManager = new CameraManager();
 
@@ -22,9 +25,7 @@ export default class SceneManager {
   }
 
   static CreateComponent(type: Engine.ComponentType, componentProps: Engine.ComponentProps) {
-    const component = new Component(type, componentProps);
-    SceneManager._components[type] = component;
-    return component;
+    // TODO: Implement this
   }
 
   static Run(scenePayload: Engine.ScenePayload, renderElement: HTMLElement) {
