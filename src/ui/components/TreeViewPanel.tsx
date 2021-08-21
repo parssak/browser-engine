@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { useMemo, ReactElement, useEffect } from 'react';
 import useScene from '../../state/scene/useScene';
 
 interface Props {
@@ -7,7 +7,15 @@ interface Props {
 
 function TreeNode({ entity }: Props): ReactElement {
   const { selectedEntity, selectEntity } = useScene();
-  const isSelected = selectedEntity?.id === entity.id;
+
+
+  const isSelected = useMemo(() => selectedEntity?.id === entity.id, [selectedEntity, entity.id]);
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    selectEntity(entity.id);
+  }
+
   return (
     <div
       className={`
@@ -16,7 +24,7 @@ function TreeNode({ entity }: Props): ReactElement {
     transition
     cursor-pointer
     hover:bg-red-400
-    ${isSelected && 'bg-red-300'}`} onClick={() => isSelected ? selectEntity('') : selectEntity(entity.id)}>
+    ${isSelected && 'bg-red-300'}`} onClick={handleClick}>
       <h1>{entity?.name ?? '__ENTITY__'}</h1>
       {entity.children.map(child => <TreeNode key={child.id} entity={child}/>)}
     </div>
@@ -25,8 +33,8 @@ function TreeNode({ entity }: Props): ReactElement {
 }
 
 export default function TreeViewPanel(): ReactElement {
-  const { sceneConfig } = useScene();
-
+  const { sceneConfig, selectedEntity } = useScene();
+  useEffect(() => { console.debug(selectedEntity?.name); }, [selectedEntity]);
   return (
     <div className="bg-red-500 p-1.5 space-y-1">
       <h1 className="font-medium">Hierarchy</h1>
@@ -37,7 +45,6 @@ export default function TreeViewPanel(): ReactElement {
             entity={entity}
           />
         )
-
       }
     </div>
   )

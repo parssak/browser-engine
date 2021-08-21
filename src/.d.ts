@@ -46,8 +46,10 @@ declare namespace Engine {
 
   // #region -- Component -- 
 
+
   type ComponentType = "transform" | string;
-  type ComponentProps = unknown;
+  type ComponentPropType = [number, number] | [number, number, number] | number | string;
+  type ComponentProps = Record<string, ComponentPropType>;
 
   abstract class Component {
     name: string;

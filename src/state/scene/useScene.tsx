@@ -1,6 +1,8 @@
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { SceneContext } from "./SceneContext";
 import { v4 as uuidv4 } from 'uuid'
+import { flattenEntities } from "./scene.utils";
+import { deepClone } from "../../utils";
 
 const useScene = () => {
   const { sceneConfig, setEntities, selectedEntityID, setSelectedEntityID } = useContext(SceneContext);
@@ -14,12 +16,10 @@ const useScene = () => {
   };
 
   const selectedEntity: Engine.EntityProps | null = useMemo(() => {
-    const selected = sceneConfig.entities.flatMap(e => e.id === selectedEntityID && e)
-    if (selected.length < 1) return null;
-    return selected[0] || null;
+    const entities = deepClone<Engine.EntityProps[]>(sceneConfig.entities);
+    const flattenedEntities = flattenEntities(entities);
+    return flattenedEntities.find(e => e.id === selectedEntityID) ?? null;
   }, [sceneConfig, selectedEntityID]);
-
-  console.debug({selectedEntity});
 
   const updateEntity = (entity: Engine.EntityProps) => {
     // TODO: Implement this
