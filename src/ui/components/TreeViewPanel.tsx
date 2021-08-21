@@ -1,4 +1,4 @@
-import React, { useMemo, ReactElement, useEffect } from 'react';
+import React, { useMemo, ReactElement } from 'react';
 import useScene from '../../state/scene/useScene';
 
 // TODO: Render children
@@ -8,7 +8,6 @@ interface Props {
 
 function TreeNode({ entity }: Props): ReactElement {
   const { selectedEntity, selectEntity } = useScene();
-
 
   const isSelected = useMemo(() => selectedEntity?.id === entity.id, [selectedEntity, entity.id]);
   

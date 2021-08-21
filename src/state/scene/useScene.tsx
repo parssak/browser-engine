@@ -25,10 +25,13 @@ const useScene = () => {
     console.debug("Called update entity", entity);
     // 1. Find index of entity in sceneConfig.entities
     const index = sceneConfig.entities.findIndex(e => e.id === entity.id);
-    // if (index === -1) {
-      // console.error("Couldn't find "
+    if (index === -1) {
+      console.error("Couldn't find " + entity.id + " in sceneConfig.entities");
+    };
     // 2. Update entity in sceneConfig.entities
+    sceneConfig.entities[index] = entity;
     // 3. Call setEntities(sceneConfig.entities)
+    setEntities(sceneConfig.entities);
 
     
     // TODO: Make sure actual scene updates when doing this
