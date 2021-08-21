@@ -19,12 +19,12 @@ function TreeNode({ entity }: Props): ReactElement {
   return (
     <div
       className={`
-    p-1
+    p-2
     rounded-md
     transition
     cursor-pointer
-    hover:bg-red-400
-    ${isSelected && 'bg-red-300'}`} onClick={handleClick}>
+    ${isSelected ? 'hover:bg-indigo-500' : 'hover:bg-indigo-400'}
+    ${isSelected && 'bg-indigo-300'}`} onClick={handleClick}>
       <h1>{entity?.name ?? '__ENTITY__'}</h1>
       {/* {entity.children.map(child => <TreeNode key={child.id} entity={child}/>)} */}
     </div>
@@ -35,8 +35,7 @@ function TreeNode({ entity }: Props): ReactElement {
 export default function TreeViewPanel(): ReactElement {
   const { sceneConfig } = useScene();
   return (
-    <div className="bg-red-500 p-1.5 space-y-1">
-      <h1 className="font-medium">Hierarchy</h1>
+    <div className="bg-indigo-200 p-1.5 space-y-1">
       {
         sceneConfig.entities.map(entity =>
           <TreeNode
