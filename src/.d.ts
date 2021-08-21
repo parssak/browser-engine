@@ -24,7 +24,7 @@ declare namespace Engine {
   interface EntityProps {
     id: EntityID;
     name: string;
-    children: EntityProps[];
+    children: EntityID[];
     components: Record<ComponentType, ComponentProps>;
     geometry?: THREE.BufferGeometry;
     material?: THREE.Material;

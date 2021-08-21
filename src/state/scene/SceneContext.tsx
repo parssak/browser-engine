@@ -46,22 +46,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
       name: "Entity A",
       material: new THREE.MeshNormalMaterial(),
       geometry: new THREE.BoxBufferGeometry(),
-      children: [
-        {
-          id: uuidv4(),
-          name: "Entity B",
-          material: new THREE.MeshNormalMaterial(),
-          geometry: new THREE.BoxBufferGeometry(),
-          children: [],
-          components: {
-            "transform": {
-              position: [10,10,10],
-              rotation: [0,0,0],
-              scale: [0,0,0],
-            },
-          }
-        }
-      ],
+      children: [],
       components: {
         "transform": {
           position: [0, 0, 0],
@@ -71,6 +56,20 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
         "custom_component_1": {
           speed: 12
         }
+      }
+    },
+    {
+      id: uuidv4(),
+      name: "Entity B",
+      material: new THREE.MeshNormalMaterial(),
+      geometry: new THREE.BoxBufferGeometry(),
+      children: [],
+      components: {
+        "transform": {
+          position: [10, 10, 10],
+          rotation: [0, 0, 0],
+          scale: [0, 0, 0],
+        },
       }
     }
   ])

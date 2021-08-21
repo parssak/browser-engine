@@ -14,10 +14,11 @@ export default class Entity {
     const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
     this.mesh = new THREE.Mesh(geometry, mat);
 
-    props.children.forEach(entityProps => {
-      const child: Entity = SceneManager.CreateEntity(entityProps, this);
-      this.addChild(child);
-    });
+    // TODO: New approach to creating children in SceneManager.
+    // props.children.forEach(entityProps => {
+    //   const child: Entity = SceneManager.CreateEntity(entityProps, this);
+    //   this.addChild(child);
+    // });
 
     // TODO: build components
     this.components = {};
