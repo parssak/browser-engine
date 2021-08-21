@@ -5,6 +5,9 @@ import useScene from '../../state/scene/useScene';
 export default function Controls() {
   const { selectedEntity } = useScene();
 
+  // util
+  const getComponentPropName = (type: Engine.ComponentType, propName: string): string => `${type}--${propName}`
+
   const getControls = () => {
     if (!selectedEntity) return {};
     const { components } = selectedEntity;
@@ -13,7 +16,7 @@ export default function Controls() {
       const folderValue =
         Object.fromEntries(
           Object.entries(props)
-            .map(([propName, propValue]) => [propName, { value: propValue }]
+            .map(([propName, propValue]) => [`${type}--${propName}`,{ value: propValue, label: propName }]
           )
         );
       return [type, folder(folderValue as any)]
@@ -25,20 +28,15 @@ export default function Controls() {
 
   useEffect(() => {
     const updateComponentFields = (entity: Engine.EntityProps) => {
-      console.debug(entity.components, values, set);
       const flattenedPropFields: Record<string, Engine.ComponentPropType> = {};
-      Object.values(entity.components).forEach((component) => {
-        const [fieldName, fieldValue] = Object.entries(component)[0];
-        flattenedPropFields[fieldName] = fieldValue;
+      Object.entries(entity.components).forEach(([type, props]) => {
+        const [fieldName, fieldValue] = Object.entries(props)[0];
+        flattenedPropFields[`${type}--${fieldName}`] = fieldValue;
       });
       set(flattenedPropFields);
     }
     if (selectedEntity) updateComponentFields(selectedEntity);
   }, [selectedEntity])
-
-  useEffect(() => {
-    console.debug('values changed', values);
-  }, [values])
 
   return (
     <div className="bg-indigo-500 space-y-1">
