@@ -5,7 +5,7 @@ import Controls from '../components/Controls'
 import TreeViewPanel from '../components/TreeViewPanel'
 
 export default function BrowserEngine(): ReactElement {
-  const { createEntity, selectedEntity } = useScene()
+  const { createEntity } = useScene()
   const { renderElement,  toggleRun, isRunning } = useEditor()
   
   return (

@@ -22,7 +22,9 @@ const useScene = () => {
   }, [sceneConfig, selectedEntityID]);
 
   const updateEntity = (entity: Engine.EntityProps) => {
-    // TODO: Implement this
+    console.debug("Called update entity", entity);
+    
+    // TODO: Make sure actual scene updates when doing this
   }
 
   const updateEntityParent = (child: Engine.EntityID, newParent: Engine.EntityID | null) => {
