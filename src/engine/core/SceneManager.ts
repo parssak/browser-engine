@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import CameraManager from "./CameraManager";
+import Component from './Component';
+import ComponentManager from './ComponentManager';
 import Entity from "./Entity";
 
 export default class SceneManager {
@@ -7,8 +9,8 @@ export default class SceneManager {
   public static isRunning: boolean = false;
   
   private static _scene = new THREE.Scene();
-  private static _components: Record<Engine.ComponentType, Engine.Component> = {};
   private static cameraManager: CameraManager = CameraManager.instance;
+  private static componentManager: ComponentManager = ComponentManager.instance;
   private static _entities: Entity[] = [];
   private static _renderElement: HTMLElement;
 
@@ -28,17 +30,17 @@ export default class SceneManager {
   }
 
   static Initialize(renderElement: HTMLElement) {
-    if (!this.cameraManager) {
-      this.cameraManager = new CameraManager();
-    }
+    if (!this.cameraManager) this.cameraManager = new CameraManager();
+    if (!this.componentManager) this.componentManager = new ComponentManager();
+    
     this._renderElement = renderElement;
     this.cameraManager.setup(renderElement, this._scene);
   }
 
   static UpdateScene() {
-    SceneManager._entities.forEach(entity => {
-      entity.Update();
-    });
+    // SceneManager._entities.forEach(entity => {
+    //   entity.Update();
+    // });
   }
 
   static CreateComponent(type: Engine.ComponentType, componentProps: Engine.ComponentProps) {
@@ -64,7 +66,6 @@ export default class SceneManager {
   private static ResetScene() {
     this._scene = new THREE.Scene();
     this._entities = [];
-    this._components = {};
     this.cameraManager.resetCamera();
   }
 }

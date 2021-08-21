@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Component from '../core/Component';
 import Entity from '../core/Entity';
 interface ITransformProps {
   position?: THREE.Vector3;
@@ -6,13 +7,15 @@ interface ITransformProps {
   scale?: THREE.Vector3;
 }
 
-export default class Transform extends Engine.Component {
+export default class Transform extends Component {
+  name = "transform";
+  _entity!: Entity;
+
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
 
-  constructor(entity: Entity, props?: ITransformProps) {
-    super(entity);
+  init(entity: Entity, props?: ITransformProps) {
     console.debug('created new transform');
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;

@@ -52,17 +52,6 @@ declare namespace Engine {
   type CombinedComponentPropName = `${ComponentType}--${string}`
   type ComponentProps = Record<string, ComponentPropType>;
 
-  abstract class Component {
-    name: string;
-    _entity: Entity;
-
-    constructor(entity: Engine.IEntity) {
-      this._entity = entity;
-    }
-
-    abstract Update(): void;
-  }
-
   // #endregion
 
   // #region -- Scene --
