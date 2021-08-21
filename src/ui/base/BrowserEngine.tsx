@@ -17,9 +17,11 @@ export default function BrowserEngine(): ReactElement {
       </nav>
       <section className="w-full h-full grid" style={{ gridTemplateColumns: '1fr 14rem' }}>
         {renderElement && (<div className="bg-gray-600" id="scene" ref={renderElement} />)}
-       <TreeViewPanel />
+        <div className="grid grid-rows-2 gap-0 5">
+        <TreeViewPanel />
+        <Controls />
+        </div>
       </section>
-      {selectedEntity && <Controls />}
     </main>
   )
 }

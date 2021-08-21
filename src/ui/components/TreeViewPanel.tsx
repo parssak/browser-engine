@@ -29,6 +29,7 @@ export default function TreeViewPanel(): ReactElement {
 
   return (
     <div className="bg-red-500 p-1.5 space-y-1">
+      <h1 className="font-medium">Hierarchy</h1>
       {
         sceneConfig.entities.map(entity =>
           <TreeNode
