@@ -39,5 +39,7 @@ export default class Entity {
   Update() {
     // TODO: Implement
     console.debug('calling update on entity', this._id);
+    // TODO: If SceneManager.isRunning, call Update() for each component
+
   }
 }

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import SceneManager from "../../engine/core/SceneManager";
 import useScene from "../scene/useScene";
 import useScripts from "../scripts/useScripts";
@@ -8,15 +8,14 @@ const useEditor = () => {
   const { scripts } = useScripts();
   const { sceneConfig } = useScene();
   const { renderElement } = useContext(EditorContext);
+  const [isRunning, setIsRunning] = useState(SceneManager.isRunning);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => init(), [renderElement]);
 
   const init = () => {
     if (!renderElement || !renderElement.current) { return; }
-    console.debug('ran init!');
     SceneManager.Initialize(renderElement.current);
-    // Engine.Initialize(localConfig, renderElement);
   }
 
   const generateScenePayload = (): Engine.ScenePayload => {
@@ -28,20 +27,19 @@ const useEditor = () => {
     if (SceneManager.isRunning) {
       console.debug('stopping scene');
       SceneManager.Stop();
+      setIsRunning(false);
       return;
     }
     console.debug('Going to run scene...')
     const payload: Engine.ScenePayload = generateScenePayload();
     console.debug('Made payload:', payload)
-    SceneManager.Run(payload, renderElement.current);
+    SceneManager.Run(payload);
+    setIsRunning(true);
   };
-
-  // const isRunning = Engine.SceneManager.instance.isRunning;
-
 
   return {
     renderElement,
-    isRunning: SceneManager.isRunning,
+    isRunning,
     toggleRun
   };
 }

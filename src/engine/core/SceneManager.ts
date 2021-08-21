@@ -3,14 +3,14 @@ import CameraManager from "./CameraManager";
 import Entity from "./Entity";
 
 export default class SceneManager {
-  // TODO: Figure out which values can be made private
   public static instance: SceneManager;
-  static isRunning: boolean = false;
+  public static isRunning: boolean = false;
   
-  static _scene = new THREE.Scene();
+  private static _scene = new THREE.Scene();
+  private static _components: Record<Engine.ComponentType, Engine.Component> = {};
+  private static cameraManager: CameraManager = CameraManager.instance;
   private static _entities: Entity[] = [];
-  static _components: Record<Engine.ComponentType, Engine.Component> = {};
-  static cameraManager: CameraManager = CameraManager.instance;
+  private static _renderElement: HTMLElement;
 
   constructor() {
     if (SceneManager.instance) return;
@@ -31,6 +31,7 @@ export default class SceneManager {
     if (!this.cameraManager) {
       this.cameraManager = new CameraManager();
     }
+    this._renderElement = renderElement;
     this.cameraManager.setup(renderElement, this._scene);
   }
 
@@ -44,15 +45,26 @@ export default class SceneManager {
     // TODO: Implement this
   }
 
-  static Run(scenePayload: Engine.ScenePayload, renderElement: HTMLElement) {
+  static Run(scenePayload: Engine.ScenePayload) {
     // TODO: Implement this thoroughly
-    console.debug('called SceneManager.Run()', scenePayload, renderElement);
+    SceneManager.isRunning = true;
+    this.ResetScene();
     scenePayload.sceneConfig.entities.forEach(entityProps => {
       SceneManager.CreateEntity(entityProps);
     });
+    this.cameraManager.setup(this._renderElement, this._scene);
   }
 
   static Stop() {
-    // TODO: Implement this
+    SceneManager.isRunning = false;
+    this.ResetScene();
+    this.cameraManager.setup(this._renderElement, this._scene);
+  }
+
+  private static ResetScene() {
+    this._scene = new THREE.Scene();
+    this._entities = [];
+    this._components = {};
+    this.cameraManager.resetCamera();
   }
 }

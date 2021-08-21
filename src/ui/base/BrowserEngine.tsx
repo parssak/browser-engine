@@ -6,10 +6,11 @@ import TreeViewPanel from '../components/TreeViewPanel'
 
 export default function BrowserEngine(): ReactElement {
   const { createEntity, selectedEntity } = useScene()
-  const { renderElement,  toggleRun } = useEditor()
-
+  const { renderElement,  toggleRun, isRunning } = useEditor()
+  
   return (
     <main className="w-screen h-screen overflow-hidden">
+      <div className={`h-2 transition bg-red-200 ${isRunning && 'bg-green-200'}`}></div>
       <nav className="bg-gray-900 p-2 space-x-2">
         <button onClick={toggleRun} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">Run Scene</button>
         <button onClick={createEntity} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">Add Entity</button>

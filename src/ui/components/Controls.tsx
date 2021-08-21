@@ -5,38 +5,38 @@ import useScene from '../../state/scene/useScene';
 export default function Controls() {
   const { sceneConfig, selectedEntity } = useScene();
 
-  const entity = useMemo(() => {
-    const selected = sceneConfig.entities.flatMap(e => e.id === selectedEntity && e)
-    if (selected.length < 1) return null;
-    return selected[0] || null;
-  }, []);
+  // const entity = useMemo(() => {
+  //   const selected = sceneConfig.entities.flatMap(e => e.id === selectedEntity && e)
+  //   if (selected.length < 1) return null;
+  //   return selected[0] || null;
+  // }, []);
 
   // const [entity, setEntity] = useState<Entity>();
   // const createEntity = () => {
     // setEntity(new Agent());
   // }
 
-  const getControls: any = useCallback(() => {
-    if (!entity) return {};
-    // const props = entity.GetProps();
-    // const propControls: any = {};
-    // for (const prop of props) {
-    //   if (typeof prop[1] === 'object') {
-    //     propControls[prop[0]] = folder(getComponentProps(prop[0], prop[1]) as any);
-    //     continue;
-    //   }
-    //   propControls[prop[0]] = prop[1];
-    // }
-    // return propControls;
-  }, [entity]);
+  // const getControls: any = useCallback(() => {
+  //   // if (!entity) return {};
+  //   // const props = entity.GetProps();
+  //   // const propControls: any = {};
+  //   // for (const prop of props) {
+  //   //   if (typeof prop[1] === 'object') {
+  //   //     propControls[prop[0]] = folder(getComponentProps(prop[0], prop[1]) as any);
+  //   //     continue;
+  //   //   }
+  //   //   propControls[prop[0]] = prop[1];
+  //   // }
+  //   // return propControls;
+  // }, [entity]);
   
 
-  const controls = useControls(() => ({...getControls()}),  [entity]);
+  // const controls = useControls(() => ({...getControls()}),  [entity]);
   // useControls({ 'New Agent': button(createEntity) })
   
   const onInspectorValueChange = () => {
-    if (!entity) return;
-    const inspectorProps = Object.entries(controls[0]);
+    // if (!entity) return;
+    // const inspectorProps = Object.entries(controls[0]);
     // const entityProps = entity.GetProps();
     // for (const ep of entityProps) {
     //   if (typeof ep[1] === 'object') {
@@ -58,9 +58,9 @@ export default function Controls() {
     // }
   }
 
-  useEffect(() => {
-    onInspectorValueChange();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [controls]);
-  return <></>;
+  // useEffect(() => {
+  //   onInspectorValueChange();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [controls]);
+  return <>controls</>;
 }

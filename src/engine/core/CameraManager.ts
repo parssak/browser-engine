@@ -29,6 +29,10 @@ export default class CameraManager {
     this._runSceneLoop(scene);
   }
 
+  resetCamera() {
+    this.renderer.setAnimationLoop(null);
+  }
+
   private _setCamera() {
     if (!this.renderElement) {
       this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, this.near, this.far);

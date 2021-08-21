@@ -7,16 +7,18 @@ interface Props {
 
 function TreeNode({ entity }: Props): ReactElement {
   const { selectedEntity, selectEntity } = useScene();
-  const isSelected = selectedEntity === entity.id;
+  const isSelected = selectedEntity?.id === entity.id;
   return (
-    <div className={`
+    <div
+      className={`
     p-1
     rounded-md
     transition
     cursor-pointer
     hover:bg-red-400
     ${isSelected && 'bg-red-300'}`} onClick={() => isSelected ? selectEntity('') : selectEntity(entity.id)}>
-      {entity?.name ?? '__ENTITY__'}
+      <h1>{entity?.name ?? '__ENTITY__'}</h1>
+      {entity.children.map(child => <TreeNode key={child.id} entity={child}/>)}
     </div>
   )
 
