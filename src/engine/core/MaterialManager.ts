@@ -11,11 +11,11 @@ export default class MaterialManager {
   getMaterial(type: Engine.MaterialType): THREE.Material {
     switch (type) {
       case 'normal':
-        return new THREE.MeshNormalMaterial;
+        return new THREE.MeshNormalMaterial();
       case 'basic':
-        return new THREE.MeshBasicMaterial;
+        return new THREE.MeshBasicMaterial();
       default:
-        return new THREE.MeshBasicMaterial;
+        return new THREE.MeshBasicMaterial();
     }
   }
 }

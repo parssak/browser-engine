@@ -36,6 +36,8 @@ const useScene = () => {
     const newEntity: Engine.EntityProps = {
       id: uuidv4(),
       name: "New Entity",
+      geometry: 'box',
+      material: 'normal',
       children: [],
       components: {},
     }

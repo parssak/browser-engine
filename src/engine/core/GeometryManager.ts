@@ -11,10 +11,10 @@ export default class GeometryManager {
   getGeometry(type: Engine.MaterialType): THREE.BufferGeometry {
     switch (type) {
       case 'box':
-        return new THREE.BoxBufferGeometry;
+        return new THREE.BoxBufferGeometry();
       case 'sphere':
       default:
-        return new THREE.SphereBufferGeometry;
+        return new THREE.SphereBufferGeometry();
     }
   }
 }
