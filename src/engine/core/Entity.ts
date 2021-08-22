@@ -31,7 +31,6 @@ export default class Entity {
   }
 
   private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
-    console.debug('Called init components:', components);
     Object.entries(components).forEach(([type, props]) => {
       ComponentManager.instance.setComponent(this, type, props);
     })
@@ -51,11 +50,8 @@ export default class Entity {
   }
 
   Update() {
-    // TODO: Implement
-    console.debug('calling update on entity', this._id);
     // TODO: If SceneManager.isRunning, call Update() for each component
     if (context.isRunning()) {
-      console.debug('going to update entity components');
       this._updateComponents();
     }
   }

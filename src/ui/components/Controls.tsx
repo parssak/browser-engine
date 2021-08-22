@@ -37,7 +37,6 @@ export default function Controls() {
         const [propName, propValue] = Object.entries(props)[0];
         flattenedPropFields[getComponentPropName(type, propName)] = propValue;
       });
-      console.debug('setting', flattenedPropFields);
       set(flattenedPropFields);
     }
 
@@ -51,7 +50,6 @@ export default function Controls() {
       if (JSON.stringify(updatedComponents) !== JSON.stringify(entity.components)) {
         const newEntity = deepClone<Engine.EntityProps>(entity);
         newEntity.components = updatedComponents;
-        console.debug('about to call update entity');
         updateEntity(newEntity);
       }
     }

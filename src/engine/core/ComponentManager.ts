@@ -38,7 +38,6 @@ export default class ComponentManager {
         }
       }
     });
-    console.debug(componentProps);
     const componentInstance = new component();
     componentInstance.init(entity, componentProps);
     entity.components[componentType] = componentInstance;

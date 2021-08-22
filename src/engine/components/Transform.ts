@@ -16,7 +16,6 @@ export default class Transform extends Component {
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
 
   init(entity: Entity, props?: ITransformProps) {
-    console.debug('created new transform');
     this._entity = entity;
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;
