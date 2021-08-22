@@ -2,13 +2,14 @@ import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
 import SceneManager from './SceneManager';
 import Component from './Component';
+import ComponentManager from './ComponentManager';
 
 export default class Entity {
   public name: string = "";
   public mesh: THREE.Mesh;
   private _id;
   private children: Entity[] = [];
-  private components: Record<Engine.ComponentType, Component> = {};
+  components: Record<Engine.ComponentType, Component> = {};
 
   constructor(props: Engine.EntityProps) {
     const mat = props.material ?? new THREE.MeshBasicMaterial();
@@ -23,12 +24,14 @@ export default class Entity {
     // });
 
     // TODO: build components
-    this._initComponents(props.components);
+    // this._initComponents(props.components);
   }
 
   private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
     console.debug('Called init components:', components);
-    // this.components = {};
+    Object.entries(components).forEach(([type, props]) => {
+      ComponentManager.instance.setComponent(this, type, props);
+    })
   }
 
   addChild(child: Entity) {
@@ -48,6 +51,12 @@ export default class Entity {
     // TODO: Implement
     console.debug('calling update on entity', this._id);
     // TODO: If SceneManager.isRunning, call Update() for each component
+    if (SceneManager.isRunning) {
+      this._updateComponents();
+    }
+  }
 
+  private _updateComponents() {
+    Object.values(this.components).forEach((component) => component.Update())
   }
 }

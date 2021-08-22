@@ -41,7 +41,7 @@ export default class CameraManager {
   }
 
   private _runSceneLoop(scene: THREE.Scene) {
-    this.renderer.setAnimationLoop(time => this.Update(scene));
+    this.renderer.setAnimationLoop((time: number) => this.Update(scene));
   }
 
   private _setControls() {

@@ -38,9 +38,9 @@ export default class SceneManager {
   }
 
   static UpdateScene() {
-    // SceneManager._entities.forEach(entity => {
-    //   entity.Update();
-    // });
+    SceneManager._entities.forEach(entity => {
+      entity.Update();
+    });
   }
 
   static CreateComponent(type: Engine.ComponentType, componentProps: Engine.ComponentProps) {

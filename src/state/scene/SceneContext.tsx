@@ -49,9 +49,9 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
       children: [],
       components: {
         "transform": {
-          position: [0, 0, 0],
+          position: [3, 0, 0],
           rotation: [0, 0, 0],
-          scale: [0, 0, 0],
+          scale: [2, 1, 1],
         },
         // "custom_component_1": {
         //   speed: 12

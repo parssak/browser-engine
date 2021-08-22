@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import Transform from "../components/Transform";
 import Component, { BaseComponentType } from "./Component";
 import Entity from "./Entity";
@@ -20,9 +21,26 @@ export default class ComponentManager {
   }
 
   public setComponent(entity: Entity, componentType: Engine.ComponentType, componentProps: Engine.ComponentProps): void {
-    // TODO: Implement
-    // log all params
-    console.debug(`setComponent(${entity}, ${componentType}, ${componentProps})`);
-    
+    const component = this.getComponent(componentType);
+    if (!component) {
+      console.error(`Component ${componentType} not found`);
+      return;
+    }
+  
+    // Translate vector props 
+    Object.entries(componentProps).forEach(([name, prop]) => {
+      if (Array.isArray(prop)) {
+        if (prop.length === 3) {
+          componentProps[name] = new THREE.Vector3(prop[0], prop[1], prop[2]) as any;
+        }
+        else if (prop.length === 2) {
+          componentProps[name] = new THREE.Vector2(prop[0], prop[1]) as any;
+        }
+      }
+    });
+    console.debug(componentProps);
+    const componentInstance = new component();
+    componentInstance.init(entity, componentProps);
+    entity.components[componentType] = componentInstance;
   }
 }
