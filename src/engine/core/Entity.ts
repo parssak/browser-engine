@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as THREE from 'three';
-import SceneManager from './SceneManager';
 import Component from './Component';
 import ComponentManager from './ComponentManager';
 import context from './EngineContext';
