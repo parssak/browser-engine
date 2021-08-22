@@ -20,14 +20,16 @@ declare namespace Engine {
 
   // #region -- Entity -- 
   type EntityID = string;
+  type GeometryType = 'box' | 'sphere' | string;
+  type MaterialType = 'basic' | 'normal' | string;
 
   interface EntityProps {
     id: EntityID;
     name: string;
     children: EntityID[];
     components: Record<ComponentType, ComponentProps>;
-    geometry?: THREE.BufferGeometry;
-    material?: THREE.Material;
+    geometry: GeometryType;
+    material: MaterialType;
   }
   // #endregion
 

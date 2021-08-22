@@ -4,6 +4,8 @@ import SceneManager from './SceneManager';
 import Component from './Component';
 import ComponentManager from './ComponentManager';
 import context from './EngineContext';
+import MaterialManager from './MaterialManager';
+import GeometryManager from './GeometryManager';
 
 export default class Entity {
   public name: string = "";
@@ -13,8 +15,8 @@ export default class Entity {
   components: Record<Engine.ComponentType, Component> = {};
 
   constructor(props: Engine.EntityProps) {
-    const mat = props.material ?? new THREE.MeshBasicMaterial();
-    const geometry = props.geometry ?? new THREE.BoxBufferGeometry();
+    const mat = MaterialManager.instance.getMaterial(props.material);
+    const geometry = GeometryManager.instance.getGeometry(props.geometry);
     this.mesh = new THREE.Mesh(geometry, mat);
     this._id = props.id;
 
@@ -25,7 +27,7 @@ export default class Entity {
     // });
 
     // TODO: build components
-    this._initComponents(props.components);
+    // this._initComponents(props.components);
   }
 
   private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
