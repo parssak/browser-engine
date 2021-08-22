@@ -51,6 +51,7 @@ export default function Controls() {
       if (JSON.stringify(updatedComponents) !== JSON.stringify(entity.components)) {
         const newEntity = deepClone<Engine.EntityProps>(entity);
         newEntity.components = updatedComponents;
+        console.debug('about to call update entity');
         updateEntity(newEntity);
       }
     }

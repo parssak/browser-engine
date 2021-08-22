@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import SceneManager from './SceneManager';
 import Component from './Component';
 import ComponentManager from './ComponentManager';
+import context from './EngineContext';
 
 export default class Entity {
   public name: string = "";
@@ -24,7 +25,7 @@ export default class Entity {
     // });
 
     // TODO: build components
-    // this._initComponents(props.components);
+    this._initComponents(props.components);
   }
 
   private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
@@ -51,7 +52,8 @@ export default class Entity {
     // TODO: Implement
     console.debug('calling update on entity', this._id);
     // TODO: If SceneManager.isRunning, call Update() for each component
-    if (SceneManager.isRunning) {
+    if (context.isRunning()) {
+      console.debug('going to update entity components');
       this._updateComponents();
     }
   }

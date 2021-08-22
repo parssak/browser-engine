@@ -24,6 +24,7 @@ export default class Transform extends Component {
   }
 
   Update() {
+    console.debug('called update for transform');
     if (!this._entity) return;
     console.debug('transform update');
     // Position

@@ -66,6 +66,6 @@ export default class CameraManager {
   Update(scene: THREE.Scene) {
     this.controls.update();
     this.renderer.render(scene, this.camera);
-    SceneManager.UpdateScene();
+    SceneManager.instance.updateScene();
   }
 }
