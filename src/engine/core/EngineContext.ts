@@ -20,9 +20,10 @@ class EngineContext {
     this.geometryManager = new GeometryManager();
   }
 
-  init(renderElement: HTMLElement) {
+  init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
     this._renderElement = renderElement;
-    this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
+    if (payload) this.updateScenePayload(payload);
+    this.runEditMode();
   }
 
   runPlayMode() {

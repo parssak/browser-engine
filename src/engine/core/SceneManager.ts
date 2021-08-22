@@ -58,6 +58,7 @@ export default class SceneManager {
   }
 
   private buildEntities() {
+    console.debug('scene payload is', this._scenePayload);
     if (!this._scenePayload) return;
     this._scenePayload.sceneConfig.entities.forEach(entityProps => {
       this.createEntity(entityProps);

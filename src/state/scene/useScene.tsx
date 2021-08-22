@@ -24,7 +24,6 @@ const useScene = () => {
     };
     sceneConfig.entities[index] = entity;
     setEntities(sceneConfig.entities);
-    // TODO: Make sure actual scene updates when doing this
   }
 
   const updateEntityParent = (child: Engine.EntityID, newParent: Engine.EntityID | null) => {

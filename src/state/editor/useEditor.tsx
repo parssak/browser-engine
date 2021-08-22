@@ -11,15 +11,15 @@ const useEditor = () => {
   const { renderElement } = useContext(EditorContext);
   const [isRunning, setIsRunning] = useState(context.isPlaying());
 
+  const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => init(), [renderElement]);
+  useEffect(() => init(), [renderElement, sceneConfig]);
 
   const init = () => {
-    if (!renderElement || !renderElement.current) { return; }
-    context.init(renderElement.current);
+    if (!renderElement || !renderElement.current || !scenePayload) { return; }
+    context.init(renderElement.current, scenePayload);
   }
-
-  const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
 
   useEffect(() => {
     console.debug('updating scene payload', scenePayload);

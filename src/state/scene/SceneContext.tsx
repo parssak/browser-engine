@@ -59,7 +59,12 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
   ])
   const [selectedEntityID, setSelectedEntityID] = useState<string | null>(null);
 
-  const sceneConfig = useMemo(() => ({ entities, camera: cameraProps }), [entities, cameraProps]);
+  const sceneConfig = useMemo(() => (
+    {
+      entities,
+      camera: cameraProps
+    }
+  ), [entities, cameraProps]);
 
   const contextValue = {
     sceneConfig,
