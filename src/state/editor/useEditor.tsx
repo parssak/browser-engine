@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import context from "../../engine/core/EngineContext";
 import SceneManager from "../../engine/core/SceneManager";
 import useScene from "../scene/useScene";
@@ -19,9 +19,12 @@ const useEditor = () => {
     context.init(renderElement.current);
   }
 
-  const generateScenePayload = (): Engine.ScenePayload => {
-    return { sceneConfig, scripts }
-  }
+  const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
+
+  useEffect(() => {
+    console.debug('updating scene payload', scenePayload);
+    context.updateScenePayload(scenePayload);
+  }, [scenePayload])
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) { return; }
@@ -30,8 +33,7 @@ const useEditor = () => {
       setIsRunning(false);
       return;
     }
-    const payload: Engine.ScenePayload = generateScenePayload();
-    context.runPlayMode(payload);
+    context.runPlayMode();
     setIsRunning(true);
   };
 

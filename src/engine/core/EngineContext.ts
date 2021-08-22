@@ -25,14 +25,18 @@ class EngineContext {
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
-  runPlayMode(scenePayload: Engine.ScenePayload) {
-    this.sceneManager.runPlayScene(scenePayload);
+  runPlayMode() {
+    this.sceneManager.runPlayScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
   runEditMode() {
     this.sceneManager.runEditScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
+  }
+
+  updateScenePayload(payload: Engine.ScenePayload) {
+    this.sceneManager.setScenePayload(payload);
   }
 
   isPlaying(): boolean {
