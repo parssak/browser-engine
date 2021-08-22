@@ -25,20 +25,19 @@ class EngineContext {
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
-  run(scenePayload: Engine.ScenePayload) {
-    this.sceneManager.runScene(scenePayload);
+  runPlayMode(scenePayload: Engine.ScenePayload) {
+    this.sceneManager.runPlayScene(scenePayload);
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
-  stop() {
-    this.sceneManager.stopScene();
+  runEditMode() {
+    this.sceneManager.runEditScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
-  isRunning(): boolean {
-    return this.sceneManager.isRunning ?? false
+  isPlaying(): boolean {
+    return this.sceneManager.isPlaying ?? false
   }
-
 }
 
 const context = new EngineContext();

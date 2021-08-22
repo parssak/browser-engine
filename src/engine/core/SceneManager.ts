@@ -3,7 +3,7 @@ import Entity from "./Entity";
 
 export default class SceneManager {
   public static instance: SceneManager;
-  public isRunning: boolean = false;
+  public isPlaying: boolean = false; // If true, in play mode, else in edit mode
   private _scene = new THREE.Scene();
   private _entities: Entity[] = [];
   private _sceneConfig: Engine.SceneConfig | undefined;
@@ -29,19 +29,19 @@ export default class SceneManager {
 
   updateScene() {
     this._entities.forEach(entity => {
-      entity.Update();
+      entity.update();
     });
   }
 
-  runScene(scenePayload: Engine.ScenePayload) {
-    this.isRunning = true;
+  runPlayScene(scenePayload: Engine.ScenePayload) {
+    this.isPlaying = true;
     this.resetScene();
     this._sceneConfig = scenePayload.sceneConfig;
     this.buildEntities();
   }
   
-  stopScene() {
-    this.isRunning = false;
+  runEditScene() {
+    this.isPlaying = false;
     this.resetScene();
     this.buildEntities();
   }

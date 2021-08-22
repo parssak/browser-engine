@@ -9,7 +9,7 @@ const useEditor = () => {
   const { scripts } = useScripts();
   const { sceneConfig } = useScene();
   const { renderElement } = useContext(EditorContext);
-  const [isRunning, setIsRunning] = useState(context.isRunning());
+  const [isRunning, setIsRunning] = useState(context.isPlaying());
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => init(), [renderElement]);
@@ -25,13 +25,13 @@ const useEditor = () => {
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) { return; }
-    if (SceneManager.instance.isRunning) {
-      context.stop();
+    if (SceneManager.instance.isPlaying) {
+      context.runEditMode();
       setIsRunning(false);
       return;
     }
     const payload: Engine.ScenePayload = generateScenePayload();
-    context.run(payload);
+    context.runPlayMode(payload);
     setIsRunning(true);
   };
 

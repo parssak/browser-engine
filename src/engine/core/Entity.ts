@@ -52,9 +52,9 @@ export default class Entity {
     // TODO: Implement
   }
 
-  Update() {
+  update() {
     // TODO: If SceneManager.isRunning, call Update() for each component
-    if (context.isRunning()) {
+    if (context.isPlaying()) {
       this._updateComponents();
     }
   }
