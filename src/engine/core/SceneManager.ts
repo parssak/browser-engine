@@ -6,7 +6,7 @@ export default class SceneManager {
   public isRunning: boolean = false;
   private _scene = new THREE.Scene();
   private _entities: Entity[] = [];
-  private _sceneConfig!: Engine.SceneConfig;
+  private _sceneConfig: Engine.SceneConfig | undefined;
 
   constructor() {
     if (SceneManager.instance) { return; }
@@ -55,6 +55,7 @@ export default class SceneManager {
   }
 
   private buildEntities() {
+    if (!this._sceneConfig) return;
     this._sceneConfig.entities.forEach(entityProps => {
       this.createEntity(entityProps);
     });
