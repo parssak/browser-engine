@@ -1,10 +1,11 @@
-import { useContext, useMemo} from "react";
+import { useContext, useEffect, useMemo} from "react";
 import { SceneContext } from "./SceneContext";
 import { v4 as uuidv4 } from 'uuid'
 
 const useScene = () => {
   const { sceneConfig, setEntities, selectedEntityID, setSelectedEntityID } = useContext(SceneContext);
 
+  useEffect(() => console.debug('updated config!'), [sceneConfig])
   const selectEntity = (id: Engine.EntityID) => {
     if (id === selectedEntityID) {
       setSelectedEntityID('')
@@ -23,12 +24,14 @@ const useScene = () => {
       console.error("Couldn't find " + entity.id + " in sceneConfig.entities");
     };
     sceneConfig.entities[index] = entity;
-    setEntities(sceneConfig.entities);
+    setEntities([...sceneConfig.entities]);
   }
 
   const updateEntityParent = (child: Engine.EntityID, newParent: Engine.EntityID | null) => {
     // TODO: Implement this
   }
+
+  
 
   const createEntity = () => {
     const newEntity: Engine.EntityProps = {

@@ -22,7 +22,6 @@ const useEditor = () => {
   }
 
   useEffect(() => {
-    console.debug('updating scene payload', scenePayload);
     context.updateScenePayload(scenePayload);
   }, [scenePayload])
 
