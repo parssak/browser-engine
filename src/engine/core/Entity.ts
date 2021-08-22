@@ -27,7 +27,7 @@ export default class Entity {
     // });
 
     // TODO: build components
-    // this._initComponents(props.components);
+    this._initComponents(props.components);
   }
 
   private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
