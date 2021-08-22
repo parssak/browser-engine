@@ -48,6 +48,10 @@ export default class Entity {
     return {};
   }
 
+  destroy() {
+    // TODO: Implement
+  }
+
   Update() {
     // TODO: If SceneManager.isRunning, call Update() for each component
     if (context.isRunning()) {

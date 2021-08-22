@@ -6,11 +6,11 @@ export default class SceneManager {
   public isRunning: boolean = false;
   private _scene = new THREE.Scene();
   private _entities: Entity[] = [];
+  private _sceneConfig!: Engine.SceneConfig;
 
   constructor() {
-    if (!SceneManager.instance) {
-      SceneManager.instance = this;
-    }
+    if (SceneManager.instance) { return; }
+    SceneManager.instance = this;
   }
 
   getScene(): THREE.Scene {
@@ -34,21 +34,29 @@ export default class SceneManager {
   }
 
   runScene(scenePayload: Engine.ScenePayload) {
-    // TODO: Implement this thoroughly
     this.isRunning = true;
     this.resetScene();
-    scenePayload.sceneConfig.entities.forEach(entityProps => {
-      this.createEntity(entityProps);
-    });
+    this._sceneConfig = scenePayload.sceneConfig;
+    this.buildEntities();
   }
-
+  
   stopScene() {
     this.isRunning = false;
     this.resetScene();
+    this.buildEntities();
   }
 
-  resetScene() {
+  private resetScene() {
     this._scene = new THREE.Scene();
+    this._entities.forEach(entity => {
+      entity.destroy();
+    });
     this._entities = [];
+  }
+
+  private buildEntities() {
+    this._sceneConfig.entities.forEach(entityProps => {
+      this.createEntity(entityProps);
+    });
   }
 }
