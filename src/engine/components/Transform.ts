@@ -24,14 +24,12 @@ export default class Transform extends Component {
   }
 
   Update() {
-    console.debug('called update for transform');
     if (!this._entity) return;
-    console.debug('transform update');
     // Position
     this._entity.mesh.position.setX(this.position.x);
     this._entity.mesh.position.setY(this.position.y);
     this._entity.mesh.position.setZ(this.position.z);
-
+    
     // Rotation
     // this._entity.mesh.rotation.x = this.rotation.x;
     // this._entity.mesh.rotation.y = this.rotation.y;
