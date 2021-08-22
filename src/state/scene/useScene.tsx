@@ -14,6 +14,7 @@ const useScene = () => {
   };
 
   const selectedEntity: Engine.EntityProps | null = useMemo(() => {
+    console.debug('computing selected entity', sceneConfig.entities);
     return sceneConfig.entities.find(e => e.id === selectedEntityID) ?? null;
   }, [sceneConfig, selectedEntityID]);
 
@@ -38,7 +39,13 @@ const useScene = () => {
       geometry: 'box',
       material: 'normal',
       children: [],
-      components: {},
+      components: {
+        transform: {
+          position: [0,0,0],
+          rotation: [0,0,0],
+          scale: [1,1,1],
+        }
+      },
     }
     setEntities([...sceneConfig.entities, newEntity]);
   }

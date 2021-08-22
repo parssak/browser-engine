@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 import { createContext } from 'react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -74,9 +74,10 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
     // }
   ])
   const [selectedEntityID, setSelectedEntityID] = useState<string | null>(null);
+  const sceneConfig = useMemo(() => ({ entities, camera: cameraProps }), [entities, cameraProps]);
 
   const contextValue = {
-    sceneConfig: { entities, camera: cameraProps },
+    sceneConfig,
     setEntities,
     setCameraProps,
     selectedEntityID,

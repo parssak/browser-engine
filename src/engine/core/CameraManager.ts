@@ -50,7 +50,7 @@ export default class CameraManager {
     this.controls.autoRotate = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.39;
-    this.camera.position.z = 200;
+    this.camera.position.z = 50;
 
     this.controls.update();
   }
