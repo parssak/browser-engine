@@ -20,7 +20,6 @@ const useScene = () => {
   }, [sceneConfig, selectedEntityID]);
 
 
-  useEffect(() => console.debug('REBUILD ENTITY CONTROLS'), [sceneConfig]);
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex(e => e.id === entity.id);
     if (index === -1) {
@@ -43,9 +42,9 @@ const useScene = () => {
       children: [],
       components: {
         transform: {
-          position: [0,0,0],
-          rotation: [0,0,0],
-          scale: [1,1,1],
+          position: {x: 0, y: 0, z: 0},
+          rotation: { x: 0, y: 0, z: 0 },
+          scale: { x: 1, y: 1, z: 1 },
         }
       },
     }

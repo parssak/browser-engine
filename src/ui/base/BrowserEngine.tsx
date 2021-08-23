@@ -5,7 +5,7 @@ import Controls from '../components/Controls'
 import TreeViewPanel from '../components/TreeViewPanel'
 
 export default function BrowserEngine(): ReactElement {
-  const { createEntity } = useScene()
+  const { createEntity, selectedEntity } = useScene()
   const { renderElement, toggleRun, isRunning } = useEditor()
 
   return (
@@ -20,7 +20,7 @@ export default function BrowserEngine(): ReactElement {
         <div className="grid grid-rows-3 gap-0 5">
           <TreeViewPanel />
           <div className="row-span-2">
-            <Controls />
+            <Controls key={selectedEntity?.id ?? 'controls'} />
           </div>
         </div>
       </section>

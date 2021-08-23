@@ -1,15 +1,68 @@
 import { folder, Leva, useControls } from 'leva'
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { generateComponentObjectFromValues } from '../../state/scene/scene.utils';
 import useScene from '../../state/scene/useScene';
+
+interface ComponentFieldValueProps {
+  field: Engine.ComponentPropType;
+}
+
+const ComponentFieldValue = ({ field }: ComponentFieldValueProps): React.ReactElement => {
+  if (typeof field === 'string') return (<div>string field</div>);
+  if (typeof field === 'number') return (<div>number field</div>);
+  if (Array.isArray(field)) return (<div>array field</div>);
+  return (
+    <div className="bg-gray-700 text-white grid grid-cols-3 gap-5 px-4 w-full">
+      <div>
+        <span className="pr-2 text-sm text-gray-400">x:</span>
+        {<span>{field?.x ?? 0}</span>}
+      </div>
+      <div>
+        <span className="pr-2 text-sm text-gray-400">y:</span>
+        {<span>{field?.y ?? 0}</span>}
+      </div>
+      <div>
+        <span className="pr-2 text-sm text-gray-400">z:</span>
+        {<span>{field?.z ?? 0}</span>}
+      </div>
+    </div>
+  )
+}
+
+interface ComponentNodeProps {
+  componentType: Engine.ComponentType;
+  componentProps: Engine.ComponentProps;
+}
+
+const ComponentNode = ({
+  componentType,
+  componentProps,
+}: ComponentNodeProps): React.ReactElement => {
+
+  return (
+    <div className="bg-gray-500 p-1 rounded-md">
+      <h3 className="font-semibold">{componentType}</h3>
+      {
+        Object.entries(componentProps).map(([fieldName, fieldValue]) => (
+          <div key={fieldName} className="flex space-x-2">
+            <p className="text-sm" style={{ minWidth: '7ch' }}>{fieldName}</p>
+            <ComponentFieldValue field={fieldValue} />
+          </div>
+        ))
+      }
+    </div>
+  )
+}
 
 export default function Controls() {
   const { selectedEntity, updateEntity, sceneConfig } = useScene();
 
   // utils
-  const getComponentPropName = (type: Engine.ComponentType, propName: string): Engine.CombinedComponentPropName => `${type}--${propName}`
+  // const getComponentPropName = (type: Engine.ComponentType, propName: string): Engine.CombinedComponentPropName => `${type}--${propName}`
 
   const getControls = () => {
+    console.debug('getControls()');
     if (!selectedEntity) return {};
 
     const { components } = selectedEntity;
@@ -18,7 +71,7 @@ export default function Controls() {
       const folderValue =
         Object.fromEntries(
           Object.entries(props)
-            .map(([propName, propValue]) => [getComponentPropName(type, propName), { value: propValue, label: propName }]
+            .map(([propName, propValue]) => [propName, { value: propValue }]
             )
         );
       return [type, folder(folderValue as any)]
@@ -26,29 +79,28 @@ export default function Controls() {
     return Object.fromEntries(componentControls);
   }
 
-  const [values, set]: any = useControls(getControls as any, [selectedEntity, sceneConfig]);
+  const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
 
-  // Handles populating all correct value fields when selecting entity
+
+
   useEffect(() => {
+    // * Handles populating all correct value fields when selecting entity
     const updateComponentFields = (entity: Engine.EntityProps) => {
-      const flattenedPropFields: Record<string, Engine.ComponentPropType> = {};
+      const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {};
       Object.entries(entity.components).forEach(([type, props]) => {
-        const [propName, propValue] = Object.entries(props)[0];
-        flattenedPropFields[getComponentPropName(type, propName)] = propValue;
+        propFields[type] = props;
       });
-      // TODO: Fix why fields aren't resetting
-      console.debug(flattenedPropFields);
-      set(flattenedPropFields);
+      console.debug('setting', propFields);
+      setControls({ ...propFields } as any);
     }
 
     if (selectedEntity) updateComponentFields(selectedEntity);
-  }, [selectedEntity, set])
+  }, [selectedEntity]);
 
-
-  // Handles updating the entity when a field is changed
+  // Handles updating the entity when pressing save
   const saveEntityChanges = () => {
     if (!selectedEntity) return;
-    const updatedComponents = generateComponentObjectFromValues(values);
+    const updatedComponents = generateComponentObjectFromValues(controls);
     selectedEntity.components = updatedComponents;
     updateEntity({ ...selectedEntity });
   }
@@ -58,15 +110,18 @@ export default function Controls() {
     // TODO: make this feature fledged later
     const newComponentName = 'mover';
     const newComponentProps: Engine.ComponentProps = {
-        'speed': 1
-      }
+      'speed': 1
+    }
     selectedEntity.components[newComponentName] = newComponentProps;
     updateEntity(selectedEntity);
   }
 
   return (
     <div className="bg-indigo-500 h-full flex flex-col space-y-1">
-      <Leva fill flat titleBar={false} />
+      {
+        Object.entries(controls).map(([type, props]) => <ComponentNode componentType={type} componentProps={props} key={type} />)
+      }
+      {/* <Leva fill flat titleBar={false} /> */}
       {
         selectedEntity && (
           <div className="space-y-1">
