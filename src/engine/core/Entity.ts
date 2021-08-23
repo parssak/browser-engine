@@ -23,7 +23,7 @@ export default class Entity {
     const mat = MaterialManager.instance.getMaterial(props.material);
     const geometry = GeometryManager.instance.getGeometry(props.geometry);
     this.mesh = new THREE.Mesh(geometry, mat);
-
+    console.debug('called init');
     // TODO: New approach to creating children in SceneManager.
     // props.children.forEach(entityProps => {
     //   const child: Entity = SceneManager.CreateEntity(entityProps, this);

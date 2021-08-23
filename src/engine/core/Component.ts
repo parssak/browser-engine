@@ -1,10 +1,13 @@
 import Entity from "./Entity";
 
 export default abstract class Component {
-  _entity!: Entity;
+  _entity: Entity;
 
-  init(entity: Entity, props: Engine.ComponentProps) {
+  constructor(entity: Entity) {
     this._entity = entity;
+  }
+
+  init(props: Engine.ComponentProps) {
   }
 
   abstract update(): void;
@@ -15,9 +18,7 @@ export default abstract class Component {
 class BaseComponent extends Component {
   _entity!: Entity;
 
-  init(entity: Entity, props: Engine.ComponentProps) {
-    this._entity = entity;
-  }
+  init(props: Engine.ComponentProps) { }
 
   update() { }
 }

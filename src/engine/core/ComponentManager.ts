@@ -40,8 +40,8 @@ export default class ComponentManager {
         }
       }
     });
-    const componentInstance = new component();
-    componentInstance.init(entity, componentProps);
+    const componentInstance = new component(entity);
+    componentInstance.init(componentProps);
     entity.components[componentType] = componentInstance;
   }
 }

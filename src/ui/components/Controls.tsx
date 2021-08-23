@@ -4,13 +4,14 @@ import { generateComponentObjectFromValues } from '../../state/scene/scene.utils
 import useScene from '../../state/scene/useScene';
 
 export default function Controls() {
-  const { selectedEntity, updateEntity } = useScene();
+  const { selectedEntity, updateEntity, sceneConfig } = useScene();
 
   // utils
   const getComponentPropName = (type: Engine.ComponentType, propName: string): Engine.CombinedComponentPropName => `${type}--${propName}`
 
   const getControls = () => {
     if (!selectedEntity) return {};
+
     const { components } = selectedEntity;
 
     const componentControls = Object.entries(components).map(([type, props]) => {
@@ -25,7 +26,7 @@ export default function Controls() {
     return Object.fromEntries(componentControls);
   }
 
-  const [values, set]: any = useControls(getControls as any, [selectedEntity]);
+  const [values, set]: any = useControls(getControls as any, [selectedEntity, sceneConfig]);
 
   // Handles populating all correct value fields when selecting entity
   useEffect(() => {
@@ -35,18 +36,20 @@ export default function Controls() {
         const [propName, propValue] = Object.entries(props)[0];
         flattenedPropFields[getComponentPropName(type, propName)] = propValue;
       });
-      set(flattenedPropFields);
+      console.debug(flattenedPropFields);
+      // set(flattenedPropFields);
     }
 
     if (selectedEntity) updateComponentFields(selectedEntity);
-  }, [selectedEntity, set])
+  }, [selectedEntity, set, sceneConfig])
+
 
   // Handles updating the entity when a field is changed
   const saveEntityChanges = () => {
     if (!selectedEntity) return;
     const updatedComponents = generateComponentObjectFromValues(values);
     selectedEntity.components = updatedComponents;
-    updateEntity(selectedEntity);
+    updateEntity({ ...selectedEntity });
   }
 
   const addComponent = () => {
@@ -54,7 +57,7 @@ export default function Controls() {
     // TODO: make this feature fledged later
     const newComponentName = 'mover';
     const newComponentProps: Engine.ComponentProps = {
-        'speed': 12
+        'speed': 1
       }
     selectedEntity.components[newComponentName] = newComponentProps;
     updateEntity(selectedEntity);

@@ -14,9 +14,14 @@ export default class Transform extends Component {
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
-  
-  init(entity: Entity, props?: ITransformProps) {
+
+  constructor(entity: Entity) {
+    super(entity);
     this._entity = entity;
+  }
+
+  init(props?: ITransformProps) {
+    console.debug('called init on transform');
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;
     this.scale = props?.scale ?? this.scale;
@@ -40,6 +45,8 @@ export default class Transform extends Component {
   }
 
   private applyMatrix() {
+    console.debug('applying matrix');
+    if (!this._entity){ return; }
     this.applyPosition();
     this.applyPosition();
     this.applyScale();

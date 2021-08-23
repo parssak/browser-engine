@@ -16,10 +16,11 @@ const useScene = () => {
   };
 
   const selectedEntity: Engine.EntityProps | null = useMemo(() => {
-    console.debug('selected entity');
     return sceneConfig.entities.find(e => e.id === selectedEntityID) ?? null;
   }, [sceneConfig, selectedEntityID]);
 
+
+  useEffect(() => console.debug('REBUILD ENTITY CONTROLS'), [sceneConfig]);
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex(e => e.id === entity.id);
     if (index === -1) {
