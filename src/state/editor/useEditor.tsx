@@ -27,8 +27,7 @@ const useEditor = () => {
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) { return; }
-    if (SceneManager.instance.isPlaying) {
-      // context.runEditMode();
+    if (SceneManager.isPlaying()) {
       setIsRunning(false);
       return;
     }

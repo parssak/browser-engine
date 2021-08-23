@@ -17,7 +17,6 @@ export default class Transform extends Component {
 
   private dir: number = -1;
   init(entity: Entity, props?: ITransformProps) {
-    console.debug('called init() transform');
     this._entity = entity;
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;

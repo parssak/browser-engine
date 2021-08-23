@@ -21,7 +21,6 @@ class EngineContext {
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
-    console.debug('called init');
     this._renderElement = renderElement;
     if (payload) this.updateScenePayload(payload);
     this.runEditMode();
@@ -33,7 +32,6 @@ class EngineContext {
   }
 
   runEditMode() {
-    console.debug('ran run edit mode');
     this.sceneManager.runEditScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
@@ -55,7 +53,7 @@ class EngineContext {
   }
 
   isPlaying(): boolean {
-    return this.sceneManager.isPlaying ?? false
+    return SceneManager.isPlaying() ?? false
   }
 }
 

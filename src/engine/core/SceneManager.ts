@@ -3,7 +3,7 @@ import Entity from "./Entity";
 
 export default class SceneManager {
   public static instance: SceneManager;
-  public isPlaying: boolean = false; // If true, in play mode, else in edit mode
+  private isPlaying: boolean = false; // If true, in play mode, else in edit mode
   private _scene = new THREE.Scene();
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
@@ -11,6 +11,10 @@ export default class SceneManager {
   constructor() {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
+  }
+
+  static isPlaying() {
+    return SceneManager.instance.isPlaying;
   }
 
   getScene(): THREE.Scene {

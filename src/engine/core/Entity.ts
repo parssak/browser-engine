@@ -5,6 +5,7 @@ import ComponentManager from './ComponentManager';
 import context from './EngineContext';
 import MaterialManager from './MaterialManager';
 import GeometryManager from './GeometryManager';
+import SceneManager from './SceneManager';
 
 export default class Entity {
   public name: string = "";
@@ -57,10 +58,9 @@ export default class Entity {
   }
 
   update() {
-    // TODO: If SceneManager.isRunning, call Update() for each component
-    this._updateComponents();
-    // if (context.isPlaying()) {
-    // }
+    if (SceneManager.isPlaying()) {
+      this._updateComponents();
+    }
   }
 
   private _updateComponents() {
