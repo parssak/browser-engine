@@ -49,6 +49,9 @@ class EngineContext {
 
   addNewEntity(entity: Engine.EntityProps) {
     // todo
+    console.debug('(Engine): Added New Entity');
+    this.sceneManager.buildEntity(entity);
+
   }
 
   isPlaying(): boolean {

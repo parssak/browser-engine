@@ -48,7 +48,7 @@ const useScene = () => {
       },
     }
     setEntities([...sceneConfig.entities, newEntity]);
-    
+    context.addNewEntity(newEntity);
   }
 
   return {
