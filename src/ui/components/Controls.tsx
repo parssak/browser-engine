@@ -9,12 +9,29 @@ interface ComponentFieldValueProps {
 }
 
 const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): React.ReactElement => {
+
+  const handleUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (typeof field === 'number') {
+      // if (Number.isNaN(Number(e.target.value))) {
+        // return;
+      // }
+      updateField(Number(e.target.value));
+      // todo
+      return;
+    }
+
+    if (typeof field === 'string') {
+      updateField(e.target.value);
+    }
+  }
+
+
   if (typeof field === 'number' || typeof field === 'string') return (
     <div className="bg-gray-700 text-white px-1  w-max">
       <input
         type={typeof field === 'string' ? 'string' : 'number'}
-        value={field}
-        onChange={e => updateField(e.target.value)}
+        value={typeof field === 'number' ? field : field}
+        onChange={handleUpdateField}
         className="bg-gray-700 w-min"
       />
     </div>
@@ -26,15 +43,15 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
     <div className="bg-gray-700 text-white px-1 grid grid-cols-3 gap-5">
       <div>
         <span className="pr-2 text-sm text-gray-400">x:</span>
-        {<span>{field?.x ?? 0}</span>}
+        {<span>{field?.x.toFixed(1) ?? 0}</span>}
       </div>
       <div>
         <span className="pr-2 text-sm text-gray-400">y:</span>
-        {<span>{field?.y ?? 0}</span>}
+        {<span>{field?.y.toFixed(1) ?? 0}</span>}
       </div>
       <div>
         <span className="pr-2 text-sm text-gray-400">z:</span>
-        {<span>{field?.z ?? 0}</span>}
+        {<span>{field?.z?.toFixed(1) ?? 0}</span>}
       </div>
     </div>
   )
@@ -108,12 +125,12 @@ export default function Controls() {
   }, [selectedEntity, sceneConfig]);
 
   // Handles updating the entity when pressing save
-  const saveEntityChanges = () => {
-    if (!selectedEntity) return;
-    const updatedComponents = generateComponentObjectFromValues(controls);
-    selectedEntity.components = updatedComponents;
-    updateEntity({ ...selectedEntity });
-  }
+  // const saveEntityChanges = () => {
+  //   if (!selectedEntity) return;
+  //   const updatedComponents = generateComponentObjectFromValues(controls);
+  //   selectedEntity.components = updatedComponents;
+  //   updateEntity({ ...selectedEntity });
+  // }
 
   const addComponent = () => {
     if (!selectedEntity) return;
@@ -127,7 +144,11 @@ export default function Controls() {
   }
 
   const updateComponent = (type: Engine.ComponentType, field: string, value: Engine.ComponentPropType) => {
-    
+    console.debug(type, field, value, controls);
+    const newControls = { ...controls };
+    newControls[type][field] = value;
+    console.debug('new controls', newControls);
+    setControls(newControls);
   }
 
   return (
@@ -149,10 +170,10 @@ export default function Controls() {
               className="block mx-auto mt-12 py-2 px-4 md:w-48  rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
               onClick={addComponent}>Add component
             </button>
-            <button
+            {/* <button
               className="block mx-auto mt-12 py-2 px-4 md:w-48 rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
               onClick={saveEntityChanges}>Save Changes
-            </button>
+            </button> */}
           </div>
         )
       }
