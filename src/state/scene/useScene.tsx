@@ -1,11 +1,12 @@
 import { useContext, useEffect, useMemo} from "react";
 import { SceneContext } from "./SceneContext";
 import { v4 as uuidv4 } from 'uuid'
+import context from "../../engine/core/EngineContext";
 
 const useScene = () => {
   const { sceneConfig, setEntities, selectedEntityID, setSelectedEntityID } = useContext(SceneContext);
 
-  useEffect(() => console.debug('updated config!'), [sceneConfig])
+
   const selectEntity = (id: Engine.EntityID) => {
     if (id === selectedEntityID) {
       setSelectedEntityID('')
@@ -31,8 +32,6 @@ const useScene = () => {
     // TODO: Implement this
   }
 
-  
-
   const createEntity = () => {
     const newEntity: Engine.EntityProps = {
       id: uuidv4(),
@@ -49,6 +48,7 @@ const useScene = () => {
       },
     }
     setEntities([...sceneConfig.entities, newEntity]);
+    
   }
 
   return {

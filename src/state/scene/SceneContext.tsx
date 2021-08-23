@@ -66,7 +66,14 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
     }
   ), [entities, cameraProps]);
 
-  useEffect(() => console.debug('updated config 2!'), [entities, cameraProps])
+  useEffect(() => {
+    if (selectedEntityID) {
+      const entityProps = entities.find(e => e.id === selectedEntityID);
+      console.debug('updated field in selected entity ID', selectedEntityID);
+      if (!entityProps) return;
+      context.updateSpecificEntity(selectedEntityID, entityProps);
+    }
+  }, [sceneConfig])
 
   const contextValue = {
     sceneConfig,

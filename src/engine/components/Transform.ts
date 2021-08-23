@@ -15,28 +15,46 @@ export default class Transform extends Component {
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
 
+  private dir: number = -1;
   init(entity: Entity, props?: ITransformProps) {
+    console.debug('called init() transform');
     this._entity = entity;
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;
     this.scale = props?.scale ?? this.scale;
+    this.applyMatrix();
   }
 
-  Update() {
-    if (!this._entity) return;
-    // Position
+  private applyPosition() {
     this._entity.mesh.position.setX(this.position.x);
     this._entity.mesh.position.setY(this.position.y);
     this._entity.mesh.position.setZ(this.position.z);
-    
-    // Rotation
-    // this._entity.mesh.rotation.x = this.rotation.x;
-    // this._entity.mesh.rotation.y = this.rotation.y;
-    // this._entity.mesh.rotation.z = this.rotation.z;
+  }
 
-    // Scale
+  private applyRotation() {
+    // TODO: Implement rotation
+  }
+
+  private applyScale() {
     this._entity.mesh.scale.setX(this.scale.x);
     this._entity.mesh.scale.setY(this.scale.y);
     this._entity.mesh.scale.setZ(this.scale.z);
+  }
+
+  private applyMatrix() {
+    this.applyPosition();
+    this.applyPosition();
+    this.applyScale();
+  }
+
+  update() {
+    if (!this._entity) return;
+    if (this.scale.x >= 2) {
+      this.dir = -1;
+    } else if (this.scale.x <= 0.2) {
+      this.dir = 1;
+    }
+    this.scale.x += 0.1 * this.dir;
+    this.applyMatrix();
   }
 }

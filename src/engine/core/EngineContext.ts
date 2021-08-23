@@ -21,6 +21,7 @@ class EngineContext {
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
+    console.debug('called init');
     this._renderElement = renderElement;
     if (payload) this.updateScenePayload(payload);
     this.runEditMode();
@@ -32,12 +33,22 @@ class EngineContext {
   }
 
   runEditMode() {
+    console.debug('ran run edit mode');
     this.sceneManager.runEditScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }
 
   updateScenePayload(payload: Engine.ScenePayload) {
+    console.debug('scene payload');
     this.sceneManager.setScenePayload(payload);
+  }
+
+  updateSpecificEntity(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
+    this.sceneManager.updateEntityPayload(entityID, entityProps);
+  }
+
+  addNewEntity(entity: Engine.EntityProps) {
+    // todo
   }
 
   isPlaying(): boolean {

@@ -14,7 +14,7 @@ const useEditor = () => {
   const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => init(), [renderElement, sceneConfig]);
+  useEffect(() => init(), [renderElement]);
 
   const init = () => {
     if (!renderElement || !renderElement.current || !scenePayload) { return; }
@@ -28,7 +28,7 @@ const useEditor = () => {
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) { return; }
     if (SceneManager.instance.isPlaying) {
-      context.runEditMode();
+      // context.runEditMode();
       setIsRunning(false);
       return;
     }

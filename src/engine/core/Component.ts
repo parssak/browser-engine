@@ -7,7 +7,7 @@ export default abstract class Component {
     this._entity = entity;
   }
 
-  abstract Update(): void;
+  abstract update(): void;
 }
 
 // This is only used for generating the BaseComponentType for internal use, 
@@ -19,7 +19,7 @@ class BaseComponent extends Component {
     this._entity = entity;
   }
 
-  Update() { }
+  update() { }
 }
 
 export type BaseComponentType = typeof BaseComponent;

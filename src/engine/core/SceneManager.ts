@@ -21,11 +21,17 @@ export default class SceneManager {
     this._scenePayload = payload;
   }
 
-  createEntity(props: Engine.EntityProps, parent?: Entity): Entity {
+  updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
+    const updateIndex = this._entities.findIndex(e => e.id === entityID);
+    if (updateIndex === -1) return;
+    this._entities[updateIndex].initComponents(entityProps.components);
+  }
+
+  createEntity(props: Engine.EntityProps): Entity {
     const entity = new Entity(props);
-    if (parent) {
-      parent.addChild(entity);
-    }
+    // if (parent) {
+    //   parent.addChild(entity);
+    // }
     this._entities.push(entity);
     this._scene.add(entity.mesh);
     return entity;
@@ -58,7 +64,6 @@ export default class SceneManager {
   }
 
   private buildEntities() {
-    console.debug('scene payload is', this._scenePayload);
     if (!this._scenePayload) return;
     this._scenePayload.sceneConfig.entities.forEach(entityProps => {
       this.createEntity(entityProps);

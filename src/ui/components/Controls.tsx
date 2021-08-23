@@ -1,4 +1,4 @@
-import { folder, Leva,  useControls } from 'leva'
+import { folder, Leva, useControls } from 'leva'
 import { type } from 'os';
 import { useEffect } from 'react';
 import { generateComponentObjectFromValues } from '../../state/scene/scene.utils';
@@ -19,8 +19,8 @@ export default function Controls() {
       const folderValue =
         Object.fromEntries(
           Object.entries(props)
-            .map(([propName, propValue]) => [getComponentPropName(type, propName),{ value: propValue, label: propName }]
-          )
+            .map(([propName, propValue]) => [getComponentPropName(type, propName), { value: propValue, label: propName }]
+            )
         );
       return [type, folder(folderValue as any)]
     });
@@ -44,22 +44,34 @@ export default function Controls() {
   }, [selectedEntity, set])
 
   // Handles updating the entity when a field is changed
-  useEffect(() => {
-    const handleEntityUpdate = (entity: Engine.EntityProps, values: Record<Engine.CombinedComponentPropName, Engine.ComponentPropType>) => {
-      const updatedComponents = generateComponentObjectFromValues(values);
-      if (JSON.stringify(updatedComponents) !== JSON.stringify(entity.components)) {
-        const newEntity = deepClone<Engine.EntityProps>(entity);
-        newEntity.components = updatedComponents;
-        updateEntity(newEntity);
-      }
+  const saveEntityChanges = () => {
+    if (!selectedEntity) return;
+    const updatedComponents = generateComponentObjectFromValues(values);
+    if (JSON.stringify(updatedComponents) !== JSON.stringify(selectedEntity.components)) {
+      // const newEntity = deepClone<Engine.EntityProps>(entity);
+      // newEntity.components = updatedComponents;
+      // updateEntity(newEntity);
+      console.debug('saved');
+      selectedEntity.components = updatedComponents;
+      updateEntity(selectedEntity);
     }
+  }
+  // useEffect(() => {
+  //   if (selectedEntity) handleEntityUpdate(selectedEntity, values);
+  // }, [values, selectedEntity]);
 
-    if (selectedEntity) handleEntityUpdate(selectedEntity, values);
-  }, [values, selectedEntity]);
 
   return (
     <div className="bg-indigo-500 space-y-1">
       <Leva fill flat titleBar={false} />
+      {
+        selectedEntity && (
+          <button
+            className="mx-2 p-2 rounded-md bg-indigo-200 transition hover:bg-indigo-300 capitalize"
+            onClick={saveEntityChanges}>Save Changes
+          </button>
+        )
+      }
     </div>
   );
 }

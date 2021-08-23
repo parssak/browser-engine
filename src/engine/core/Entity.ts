@@ -8,16 +8,20 @@ import GeometryManager from './GeometryManager';
 
 export default class Entity {
   public name: string = "";
-  public mesh: THREE.Mesh;
-  private _id;
+  public mesh!: THREE.Mesh;
+  public readonly id: Engine.EntityID;
   private children: Entity[] = [];
   components: Record<Engine.ComponentType, Component> = {};
 
   constructor(props: Engine.EntityProps) {
+    this.id = props.id;
+    this.init(props);
+  }
+
+  init(props: Engine.EntityProps) {
     const mat = MaterialManager.instance.getMaterial(props.material);
     const geometry = GeometryManager.instance.getGeometry(props.geometry);
     this.mesh = new THREE.Mesh(geometry, mat);
-    this._id = props.id;
 
     // TODO: New approach to creating children in SceneManager.
     // props.children.forEach(entityProps => {
@@ -26,10 +30,10 @@ export default class Entity {
     // });
 
     // TODO: build components
-    this._initComponents(props.components);
+    this.initComponents(props.components);
   }
 
-  private _initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
+  initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
     Object.entries(components).forEach(([type, props]) => {
       ComponentManager.instance.setComponent(this, type, props);
     })
@@ -60,6 +64,6 @@ export default class Entity {
   }
 
   private _updateComponents() {
-    Object.values(this.components).forEach((component) => component.Update())
+    Object.values(this.components).forEach((component) => component.update())
   }
 }
