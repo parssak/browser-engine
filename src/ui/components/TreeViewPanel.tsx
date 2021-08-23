@@ -23,6 +23,7 @@ function TreeNode({ entity }: Props): ReactElement {
     rounded-md
     transition
     cursor-pointer
+    select-none
     ${isSelected ? 'hover:bg-indigo-500' : 'hover:bg-indigo-400'}
     ${isSelected && 'bg-indigo-300'}`} onClick={handleClick}>
       <h1>{entity?.name ?? '__ENTITY__'}</h1>

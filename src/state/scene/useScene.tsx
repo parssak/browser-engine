@@ -22,7 +22,7 @@ const useScene = () => {
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex(e => e.id === entity.id);
     if (index === -1) {
-      console.error("Couldn't find " + entity.id + " in sceneConfig.entities");
+      console.error(`Couldn't find ${entity.id} in sceneConfig.entities`);
     };
     sceneConfig.entities[index] = entity;
     setEntities([...sceneConfig.entities]);

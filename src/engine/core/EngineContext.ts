@@ -37,7 +37,6 @@ class EngineContext {
   }
 
   updateScenePayload(payload: Engine.ScenePayload) {
-    console.debug('scene payload');
     this.sceneManager.setScenePayload(payload);
   }
 
@@ -46,8 +45,6 @@ class EngineContext {
   }
 
   addNewEntity(entity: Engine.EntityProps) {
-    // todo
-    console.debug('(Engine): Added New Entity');
     this.sceneManager.buildEntity(entity);
 
   }

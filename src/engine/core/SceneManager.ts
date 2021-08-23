@@ -50,10 +50,11 @@ export default class SceneManager {
   }
 
   private resetScene() {
-    this._scene = new THREE.Scene();
     this._entities.forEach(entity => {
       entity.destroy();
+      this._scene.remove(entity.mesh);
     });
+    // this._scene = new THREE.Scene();
     this._entities = [];
   }
 

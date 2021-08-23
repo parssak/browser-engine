@@ -69,7 +69,6 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
   useEffect(() => {
     if (selectedEntityID) {
       const entityProps = entities.find(e => e.id === selectedEntityID);
-      console.debug('updated field in selected entity ID', selectedEntityID);
       if (!entityProps) return;
       context.updateSpecificEntity(selectedEntityID, entityProps);
     }

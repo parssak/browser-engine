@@ -1,9 +1,7 @@
 import { folder, Leva, useControls } from 'leva'
-import { type } from 'os';
 import { useEffect } from 'react';
 import { generateComponentObjectFromValues } from '../../state/scene/scene.utils';
 import useScene from '../../state/scene/useScene';
-import { deepClone } from '../../utils';
 
 export default function Controls() {
   const { selectedEntity, updateEntity } = useScene();
@@ -48,28 +46,30 @@ export default function Controls() {
     if (!selectedEntity) return;
     const updatedComponents = generateComponentObjectFromValues(values);
     if (JSON.stringify(updatedComponents) !== JSON.stringify(selectedEntity.components)) {
-      // const newEntity = deepClone<Engine.EntityProps>(entity);
-      // newEntity.components = updatedComponents;
-      // updateEntity(newEntity);
-      console.debug('saved');
       selectedEntity.components = updatedComponents;
       updateEntity(selectedEntity);
     }
   }
-  // useEffect(() => {
-  //   if (selectedEntity) handleEntityUpdate(selectedEntity, values);
-  // }, [values, selectedEntity]);
 
+  const addComponent = () => {
+    // todo
+  }
 
   return (
-    <div className="bg-indigo-500 space-y-1">
+    <div className="bg-indigo-500 h-full flex flex-col space-y-1">
       <Leva fill flat titleBar={false} />
       {
         selectedEntity && (
-          <button
-            className="mx-2 p-2 rounded-md bg-indigo-200 transition hover:bg-indigo-300 capitalize"
-            onClick={saveEntityChanges}>Save Changes
-          </button>
+          <div className="space-y-1">
+            <button
+              className="block mx-auto mt-12 py-2 px-4 md:w-48  rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
+              onClick={addComponent}>Add component
+            </button>
+            <button
+              className="block mx-auto mt-12 py-2 px-4 md:w-48 rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
+              onClick={saveEntityChanges}>Save Changes
+            </button>
+          </div>
         )
       }
     </div>
