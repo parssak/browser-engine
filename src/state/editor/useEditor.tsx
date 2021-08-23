@@ -29,6 +29,7 @@ const useEditor = () => {
     if (!renderElement || !renderElement.current) { return; }
     if (SceneManager.isPlaying()) {
       setIsRunning(false);
+      context.runEditMode();
       return;
     }
     context.runPlayMode();
