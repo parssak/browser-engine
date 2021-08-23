@@ -13,7 +13,7 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
   const handleUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (typeof field === 'number') {
       // if (Number.isNaN(Number(e.target.value))) {
-        // return;
+      // return;
       // }
       updateField(Number(e.target.value));
       // todo
@@ -23,7 +23,7 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
     if (typeof field === 'string') {
       updateField(e.target.value);
     }
-    
+
   }
 
 
@@ -47,7 +47,7 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
         <input
           type={typeof field === 'string' ? 'string' : 'number'}
           value={field.x}
-          onChange={e => updateField({x: Number(e.target.value), y: field?.y ?? 0, z: field?.z ?? 0})}
+          onChange={e => updateField({ x: Number(e.target.value), y: field?.y ?? 0, z: field?.z ?? 0 })}
           className="bg-gray-700 w-min font-mono text-xs"
         />
       </pre>
@@ -165,6 +165,10 @@ export default function Controls() {
     newControls[type][field] = value;
     console.debug('new controls', newControls);
     setControls(newControls);
+    if (selectedEntity) {
+      selectedEntity.components = newControls;
+      updateEntity({ ...selectedEntity });
+    }
   }
 
   return (
