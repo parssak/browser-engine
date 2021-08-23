@@ -23,6 +23,7 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
     if (typeof field === 'string') {
       updateField(e.target.value);
     }
+    
   }
 
 
@@ -32,7 +33,7 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
         type={typeof field === 'string' ? 'string' : 'number'}
         value={typeof field === 'number' ? field : field}
         onChange={handleUpdateField}
-        className="bg-gray-700 w-min"
+        className="bg-gray-700 w-min font-mono text-xs"
       />
     </div>
   );
@@ -40,19 +41,34 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
   if (Array.isArray(field)) return (<div>array field</div>);
 
   return (
-    <div className="bg-gray-700 text-white px-1 grid grid-cols-3 gap-5">
-      <div>
-        <span className="pr-2 text-sm text-gray-400">x:</span>
-        {<span>{field?.x.toFixed(1) ?? 0}</span>}
-      </div>
-      <div>
-        <span className="pr-2 text-sm text-gray-400">y:</span>
-        {<span>{field?.y.toFixed(1) ?? 0}</span>}
-      </div>
-      <div>
-        <span className="pr-2 text-sm text-gray-400">z:</span>
-        {<span>{field?.z?.toFixed(1) ?? 0}</span>}
-      </div>
+    <div className="bg-gray-700 text-white px-2 grid grid-cols-3 gap-5">
+      <pre className="text-xs p-0 m-0">
+        <span className="pr-2 text-xs text-gray-400">x:</span>
+        <input
+          type={typeof field === 'string' ? 'string' : 'number'}
+          value={field.x}
+          onChange={e => updateField({x: Number(e.target.value), y: field?.y ?? 0, z: field?.z ?? 0})}
+          className="bg-gray-700 w-min font-mono text-xs"
+        />
+      </pre>
+      <pre className="text-xs p-0 m-0">
+        <span className="pr-2 text-xs text-gray-400">y:</span>
+        <input
+          type={typeof field === 'string' ? 'string' : 'number'}
+          value={field.y}
+          onChange={e => updateField({ x: field?.x ?? 0, y: Number(e.target.value), z: field?.z ?? 0 })}
+          className="bg-gray-700 w-min font-mono text-xs"
+        />
+      </pre>
+      <pre className="text-xs p-0 m-0">
+        <span className="pr-2 text-xs text-gray-400">z:</span>
+        <input
+          type={typeof field === 'string' ? 'string' : 'number'}
+          value={field.z}
+          onChange={e => updateField({ x: field?.x ?? 0, y: field?.y ?? 0, z: Number(e.target.value) })}
+          className="bg-gray-700 w-min font-mono text-xs"
+        />
+      </pre>
     </div>
   )
 }
@@ -70,12 +86,12 @@ const ComponentNode = ({
 }: ComponentNodeProps): React.ReactElement => {
 
   return (
-    <div className="bg-gray-500 p-1 rounded-md">
-      <h3 className="font-semibold">{componentType}</h3>
+    <div className="bg-gray-800 text-white p-2">
+      <h3 className="font-semibold text-gray-300 text-sm mb-2">{componentType}</h3>
       {
         Object.entries(componentProps).map(([fieldName, fieldValue]) => (
           <div key={fieldName} className="flex space-x-2">
-            <p className="text-sm" style={{ minWidth: '7ch' }}>{fieldName}</p>
+            <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>{fieldName}</p>
             <ComponentFieldValue field={fieldValue} updateField={e => updateComponent(componentType, fieldName, e)} />
           </div>
         ))
@@ -152,7 +168,7 @@ export default function Controls() {
   }
 
   return (
-    <div className="bg-indigo-500 h-full flex flex-col space-y-1">
+    <div className="bg-gray-900 h-full flex flex-col space-y-1">
       {
         Object.entries(controls).map(([type, props]) =>
           <ComponentNode

@@ -50,7 +50,7 @@ declare namespace Engine {
 
 
   type ComponentType = "transform" | string;
-  type ComponentPropType = [number, number] | [number, number, number] | { x: number, y: number, z?: number } | number | string; // deprecate [number, number] & [number, number, number]
+  type ComponentPropType = [number, number] | [number, number, number] | { x: number, y: number, z: number } | number | string; // deprecate [number, number] & [number, number, number]
   type CombinedComponentPropName = `${ComponentType}--${string}`
   type ComponentProps = Record<string, ComponentPropType>;
 

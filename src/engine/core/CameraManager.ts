@@ -45,14 +45,14 @@ export default class CameraManager {
   }
 
   private _setControls() {
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // this.controls.autoRotate = false;
+    // this.controls.enableDamping = true;
+    // this.controls.dampingFactor = 0.39;
 
-    this.controls.autoRotate = false;
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.39;
     this.camera.position.z = 50;
 
-    this.controls.update();
+    // this.controls.update();
   }
 
   handleResize() {
@@ -64,7 +64,7 @@ export default class CameraManager {
   }
 
   Update(scene: THREE.Scene) {
-    this.controls.update();
+    // this.controls.update();
     this.renderer.render(scene, this.camera);
     SceneManager.instance.updateScene();
   }
