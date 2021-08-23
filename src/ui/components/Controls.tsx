@@ -36,12 +36,13 @@ export default function Controls() {
         const [propName, propValue] = Object.entries(props)[0];
         flattenedPropFields[getComponentPropName(type, propName)] = propValue;
       });
+      // TODO: Fix why fields aren't resetting
       console.debug(flattenedPropFields);
-      // set(flattenedPropFields);
+      set(flattenedPropFields);
     }
 
     if (selectedEntity) updateComponentFields(selectedEntity);
-  }, [selectedEntity, set, sceneConfig])
+  }, [selectedEntity, set])
 
 
   // Handles updating the entity when a field is changed
