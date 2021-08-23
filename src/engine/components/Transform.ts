@@ -14,8 +14,7 @@ export default class Transform extends Component {
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
-
-  private dir: number = -1;
+  
   init(entity: Entity, props?: ITransformProps) {
     this._entity = entity;
     this.position = props?.position ?? this.position;
@@ -47,13 +46,12 @@ export default class Transform extends Component {
   }
 
   update() {
-    if (!this._entity) return;
-    if (this.scale.x >= 2) {
-      this.dir = -1;
-    } else if (this.scale.x <= 0.2) {
-      this.dir = 1;
-    }
-    this.scale.x += 0.1 * this.dir;
+    // if (this.scale.x >= 2) {
+    //   this.dir = -1;
+    // } else if (this.scale.x <= 0.2) {
+    //   this.dir = 1;
+    // }
+    // this.scale.x += 0.1 * this.dir;
     this.applyMatrix();
   }
 }

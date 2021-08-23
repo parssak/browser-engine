@@ -52,7 +52,12 @@ export default function Controls() {
   const addComponent = () => {
     if (!selectedEntity) return;
     // TODO: make this feature fledged later
-    
+    const newComponentName = 'mover';
+    const newComponentProps: Engine.ComponentProps = {
+        'speed': 12
+      }
+    selectedEntity.components[newComponentName] = newComponentProps;
+    updateEntity(selectedEntity);
   }
 
   return (

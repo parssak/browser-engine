@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Mover from '../components/Mover';
 import Transform from "../components/Transform";
 import Component, { BaseComponentType } from "./Component";
 import Entity from "./Entity";
@@ -10,6 +11,7 @@ export default class ComponentManager {
     if (ComponentManager.instance) return;
     ComponentManager.instance = this;
     this.registerComponent('transform', Transform);
+    this.registerComponent('mover', Mover);
   }
 
   public registerComponent(name: Engine.ComponentType, component: BaseComponentType): void {

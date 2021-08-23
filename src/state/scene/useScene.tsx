@@ -16,6 +16,7 @@ const useScene = () => {
   };
 
   const selectedEntity: Engine.EntityProps | null = useMemo(() => {
+    console.debug('selected entity');
     return sceneConfig.entities.find(e => e.id === selectedEntityID) ?? null;
   }, [sceneConfig, selectedEntityID]);
 
