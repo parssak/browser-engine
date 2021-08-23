@@ -45,14 +45,14 @@ export default function Controls() {
   const saveEntityChanges = () => {
     if (!selectedEntity) return;
     const updatedComponents = generateComponentObjectFromValues(values);
-    if (JSON.stringify(updatedComponents) !== JSON.stringify(selectedEntity.components)) {
-      selectedEntity.components = updatedComponents;
-      updateEntity(selectedEntity);
-    }
+    selectedEntity.components = updatedComponents;
+    updateEntity(selectedEntity);
   }
 
   const addComponent = () => {
-    // todo
+    if (!selectedEntity) return;
+    // TODO: make this feature fledged later
+    
   }
 
   return (
