@@ -56,6 +56,10 @@ class EngineContext {
   handleClick(mouseX: number, mouseY: number) {
     this.cameraManager.handleClick(mouseX, mouseY);
   }
+
+  getSelectedEntity(): Engine.EntityID | undefined {
+    return this.sceneManager.getSelectedEntity();
+  }
 }
 
 const context = new EngineContext();

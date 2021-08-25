@@ -8,6 +8,8 @@ export default class SceneManager {
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
   private _axes = new THREE.AxesHelper(2);
+  private _selectionHelper: THREE.BoxHelper | undefined;
+  private _selectedEntityID: Engine.EntityID | undefined;
 
   constructor() {
     if (SceneManager.instance) { return; }
@@ -31,6 +33,7 @@ export default class SceneManager {
     const updateIndex = this._entities.findIndex(e => e.id === entityID);
     if (updateIndex === -1) return;
     this._entities[updateIndex].initComponents(entityProps.components);
+    this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh);
   }
 
   updateScene() {
@@ -45,7 +48,7 @@ export default class SceneManager {
     this._scene.remove(this._axes);
     this.buildEntities();
   }
-  
+
   runEditScene() {
     this.isPlaying = false;
     this.resetScene();
@@ -54,8 +57,32 @@ export default class SceneManager {
     this.buildEntities();
   }
 
-  select(object: THREE.Object3D) {
-    console.log('selected', object);
+  select(object?: THREE.Object3D) {
+    if (!object && this._selectionHelper) {
+      this._scene.remove(this._selectionHelper);
+      return;
+    }
+    
+    if (object) {
+      
+      if (object.type === 'BoxHelper' || object.type === 'AxesHelper') {
+        return;
+      }
+      this._selectedEntityID = object.uuid;
+
+      if (!this._selectionHelper) {
+        this._selectionHelper = new THREE.BoxHelper(object, 0xffff00);
+        this._scene.add(this._selectionHelper);
+      
+        return;
+      }
+      
+      this._selectionHelper?.setFromObject(object);
+    }
+  }
+
+  getSelectedEntity(): Engine.EntityID | undefined {
+    return this._selectedEntityID;
   }
 
   private resetScene() {

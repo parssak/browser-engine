@@ -7,7 +7,7 @@ import { EditorContext } from "./EditorContext";
 
 const useEditor = () => {
   const { scripts } = useScripts();
-  const { sceneConfig } = useScene();
+  const { sceneConfig, selectEntity } = useScene();
   const { renderElement } = useContext(EditorContext);
   const [isRunning, setIsRunning] = useState(context.isPlaying());
 
@@ -41,6 +41,7 @@ const useEditor = () => {
     const domRect: DOMRect = canvas.getBoundingClientRect();
     const [mouseX, mouseY]: [number, number] = [((e.clientX - domRect.x) / domRect.width) * 2 - 1, -((e.clientY - domRect.y) / domRect.height) * 2 + 1];
     context.handleClick(mouseX, mouseY);
+    selectEntity(context.getSelectedEntity() ?? '');
   }
 
   return {

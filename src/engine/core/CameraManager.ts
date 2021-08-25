@@ -41,8 +41,9 @@ export default class CameraManager {
     const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true);
     if (intersects.length > 0) {
       const intersect = intersects[0];
-      console.log(intersect.object);
       SceneManager.instance.select(intersect.object);
+    } else {
+      SceneManager.instance.select();
     }
   }
 
