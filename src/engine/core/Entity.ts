@@ -25,7 +25,9 @@ export default class Entity {
   initMesh(props: Engine.EntityProps) {
     const mat = MaterialManager.instance.getMaterial(props.material);
     const geometry = GeometryManager.instance.getGeometry(props.geometry);
-    if (!this.mesh) this.mesh = new THREE.Mesh(geometry, mat);
+    if (!this.mesh) {
+      this.mesh = new THREE.Mesh(geometry, mat);
+    }
     else {
       this.mesh.geometry = geometry;
       this.mesh.material = mat;
@@ -40,22 +42,11 @@ export default class Entity {
     })
   }
 
-  addChild(child: Entity) {
-    // TODO: Implement
-  }
+  // TODO: Implement
+  addChild(child: Entity) { }
 
-  addComponent(type: Engine.ComponentType, componentProps: Engine.ComponentProps) {
-    // TODO: Implement
-  }
-
-  getProps(): Record<Engine.ComponentType, Engine.ComponentProps> {
-    // TODO: Implement
-    return {};
-  }
-
-  destroy() {
-    // TODO: Implement
-  }
+  // TODO: Implement
+  destroy() { }
 
   update() {
     if (SceneManager.isPlaying()) {

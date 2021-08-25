@@ -1,21 +1,25 @@
 import * as THREE from 'three';
-import CameraManager from './CameraManager';
 import Entity from "./Entity";
 
 export default class SceneManager {
   public static instance: SceneManager;
   private isPlaying: boolean = false; // If true, in play mode, else in edit mode
-  private _scene = new THREE.Scene();
+  private _scene!: THREE.Scene;
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
+
+  // Selection
+  private _selectedEntityID: Engine.EntityID | undefined;
+  
+  // Helpers
   private _axes = new THREE.AxesHelper(2);
   private _gridHelper = new THREE.GridHelper(60, 6);
   private _selectionHelper: THREE.BoxHelper | undefined;
-  private _selectedEntityID: Engine.EntityID | undefined;
 
   constructor() {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
+    this._scene = new THREE.Scene();
     this._scene.add(this._axes);
     this._scene.add(this._gridHelper);
     this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
@@ -35,46 +39,60 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
-    console.debug('updating entity payload', entityProps);
     const updateIndex = this._entities.findIndex(e => e.id === entityID);
     if (updateIndex === -1) return;
-    this._entities[updateIndex].initMesh(entityProps);
-    this._entities[updateIndex].initComponents(entityProps.components);
+    this._entities[updateIndex].init(entityProps);
     this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh);
   }
 
+  
   updateScene() {
     this._entities.forEach(entity => {
       entity.update();
     });
   }
 
+  /** Runs scene in play mode.
+   * 
+   *  In play mode, the components in all 
+   *  entities are updated each frame.
+   */
   runPlayScene() {
     this.isPlaying = true;
-    this.resetScene();
+    this._resetScene();
     this._scene.remove(this._axes);
     this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
-    this.buildEntities();
+    this._buildEntities();
   }
 
+  /** Runs scene in edit mode
+   * 
+   *  In edit mode, the scene is reset and all
+   *  entities are reverted to their initial states, 
+   *  based on the scenePayload.
+   */
   runEditScene() {
     this.isPlaying = false;
-    this.resetScene();
+    this._resetScene();
     this._scene.add(this._axes);
     this._scene.add(this._gridHelper);
     if (this._selectionHelper) this._scene.add(this._selectionHelper);
-    this.buildEntities();
+    this._buildEntities();
   }
 
+  /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
     this.select(this._entities.find(e => e.id === entityID)?.mesh);
   }
 
+  /** Sets Entity with corresponding object as selected,
+   *  if no object is passed, deselects any selected entity
+   * @param object THREE.Object3D
+   */
   select(object?: THREE.Object3D) {
     if (this.isPlaying) return;
     if (!object && this._selectionHelper && this._selectedEntityID) {
-      console.debug('deselecting');
       this._scene.remove(this._selectionHelper);
       this._selectedEntityID = undefined;
       return;
@@ -97,7 +115,14 @@ export default class SceneManager {
     return this._selectedEntityID;
   }
 
-  private resetScene() {
+  buildEntity(props: Engine.EntityProps): Entity {
+    const entity = new Entity(props);
+    this._entities.push(entity);
+    this._scene.add(entity.mesh);
+    return entity;
+  }
+
+  private _resetScene() {
     this._entities.forEach(entity => {
       this._scene.remove(entity.mesh);
       entity.destroy();
@@ -105,17 +130,10 @@ export default class SceneManager {
     this._entities = [];
   }
 
-  private buildEntities() {
+  private _buildEntities() {
     if (!this._scenePayload) return;
     this._scenePayload.sceneConfig.entities.forEach(entityProps => {
       this.buildEntity(entityProps);
     });
-  }
-
-  buildEntity(props: Engine.EntityProps): Entity {
-    const entity = new Entity(props);
-    this._entities.push(entity);
-    this._scene.add(entity.mesh);
-    return entity;
   }
 }

@@ -1,7 +1,7 @@
-import { useContext, useEffect, useMemo} from "react";
+import { useContext, useMemo} from "react";
 import { SceneContext } from "./SceneContext";
-import { v4 as uuidv4 } from 'uuid'
 import context from "../../engine/core/EngineContext";
+import { generateNewEntity } from "../../utils/entity.utils";
 
 const useScene = () => {
   const { sceneConfig, setEntities, selectedEntityID, setSelectedEntityID } = useContext(SceneContext);
@@ -35,21 +35,7 @@ const useScene = () => {
   }
 
   const createEntity = () => {
-    const id = uuidv4();
-    const newEntity: Engine.EntityProps = {
-      id,
-      name: "New Entity",
-      geometry: 'box',
-      material: 'normal',
-      children: [],
-      components: {
-        transform: {
-          position: {x: 0, y: 0, z: 0},
-          rotation: { x: 0, y: 0, z: 0 },
-          scale: { x: 1, y: 1, z: 1 },
-        }
-      },
-    }
+    const newEntity: Engine.EntityProps = generateNewEntity();
     setEntities([...sceneConfig.entities, newEntity]);
     context.addNewEntity(newEntity);
   }

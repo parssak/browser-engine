@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import oc from 'three-orbit-controls';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import SceneManager from './SceneManager';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import oc from 'three-orbit-controls';
 const OrbitControls = oc(THREE);
 
 export default class CameraManager {
@@ -14,8 +14,7 @@ export default class CameraManager {
   private far = 20000;
   private camera!: THREE.PerspectiveCamera;
   private controls: any;
-  // private transformControls!: TransformControls;
-  
+
 
   constructor() {
     if (CameraManager.instance) return CameraManager.instance;
@@ -42,17 +41,13 @@ export default class CameraManager {
     const pointer = new THREE.Vector2(mouseX, mouseY);
     this.raycaster.setFromCamera(pointer, this.camera);
     const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true).filter(e => e.object.type === 'Mesh');
+    
     if (intersects.length > 0) {
-      const intersect = intersects[0];
-      SceneManager.instance.select(intersect.object);
-    } else {
+      SceneManager.instance.select(intersects[0].object);
+    }
+    else {
       SceneManager.instance.select();
     }
-  }
-
-  setTransformControlTarget(target?: THREE.Object3D) {
-    // if (target) this.transformControls.attach(target);
-    // else this.transformControls.detach();
   }
 
   private _setCamera() {
@@ -64,31 +59,15 @@ export default class CameraManager {
   }
 
   private _runSceneLoop(scene: THREE.Scene) {
-    this.renderer.setAnimationLoop((time: number) => this.Update(scene));
+    this.renderer.setAnimationLoop((time: number) => this.update(scene));
   }
 
   private _setRaycaster() {
     this.raycaster = new THREE.Raycaster();
-    if (this.raycaster && this.raycaster.params && this.raycaster.params.Line) {
-      // this.raycaster.params.Line.threshold = 3;
-    }
   }
 
   private _setControls() {
-    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.controls.autoRotate = false;
-    // this.controls.enableDamping = true;
-    // this.controls.dampingFactor = 0.39;
-
     this.camera.position.z = 50;
-    // this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-    // this.transformControls.addEventListener('dragging-changed', e => {
-    //   if (!e.value) {
-    //     console.log('changed pos');
-    //   }
-    // });
-    // SceneManager.instance.getScene().add(this.transformControls);
-    // this.controls.update();
   }
 
   handleResize() {
@@ -99,7 +78,7 @@ export default class CameraManager {
     this.renderer.setPixelRatio(window.devicePixelRatio);
   }
 
-  Update(scene: THREE.Scene) {
+  update(scene: THREE.Scene) {
     this.renderer.render(scene, this.camera);
     SceneManager.instance.updateScene();
   }
