@@ -9,7 +9,7 @@ interface ITransformProps {
 
 export default class Transform extends Component {
   name = "transform";
-  _entity!: Entity;
+  _entity: Entity;
 
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
@@ -21,7 +21,6 @@ export default class Transform extends Component {
   }
 
   init(props?: ITransformProps) {
-    console.debug('called init', props?.rotation);
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;
     this.scale = props?.scale ?? this.scale;
@@ -35,7 +34,6 @@ export default class Transform extends Component {
   }
 
   private applyRotation() {
-    console.debug('applying rotation', this.rotation)
     this._entity.mesh.setRotationFromEuler(new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z));
   }
 

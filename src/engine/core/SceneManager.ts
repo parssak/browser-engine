@@ -22,10 +22,10 @@ export default class SceneManager {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
     this._scene = new THREE.Scene();
-    this._scene.add(this._axes);
-    this._scene.add(this._gridHelper);
-    this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
-    this._scene.add(new THREE.AmbientLight(0x555555));
+    this._scene?.add(this._axes);
+    this._scene?.add(this._gridHelper);
+    this._scene?.add(new THREE.DirectionalLight(0xffffff, 0.6));
+    this._scene?.add(new THREE.AmbientLight(0x555555));
   }
 
   static isPlaying() {
