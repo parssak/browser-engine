@@ -46,20 +46,29 @@ export default class SceneManager {
     this.isPlaying = true;
     this.resetScene();
     this._scene.remove(this._axes);
+    if (this._selectionHelper) this._scene.remove(this._selectionHelper);
     this.buildEntities();
   }
 
   runEditScene() {
     this.isPlaying = false;
     this.resetScene();
+    if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this._scene.add(this._axes);
 
     this.buildEntities();
   }
 
+  selectByID(entityID: Engine.EntityID) {
+    this.select(this._entities.find(e => e.id === entityID)?.mesh);
+  }
+
   select(object?: THREE.Object3D) {
-    if (!object && this._selectionHelper) {
+    if (this.isPlaying) return;
+    if (!object && this._selectionHelper && this._selectedEntityID) {
+      console.debug('deselecting');
       this._scene.remove(this._selectionHelper);
+      this._selectedEntityID = undefined;
       return;
     }
     

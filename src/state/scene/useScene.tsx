@@ -12,6 +12,7 @@ const useScene = () => {
       setSelectedEntityID('')
       return;
     }
+    context.selectEntity(id);
     setSelectedEntityID(id);
   };
 

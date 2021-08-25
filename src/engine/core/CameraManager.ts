@@ -41,6 +41,7 @@ export default class CameraManager {
     const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true).filter(e => e.object.type !== 'BoxHelper' && e.object.type !== 'AxesHelper');
     if (intersects.length > 0) {
       const intersect = intersects[0];
+      console.debug(intersect);
       SceneManager.instance.select(intersect.object);
     } else {
       SceneManager.instance.select();
