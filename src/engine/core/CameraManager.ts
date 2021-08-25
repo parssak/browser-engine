@@ -38,7 +38,7 @@ export default class CameraManager {
   handleClick(mouseX: number, mouseY: number) {
     const pointer = new THREE.Vector2(mouseX, mouseY);
     this.raycaster.setFromCamera(pointer, this.camera);
-    const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true);
+    const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true).filter(e => e.object.type !== 'BoxHelper' && e.object.type !== 'AxesHelper');
     if (intersects.length > 0) {
       const intersect = intersects[0];
       SceneManager.instance.select(intersect.object);

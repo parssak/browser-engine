@@ -64,9 +64,6 @@ export default class SceneManager {
     }
     
     if (object) {
-      if (object.type === 'BoxHelper' || object.type === 'AxesHelper') {
-        return;
-      }
       this._selectedEntityID = object.uuid;
 
       if (!this._selectionHelper) {
