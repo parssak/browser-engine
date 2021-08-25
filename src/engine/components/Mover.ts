@@ -25,5 +25,6 @@ export default class Mover extends Component {
   update() {
     this.transform.rotation.x += this.speed;
     this.transform.rotation.y += this.speed;
+    this.transform.position.x += this.speed;
   }
 }
