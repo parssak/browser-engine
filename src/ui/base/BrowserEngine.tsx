@@ -10,7 +10,7 @@ export default function BrowserEngine(): ReactElement {
 
   return (
     <main className="w-screen h-screen overflow-hidden">
-      <div className={`h-2 transition bg-red-600 ${isRunning && 'bg-green-500'}`}></div>
+      <div className={`h-0.5 transition bg-red-600 ${isRunning && 'bg-green-500'}`}></div>
       <nav className="bg-gray-900 p-2 space-x-2">
         <button onClick={toggleRun} className="primary">{isRunning ? 'Stop' : 'Run'} Scene</button>
         <button onClick={createEntity} className="secondary">Add Entity</button>

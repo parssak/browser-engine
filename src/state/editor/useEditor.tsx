@@ -16,7 +16,7 @@ const useEditor = () => {
   const init = useCallback(() => {
     if (!renderElement || !renderElement.current || !scenePayload) { return; }
     context.init(renderElement.current, scenePayload);
-  }, [renderElement, scenePayload]);
+  }, [renderElement]);
 
 
   useEffect(() => init(), [renderElement, init]);

@@ -21,7 +21,6 @@ export default class Transform extends Component {
   }
 
   init(props?: ITransformProps) {
-    console.debug('called init on transform');
     this.position = props?.position ?? this.position;
     this.rotation = props?.rotation ?? this.rotation;
     this.scale = props?.scale ?? this.scale;
@@ -45,20 +44,13 @@ export default class Transform extends Component {
   }
 
   private applyMatrix() {
-    console.debug('applying matrix');
-    if (!this._entity){ return; }
+    if (!this._entity) { return; }
     this.applyPosition();
     this.applyRotation();
     this.applyScale();
   }
 
   update() {
-    // if (this.scale.x >= 2) {
-    //   this.dir = -1;
-    // } else if (this.scale.x <= 0.2) {
-    //   this.dir = 1;
-    // }
-    // this.scale.x += 0.1 * this.dir;
-    // this.applyMatrix();
+    this.applyMatrix();
   }
 }

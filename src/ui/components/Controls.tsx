@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { generateComponentObjectFromValues } from '../../state/scene/scene.utils';
 import useScene from '../../state/scene/useScene';
 
 interface ComponentFieldValueProps {
@@ -12,20 +11,14 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
 
   const handleUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (typeof field === 'number') {
-      // if (Number.isNaN(Number(e.target.value))) {
-      // return;
-      // }
       updateField(Number(e.target.value));
-      // todo
       return;
     }
 
     if (typeof field === 'string') {
       updateField(e.target.value);
     }
-
   }
-
 
   if (typeof field === 'number' || typeof field === 'string') return (
     <div className="bg-gray-700 text-white px-1  w-max">
@@ -38,7 +31,9 @@ const ComponentFieldValue = ({ field, updateField }: ComponentFieldValueProps): 
     </div>
   );
 
-  if (Array.isArray(field)) return (<div>array field</div>);
+  if (Array.isArray(field)) return (
+    <div>array field</div>
+  );
 
   return (
     <div className="bg-gray-700 text-white px-2 grid grid-cols-3 gap-5">
@@ -103,31 +98,10 @@ const ComponentNode = ({
 export default function Controls() {
   const { selectedEntity, updateEntity, sceneConfig } = useScene();
 
-  // utils
-  // const getComponentPropName = (type: Engine.ComponentType, propName: string): Engine.CombinedComponentPropName => `${type}--${propName}`
-
-  // const getControls = () => {
-  //   console.debug('getControls()');
-  //   if (!selectedEntity) return {};
-
-  //   const { components } = selectedEntity;
-
-  //   const componentControls = Object.entries(components).map(([type, props]) => {
-  //     const folderValue =
-  //       Object.fromEntries(
-  //         Object.entries(props)
-  //           .map(([propName, propValue]) => [propName, { value: propValue }]
-  //           )
-  //       );
-  //     return [type, folder(folderValue as any)]
-  //   });
-  //   return Object.fromEntries(componentControls);
-  // }
-
   const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
 
+  // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
-    // * Handles populating all correct value fields when selecting entity
     const updateComponentFields = (entity: Engine.EntityProps) => {
       const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {};
       Object.entries(entity.components).forEach(([type, props]) => {
@@ -136,34 +110,23 @@ export default function Controls() {
       console.debug('setting', propFields);
       setControls({ ...propFields } as any);
     }
-
+    console.log('use effect A');
     if (selectedEntity) updateComponentFields(selectedEntity);
   }, [selectedEntity, sceneConfig]);
 
-  // Handles updating the entity when pressing save
-  // const saveEntityChanges = () => {
-  //   if (!selectedEntity) return;
-  //   const updatedComponents = generateComponentObjectFromValues(controls);
-  //   selectedEntity.components = updatedComponents;
-  //   updateEntity({ ...selectedEntity });
-  // }
-
   const addComponent = () => {
     if (!selectedEntity) return;
-    // TODO: make this feature fledged later
     const newComponentName = 'mover';
     const newComponentProps: Engine.ComponentProps = {
-      'speed': 0.2
-    }
+      speed: 0.05
+    };
     selectedEntity.components[newComponentName] = newComponentProps;
     updateEntity(selectedEntity);
   }
 
   const updateComponent = (type: Engine.ComponentType, field: string, value: Engine.ComponentPropType) => {
-    console.debug(type, field, value, controls);
     const newControls = { ...controls };
     newControls[type][field] = value;
-    console.debug('new controls', newControls);
     setControls(newControls);
     if (selectedEntity) {
       selectedEntity.components = newControls;

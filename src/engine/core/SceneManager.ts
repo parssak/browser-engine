@@ -33,6 +33,7 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
+    console.debug('updating entity payload', entityProps);
     const updateIndex = this._entities.findIndex(e => e.id === entityID);
     if (updateIndex === -1) return;
     this._entities[updateIndex].initComponents(entityProps.components);
@@ -57,9 +58,9 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false;
     this.resetScene();
-    if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this._scene.add(this._axes);
     this._scene.add(this._gridHelper);
+    if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this.buildEntities();
   }
 
@@ -73,13 +74,11 @@ export default class SceneManager {
       console.debug('deselecting');
       this._scene.remove(this._selectionHelper);
       this._selectedEntityID = undefined;
-      CameraManager.instance.setTransformControlTarget(undefined);
       return;
     }
     
     if (object) {
       this._selectedEntityID = object.uuid;
-      CameraManager.instance.setTransformControlTarget(object);
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00);
         this._scene.add(this._selectionHelper);
@@ -97,8 +96,8 @@ export default class SceneManager {
 
   private resetScene() {
     this._entities.forEach(entity => {
-      entity.destroy();
       this._scene.remove(entity.mesh);
+      entity.destroy();
     });
     this._entities = [];
   }

@@ -60,7 +60,6 @@ export default class CameraManager {
       this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, this.near, this.far);
       this.camera.position.y = 10;
       this.camera.rotation.x = -0.1;
-      return;
     }
   }
 
