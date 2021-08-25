@@ -89,7 +89,8 @@ export default class SceneManager {
 
   /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
-    this.select(this._entities.find(e => e.id === entityID)?.mesh);
+    console.debug('selecting by id', entityID);
+    this.select(this._entities.find(e => e.id === entityID)?.mesh ?? undefined);
   }
 
   /** Sets Entity with corresponding object as selected,

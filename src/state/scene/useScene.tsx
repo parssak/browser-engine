@@ -9,6 +9,7 @@ const useScene = () => {
 
   const selectEntity = (id: Engine.EntityID) => {
     if (id === selectedEntityID) {
+      context.selectEntity('')
       setSelectedEntityID('')
       return;
     }

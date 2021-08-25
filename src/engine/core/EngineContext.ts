@@ -11,6 +11,7 @@ class EngineContext {
   materialManager: MaterialManager;
   geometryManager: GeometryManager;
   private _renderElement!: HTMLElement;
+  private isInitialized = false;
 
   constructor() {
     this.sceneManager = new SceneManager();
@@ -21,9 +22,11 @@ class EngineContext {
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
+    if (this.isInitialized) return;
     this._renderElement = renderElement;
     if (payload) this.updateScenePayload(payload);
     this.runEditMode();
+    this.isInitialized = true;
   }
 
   runPlayMode() {

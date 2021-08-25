@@ -13,13 +13,13 @@ const useEditor = () => {
 
   const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
 
-  const init = useCallback(() => {
-    if (!renderElement || !renderElement.current || !scenePayload) { return; }
-    context.init(renderElement.current, scenePayload);
+  useEffect(() => {
+    const init = () => {
+      if (!renderElement || !renderElement.current || !scenePayload) { return; }
+      context.init(renderElement.current, scenePayload);
+    };
+    init();
   }, [renderElement]);
-
-
-  useEffect(() => init(), [renderElement, init]);
 
   useEffect(() => {
     context.updateScenePayload(scenePayload);
