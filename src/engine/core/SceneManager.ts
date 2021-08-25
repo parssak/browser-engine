@@ -64,7 +64,6 @@ export default class SceneManager {
     }
     
     if (object) {
-      
       if (object.type === 'BoxHelper' || object.type === 'AxesHelper') {
         return;
       }
@@ -73,11 +72,11 @@ export default class SceneManager {
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00);
         this._scene.add(this._selectionHelper);
-      
         return;
       }
       
       this._selectionHelper?.setFromObject(object);
+      this._scene.add(this._selectionHelper);
     }
   }
 
