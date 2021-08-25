@@ -1,15 +1,12 @@
 import * as THREE from 'three';
 import SceneManager from './SceneManager';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
-import oc from 'three-orbit-controls';
-const OrbitControls = oc(THREE);
 
 export default class CameraManager {
   public static instance: CameraManager;
   private renderer = new THREE.WebGLRenderer({ antialias: true });
   private renderElement: HTMLElement | undefined;
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
-  private fov = 45;
+  private fov = 60;
   private near = 0.01;
   private far = 20000;
   private camera!: THREE.PerspectiveCamera;
@@ -72,7 +69,8 @@ export default class CameraManager {
 
   handleResize() {
     if (!this.renderElement) return;
-    this.camera.aspect = this.renderElement.clientWidth / this.renderElement.clientHeight;
+    const dimensions = this.renderElement.getBoundingClientRect();
+    this.camera.aspect = dimensions.width / dimensions.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.renderElement.clientWidth, this.renderElement.clientHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);

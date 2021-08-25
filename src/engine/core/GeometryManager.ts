@@ -17,7 +17,7 @@ export default class GeometryManager {
       case 'cylinder':
         return new THREE.CylinderBufferGeometry(1, 1, 1, 16, 1);
       case 'torus':
-        return new THREE.TorusBufferGeometry(1, 0.3, 10, 16, 10.3);
+        return new THREE.TorusBufferGeometry(6, 1.1, 10, 32, 6.3);
       case 'plane':
         return new THREE.PlaneBufferGeometry(1, 1);
       case 'tetrahedron':
