@@ -1,7 +1,6 @@
 import React, { useMemo, ReactElement } from 'react';
 import useScene from '../../state/scene/useScene';
 
-// TODO: Render children
 interface Props {
   entity: Engine.EntityProps;
 }
@@ -27,7 +26,6 @@ function TreeNode({ entity }: Props): ReactElement {
     ${isSelected ? 'hover:bg-indigo-500' : 'hover:bg-indigo-400'}
     ${isSelected && 'bg-indigo-300'}`} onClick={handleClick}>
       <h1>{entity?.name ?? '__ENTITY__'}</h1>
-      {/* {entity.children.map(child => <TreeNode key={child.id} entity={child}/>)} */}
     </div>
   )
 
