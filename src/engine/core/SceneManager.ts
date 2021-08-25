@@ -69,9 +69,7 @@ export default class SceneManager {
     this._scene.remove(this._axes);
     this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
-    if (this._scenePayload) {
-      this._scenePayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload);
-    }
+    
     this._buildEntities();
   }
 
@@ -86,9 +84,6 @@ export default class SceneManager {
     this._resetScene();
     this._scene.add(this._axes);
     this._scene.add(this._gridHelper);
-    if (this._scenePayloadCopy) {
-      this._scenePayload = this._scenePayloadCopy;
-    }
     if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this._buildEntities();
   }
@@ -144,7 +139,9 @@ export default class SceneManager {
 
   private _buildEntities() {
     if (!this._scenePayload) return;
-    this._scenePayload.sceneConfig.entities.forEach(entityProps => {
+    // This prevents all of the strange object mutation
+    const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload);
+    localPayloadCopy.sceneConfig.entities.forEach(entityProps => {
       this.buildEntity(entityProps);
     });
   }

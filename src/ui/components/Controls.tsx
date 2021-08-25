@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import useEditor from '../../state/editor/useEditor';
 import useScene from '../../state/scene/useScene';
 
 interface ComponentFieldValueProps {
@@ -98,6 +99,7 @@ const ComponentNode = ({
 }
 
 export default function Controls() {
+  const { isRunning } = useEditor()
   const { selectedEntity, updateEntity, sceneConfig,  } = useScene();
 
   const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
@@ -112,17 +114,16 @@ export default function Controls() {
 
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
+    console.debug('update component fields');
     const updateComponentFields = (entity: Engine.EntityProps) => {
       const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {};
       Object.entries(entity.components).forEach(([type, props]) => {
         propFields[type] = props;
       });
-      console.debug('setting', propFields);
       setControls({ ...propFields } as any);
     }
-    console.log('use effect A');
     if (selectedEntity) updateComponentFields(selectedEntity);
-  }, [selectedEntity, sceneConfig]);
+  }, [selectedEntity, sceneConfig, isRunning]);
 
   const addComponent = () => {
     if (!selectedEntity) return;
