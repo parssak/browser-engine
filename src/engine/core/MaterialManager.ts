@@ -14,6 +14,12 @@ export default class MaterialManager {
         return new THREE.MeshNormalMaterial();
       case 'basic':
         return new THREE.MeshBasicMaterial();
+      case 'phong':
+        return new THREE.MeshPhongMaterial();
+      case 'lambert':
+        return new THREE.MeshLambertMaterial();
+      case 'wireframe':
+        return new THREE.MeshBasicMaterial({ wireframe: true });
       default:
         return new THREE.MeshBasicMaterial();
     }

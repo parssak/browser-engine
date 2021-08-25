@@ -101,6 +101,14 @@ export default function Controls() {
   const { selectedEntity, updateEntity, sceneConfig } = useScene();
 
   const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
+  const [materialType, setMaterialType] = useState<Engine.MaterialType>('basic');
+  const [geometryType, setGeometryType] = useState<Engine.GeometryType>('box');
+
+  useEffect(() => {
+    if (!selectedEntity) return;
+    setMaterialType(selectedEntity.material);
+    setGeometryType(selectedEntity.geometry);
+  }, [selectedEntity])
 
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
@@ -132,6 +140,22 @@ export default function Controls() {
     setControls(newControls);
     if (selectedEntity) {
       selectedEntity.components = newControls;
+      updateEntity({ ...selectedEntity });
+    }
+  }
+
+  const updateMaterial = (newMaterial: Engine.MaterialType) => {
+    setMaterialType(newMaterial);
+    if (selectedEntity) {
+      selectedEntity.material = newMaterial;
+      updateEntity({ ...selectedEntity });
+    }
+  }
+
+  const updateGeometry = (newGeometry: Engine.GeometryType) => {
+    setGeometryType(newGeometry);
+    if (selectedEntity) {
+      selectedEntity.geometry = newGeometry;
       updateEntity({ ...selectedEntity });
     }
   }
@@ -198,7 +222,7 @@ export default function Controls() {
           <div className="space-y-2">
             <div className="flex space-x-2 items-center">
               <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>Material</p>
-              <select>
+              <select onChange={e => updateMaterial(e.target.value)} defaultValue={materialType}>
                 {
                   materialOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)
                 }
@@ -206,7 +230,7 @@ export default function Controls() {
             </div>
             <div className="flex space-x-2 items-center">
               <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>Geometry</p>
-              <select>
+              <select onChange={e => updateGeometry(e.target.value)} value={geometryType}>
                 {
                   geometryOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)
                 }

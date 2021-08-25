@@ -20,8 +20,8 @@ declare namespace Engine {
 
   // #region -- Entity -- 
   type EntityID = string;
-  type GeometryType = 'box' | 'sphere' | string;
-  type MaterialType = 'basic' | 'normal' | string;
+  type GeometryType = 'box' | 'sphere' | 'torus' | string;
+  type MaterialType = 'basic' | 'normal' | 'lambert' | 'phong' | string;
 
   interface EntityProps {
     id: EntityID;

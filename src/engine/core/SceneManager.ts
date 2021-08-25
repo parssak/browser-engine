@@ -36,6 +36,7 @@ export default class SceneManager {
     console.debug('updating entity payload', entityProps);
     const updateIndex = this._entities.findIndex(e => e.id === entityID);
     if (updateIndex === -1) return;
+    this._entities[updateIndex].initMesh(entityProps);
     this._entities[updateIndex].initComponents(entityProps.components);
     this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh);
   }

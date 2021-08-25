@@ -19,20 +19,22 @@ export default class Entity {
   }
 
   init(props: Engine.EntityProps) {
+    console.debug('Called Entity.init()');
+    // TODO: New approach to creating children in SceneManager.
+    this.initMesh(props);
+    this.initComponents(props.components);
+  }
+
+  initMesh(props: Engine.EntityProps) {
     const mat = MaterialManager.instance.getMaterial(props.material);
     const geometry = GeometryManager.instance.getGeometry(props.geometry);
-    this.mesh = new THREE.Mesh(geometry, mat);
+    if (!this.mesh) this.mesh = new THREE.Mesh(geometry, mat);
+    else {
+      this.mesh.geometry = geometry;
+      this.mesh.material = mat;
+    }
     this.mesh.uuid = this.id;
     this.mesh.name = this.name;
-    console.debug('called init');
-    // TODO: New approach to creating children in SceneManager.
-    // props.children.forEach(entityProps => {
-    //   const child: Entity = SceneManager.CreateEntity(entityProps, this);
-    //   this.addChild(child);
-    // });
-
-    // TODO: build components
-    this.initComponents(props.components);
   }
 
   initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
