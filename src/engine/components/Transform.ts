@@ -35,7 +35,7 @@ export default class Transform extends Component {
   }
 
   private applyRotation() {
-    // TODO: Implement rotation
+    this._entity.mesh.setRotationFromEuler(new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z));
   }
 
   private applyScale() {
@@ -48,7 +48,7 @@ export default class Transform extends Component {
     console.debug('applying matrix');
     if (!this._entity){ return; }
     this.applyPosition();
-    this.applyPosition();
+    this.applyRotation();
     this.applyScale();
   }
 

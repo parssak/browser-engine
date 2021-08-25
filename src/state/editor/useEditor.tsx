@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import context from "../../engine/core/EngineContext";
 import SceneManager from "../../engine/core/SceneManager";
 import useScene from "../scene/useScene";
@@ -13,13 +13,13 @@ const useEditor = () => {
 
   const scenePayload = useMemo(() => ({ sceneConfig, scripts }), [sceneConfig, scripts]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => init(), [renderElement]);
-
-  const init = () => {
+  const init = useCallback(() => {
     if (!renderElement || !renderElement.current || !scenePayload) { return; }
     context.init(renderElement.current, scenePayload);
-  }
+  }, [renderElement, scenePayload]);
+
+
+  useEffect(() => init(), [renderElement, init]);
 
   useEffect(() => {
     context.updateScenePayload(scenePayload);

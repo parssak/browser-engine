@@ -23,7 +23,6 @@ export default class Mover extends Component {
   }
 
   update() {
-    console.debug('updating mover');
     this.transform.position.x += this.speed;
   }
 }
