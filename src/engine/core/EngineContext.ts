@@ -65,6 +65,10 @@ class EngineContext {
   getSelectedEntity(): Engine.EntityID | undefined {
     return this.sceneManager.getSelectedEntity();
   }
+
+  getSelectedEntityProps(): Engine.EntityProps | undefined {
+    return this.sceneManager.getSelectedEntityPayload();
+  }
 }
 
 const context = new EngineContext();

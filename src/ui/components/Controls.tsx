@@ -98,10 +98,10 @@ const ComponentNode = ({
 }
 
 export default function Controls() {
-  const { selectedEntity, updateEntity, sceneConfig } = useScene();
+  const { selectedEntity, updateEntity, sceneConfig,  } = useScene();
 
   const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
-  const [materialType, setMaterialType] = useState<Engine.MaterialType>('basic');
+  const [materialType, setMaterialType] = useState<Engine.MaterialType>('normal');
   const [geometryType, setGeometryType] = useState<Engine.GeometryType>('box');
 
   useEffect(() => {
@@ -159,6 +159,8 @@ export default function Controls() {
       updateEntity({ ...selectedEntity });
     }
   }
+
+  // todo: context.sceneManager.getSelectedEntityPayload()?.components?.transform.rotation
 
   if (!selectedEntity) return (<div className="bg-gray-900 h-full flex flex-col space-y-1"></div>)
 

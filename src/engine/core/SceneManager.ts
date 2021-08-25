@@ -1,4 +1,6 @@
+import { throws } from 'assert';
 import * as THREE from 'three';
+import { deepClone } from '../../utils';
 import Entity from "./Entity";
 
 export default class SceneManager {
@@ -7,6 +9,7 @@ export default class SceneManager {
   private _scene!: THREE.Scene;
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
+  private _scenePayloadCopy: Engine.ScenePayload | undefined;
 
   // Selection
   private _selectedEntityID: Engine.EntityID | undefined;
@@ -38,6 +41,10 @@ export default class SceneManager {
     this._scenePayload = payload;
   }
 
+  getSelectedEntityPayload(): Engine.EntityProps | undefined {
+    return this._scenePayload?.sceneConfig.entities.find(e => e.id === this._selectedEntityID);
+  }
+
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
     const updateIndex = this._entities.findIndex(e => e.id === entityID);
     if (updateIndex === -1) return;
@@ -45,7 +52,6 @@ export default class SceneManager {
     this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh);
   }
 
-  
   updateScene() {
     this._entities.forEach(entity => {
       entity.update();
@@ -63,6 +69,9 @@ export default class SceneManager {
     this._scene.remove(this._axes);
     this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
+    if (this._scenePayload) {
+      this._scenePayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload);
+    }
     this._buildEntities();
   }
 
@@ -77,6 +86,9 @@ export default class SceneManager {
     this._resetScene();
     this._scene.add(this._axes);
     this._scene.add(this._gridHelper);
+    if (this._scenePayloadCopy) {
+      this._scenePayload = this._scenePayloadCopy;
+    }
     if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this._buildEntities();
   }

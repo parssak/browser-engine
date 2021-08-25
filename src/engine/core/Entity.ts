@@ -37,6 +37,7 @@ export default class Entity {
   }
 
   initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
+    this.components = {};
     Object.entries(components).forEach(([type, props]) => {
       ComponentManager.instance.setComponent(this, type, props);
     })
