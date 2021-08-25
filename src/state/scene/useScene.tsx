@@ -35,8 +35,9 @@ const useScene = () => {
   }
 
   const createEntity = () => {
+    const id = uuidv4();
     const newEntity: Engine.EntityProps = {
-      id: uuidv4(),
+      id,
       name: "New Entity",
       geometry: 'box',
       material: 'normal',

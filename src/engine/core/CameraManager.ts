@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import oc from 'three-orbit-controls';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import SceneManager from './SceneManager';
 const OrbitControls = oc(THREE);
 
@@ -13,6 +14,8 @@ export default class CameraManager {
   private far = 20000;
   private camera!: THREE.PerspectiveCamera;
   private controls: any;
+  // private transformControls!: TransformControls;
+  
 
   constructor() {
     if (CameraManager.instance) return CameraManager.instance;
@@ -38,19 +41,25 @@ export default class CameraManager {
   handleClick(mouseX: number, mouseY: number) {
     const pointer = new THREE.Vector2(mouseX, mouseY);
     this.raycaster.setFromCamera(pointer, this.camera);
-    const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true).filter(e => e.object.type !== 'BoxHelper' && e.object.type !== 'AxesHelper');
+    const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true).filter(e => e.object.type === 'Mesh');
     if (intersects.length > 0) {
       const intersect = intersects[0];
-      console.debug(intersect);
       SceneManager.instance.select(intersect.object);
     } else {
       SceneManager.instance.select();
     }
   }
 
+  setTransformControlTarget(target?: THREE.Object3D) {
+    // if (target) this.transformControls.attach(target);
+    // else this.transformControls.detach();
+  }
+
   private _setCamera() {
     if (!this.renderElement) {
       this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, this.near, this.far);
+      this.camera.position.y = 10;
+      this.camera.rotation.x = -0.1;
       return;
     }
   }
@@ -73,7 +82,13 @@ export default class CameraManager {
     // this.controls.dampingFactor = 0.39;
 
     this.camera.position.z = 50;
-
+    // this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
+    // this.transformControls.addEventListener('dragging-changed', e => {
+    //   if (!e.value) {
+    //     console.log('changed pos');
+    //   }
+    // });
+    // SceneManager.instance.getScene().add(this.transformControls);
     // this.controls.update();
   }
 
@@ -86,7 +101,6 @@ export default class CameraManager {
   }
 
   Update(scene: THREE.Scene) {
-    // this.controls.update();
     this.renderer.render(scene, this.camera);
     SceneManager.instance.updateScene();
   }

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import CameraManager from './CameraManager';
 import Entity from "./Entity";
 
 export default class SceneManager {
@@ -15,6 +16,7 @@ export default class SceneManager {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
     this._scene.add(this._axes);
+    this._scene.add(new THREE.GridHelper(60, 6));
   }
 
   static isPlaying() {
@@ -69,12 +71,13 @@ export default class SceneManager {
       console.debug('deselecting');
       this._scene.remove(this._selectionHelper);
       this._selectedEntityID = undefined;
+      CameraManager.instance.setTransformControlTarget(undefined);
       return;
     }
     
     if (object) {
       this._selectedEntityID = object.uuid;
-
+      CameraManager.instance.setTransformControlTarget(object);
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00);
         this._scene.add(this._selectionHelper);

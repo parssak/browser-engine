@@ -59,6 +59,6 @@ export default class Transform extends Component {
     //   this.dir = 1;
     // }
     // this.scale.x += 0.1 * this.dir;
-    this.applyMatrix();
+    // this.applyMatrix();
   }
 }
