@@ -9,8 +9,7 @@ export default class Entity {
   public name: string = "";
   public mesh!: THREE.Mesh;
   public readonly id: Engine.EntityID;
-  private children: Entity[] = [];
-  components: Record<Engine.ComponentType, Component> = {};
+  public components: Record<Engine.ComponentType, Component> = {};
 
   constructor(props: Engine.EntityProps) {
     this.id = props.id;
@@ -19,8 +18,6 @@ export default class Entity {
   }
 
   init(props: Engine.EntityProps) {
-    console.debug('Called Entity.init()');
-    // TODO: New approach to creating children in SceneManager.
     this.initMesh(props);
     this.initComponents(props.components);
   }
@@ -57,11 +54,7 @@ export default class Entity {
   }
 
   destroy() {
-
     // TODO: Implement
-
-    // todo: do i need to be doing this?
-    // this.mesh.geometry.dispose();
   }
 
   update() {
