@@ -9,6 +9,7 @@ export default class SceneManager {
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
   private _axes = new THREE.AxesHelper(2);
+  private _gridHelper = new THREE.GridHelper(60, 6);
   private _selectionHelper: THREE.BoxHelper | undefined;
   private _selectedEntityID: Engine.EntityID | undefined;
 
@@ -16,7 +17,7 @@ export default class SceneManager {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
     this._scene.add(this._axes);
-    this._scene.add(new THREE.GridHelper(60, 6));
+    this._scene.add(this._gridHelper);
   }
 
   static isPlaying() {
@@ -48,6 +49,7 @@ export default class SceneManager {
     this.isPlaying = true;
     this.resetScene();
     this._scene.remove(this._axes);
+    this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
     this.buildEntities();
   }
@@ -57,7 +59,7 @@ export default class SceneManager {
     this.resetScene();
     if (this._selectionHelper) this._scene.add(this._selectionHelper);
     this._scene.add(this._axes);
-
+    this._scene.add(this._gridHelper);
     this.buildEntities();
   }
 
