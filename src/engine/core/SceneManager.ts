@@ -9,7 +9,6 @@ export default class SceneManager {
   private _scene!: THREE.Scene;
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
-  private _scenePayloadCopy: Engine.ScenePayload | undefined;
 
   // Selection
   private _selectedEntityID: Engine.EntityID | undefined;
