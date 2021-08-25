@@ -187,13 +187,9 @@ export default function Controls() {
         selectedEntity && (
           <div className="space-y-1">
             <button
-              className="block mx-auto mt-12 py-2 px-4 md:w-48  rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
+              className="block mx-auto mt-12"
               onClick={addComponent}>Add component
             </button>
-            {/* <button
-              className="block mx-auto mt-12 py-2 px-4 md:w-48 rounded-md bg-indigo-100 opacity-60 transition hover:opacity-100 hover:bg-indigo-200 capitalize"
-              onClick={saveEntityChanges}>Save Changes
-            </button> */}
           </div>
         )
       }

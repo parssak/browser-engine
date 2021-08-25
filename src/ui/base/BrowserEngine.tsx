@@ -10,10 +10,10 @@ export default function BrowserEngine(): ReactElement {
 
   return (
     <main className="w-screen h-screen overflow-hidden">
-      <div className={`h-2 transition bg-red-400 ${isRunning && 'bg-green-400'}`}></div>
+      <div className={`h-2 transition bg-red-600 ${isRunning && 'bg-green-500'}`}></div>
       <nav className="bg-gray-900 p-2 space-x-2">
-        <button onClick={toggleRun} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">{isRunning ? 'Stop' : 'Run'} Scene</button>
-        <button onClick={createEntity} className="p-2 bg-gray-700 rounded-md px-3 transition hover:bg-gray-600">Add Entity</button>
+        <button onClick={toggleRun} className="primary">{isRunning ? 'Stop' : 'Run'} Scene</button>
+        <button onClick={createEntity} className="secondary">Add Entity</button>
       </nav>
       <section className="w-full h-full grid" style={{ gridTemplateColumns: '1fr 17rem' }}>
         {renderElement && (<div className="bg-gray-600" id="scene" ref={renderElement} />)}
