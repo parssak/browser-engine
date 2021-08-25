@@ -183,8 +183,8 @@ export default function Controls() {
 
   const geometryOptions: { label: string, value: string }[] = [
     {
-      label: 'Cube',
-      value: 'cube',
+      label: 'Box',
+      value: 'box'
     },
     {
       label: 'Sphere',
