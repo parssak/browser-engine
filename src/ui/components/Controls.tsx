@@ -82,15 +82,17 @@ const ComponentNode = ({
 
   return (
     <div className="bg-gray-800 text-white p-2">
-      <h3 className="font-semibold text-gray-300 text-sm mb-2">{componentType}</h3>
-      {
-        Object.entries(componentProps).map(([fieldName, fieldValue]) => (
-          <div key={fieldName} className="flex space-x-2">
-            <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>{fieldName}</p>
-            <ComponentFieldValue field={fieldValue} updateField={e => updateComponent(componentType, fieldName, e)} />
-          </div>
-        ))
-      }
+      <h3 className="mb-2">{componentType}</h3>
+      <div className="space-y-2">
+        {
+          Object.entries(componentProps).map(([fieldName, fieldValue]) => (
+            <div key={fieldName} className="flex space-x-2">
+              <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>{fieldName}</p>
+              <ComponentFieldValue field={fieldValue} updateField={e => updateComponent(componentType, fieldName, e)} />
+            </div>
+          ))
+        }
+      </div>
     </div>
   )
 }
@@ -134,28 +136,85 @@ export default function Controls() {
     }
   }
 
+  if (!selectedEntity) return (<div className="bg-gray-900 h-full flex flex-col space-y-1"></div>)
+
+  const materialOptions: { label: string, value: string }[] = [
+    {
+      label: 'Normal',
+      value: 'normal',
+    },
+    {
+      label: 'Basic',
+      value: 'basic',
+    },
+    {
+      label: 'Lambert',
+      value: 'lambert',
+    },
+    {
+      label: 'Phong',
+      value: 'phong'
+    }
+  ]
+
+  const geometryOptions: { label: string, value: string }[] = [
+    {
+      label: 'Cube',
+      value: 'cube',
+    },
+    {
+      label: 'Sphere',
+      value: 'sphere',
+    },
+    {
+      label: 'Torus',
+      value: 'torus',
+    },
+  ]
+
   return (
-    <div className="bg-gray-900 h-full flex flex-col space-y-1">
-      {
-        Object.entries(controls).map(([type, props]) =>
-          <ComponentNode
-            componentType={type}
-            componentProps={props}
-            key={type}
-            updateComponent={updateComponent}
-          />
-        )
-      }
-      {
-        selectedEntity && (
-          <div className="space-y-1">
-            <button
-              className="block mx-auto mt-12"
-              onClick={addComponent}>Add component
-            </button>
+    <div className="bg-gray-900 h-full flex flex-col space-y-8">
+      <section className="space-y-2">
+        {
+          Object.entries(controls).map(([type, props]) =>
+            <ComponentNode
+              componentType={type}
+              componentProps={props}
+              key={type}
+              updateComponent={updateComponent}
+            />
+          )
+        }
+      </section>
+      <section>
+        <button
+          className="block mx-auto mt-6"
+          onClick={addComponent}>Add component
+        </button>
+      </section>
+      <section>
+        <div className="bg-gray-800 text-white p-2">
+          <h3>Mesh</h3>
+          <div className="space-y-2">
+            <div className="flex space-x-2 items-center">
+              <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>Material</p>
+              <select>
+                {
+                  materialOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)
+                }
+              </select>
+            </div>
+            <div className="flex space-x-2 items-center">
+              <p className="text-xs font-mono text-gray-200" style={{ minWidth: '10ch' }}>Geometry</p>
+              <select>
+                {
+                  geometryOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)
+                }
+              </select>
+            </div>
           </div>
-        )
-      }
-    </div>
-  );
+        </div>
+      </section>
+    </div >
+  )
 }
