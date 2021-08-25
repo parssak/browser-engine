@@ -52,6 +52,10 @@ class EngineContext {
   isPlaying(): boolean {
     return SceneManager.isPlaying() ?? false
   }
+
+  handleClick(mouseX: number, mouseY: number) {
+    this.cameraManager.handleClick(mouseX, mouseY);
+  }
 }
 
 const context = new EngineContext();

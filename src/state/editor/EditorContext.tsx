@@ -1,4 +1,4 @@
-import { ReactElement, useRef } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import { createContext } from 'react';
 
 interface IEditorContext {
@@ -12,6 +12,7 @@ export const EditorContext = createContext<IEditorContext>(initialValue);
 export const EditorProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const renderElement = useRef<HTMLDivElement>(null)
   const contextValue = { renderElement };
+
 
   return (
     <EditorContext.Provider value={contextValue}>

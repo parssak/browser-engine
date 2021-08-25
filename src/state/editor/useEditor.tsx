@@ -36,10 +36,18 @@ const useEditor = () => {
     setIsRunning(true);
   };
 
+  const handleClickScene = (e: React.MouseEvent) => {
+    const canvas: HTMLCanvasElement = e.target as unknown as HTMLCanvasElement;
+    const domRect: DOMRect = canvas.getBoundingClientRect();
+    const [mouseX, mouseY]: [number, number] = [((e.clientX - domRect.x) / domRect.width) * 2 - 1, -((e.clientY - domRect.y) / domRect.height) * 2 + 1];
+    context.handleClick(mouseX, mouseY);
+  }
+
   return {
     renderElement,
     isRunning,
-    toggleRun
+    toggleRun,
+    handleClickScene
   };
 }
 

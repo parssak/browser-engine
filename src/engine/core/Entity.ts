@@ -14,6 +14,7 @@ export default class Entity {
 
   constructor(props: Engine.EntityProps) {
     this.id = props.id;
+    this.name = props.name;
     this.init(props);
   }
 
@@ -21,6 +22,8 @@ export default class Entity {
     const mat = MaterialManager.instance.getMaterial(props.material);
     const geometry = GeometryManager.instance.getGeometry(props.geometry);
     this.mesh = new THREE.Mesh(geometry, mat);
+    this.mesh.uuid = this.id;
+    this.mesh.name = this.name;
     console.debug('called init');
     // TODO: New approach to creating children in SceneManager.
     // props.children.forEach(entityProps => {

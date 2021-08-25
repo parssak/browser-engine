@@ -7,10 +7,12 @@ export default class SceneManager {
   private _scene = new THREE.Scene();
   private _entities: Entity[] = [];
   private _scenePayload: Engine.ScenePayload | undefined;
+  private _axes = new THREE.AxesHelper(2);
 
   constructor() {
     if (SceneManager.instance) { return; }
     SceneManager.instance = this;
+    this._scene.add(this._axes);
   }
 
   static isPlaying() {
@@ -40,13 +42,20 @@ export default class SceneManager {
   runPlayScene() {
     this.isPlaying = true;
     this.resetScene();
+    this._scene.remove(this._axes);
     this.buildEntities();
   }
   
   runEditScene() {
     this.isPlaying = false;
     this.resetScene();
+    this._scene.add(this._axes);
+
     this.buildEntities();
+  }
+
+  select(object: THREE.Object3D) {
+    console.log('selected', object);
   }
 
   private resetScene() {
@@ -54,7 +63,6 @@ export default class SceneManager {
       entity.destroy();
       this._scene.remove(entity.mesh);
     });
-    // this._scene = new THREE.Scene();
     this._entities = [];
   }
 

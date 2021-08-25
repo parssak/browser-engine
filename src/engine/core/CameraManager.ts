@@ -7,6 +7,7 @@ export default class CameraManager {
   public static instance: CameraManager;
   private renderer = new THREE.WebGLRenderer({ antialias: true });
   private renderElement: HTMLElement | undefined;
+  private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private fov = 45;
   private near = 0.01;
   private far = 20000;
@@ -26,11 +27,23 @@ export default class CameraManager {
     this.renderElement.appendChild(this.renderer.domElement);
     this.handleResize();
     this._setControls();
+    this._setRaycaster();
     this._runSceneLoop(scene);
   }
 
   resetCamera() {
     this.renderer.setAnimationLoop(null);
+  }
+
+  handleClick(mouseX: number, mouseY: number) {
+    const pointer = new THREE.Vector2(mouseX, mouseY);
+    this.raycaster.setFromCamera(pointer, this.camera);
+    const intersects = this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true);
+    if (intersects.length > 0) {
+      const intersect = intersects[0];
+      console.log(intersect.object);
+      SceneManager.instance.select(intersect.object);
+    }
   }
 
   private _setCamera() {
@@ -42,6 +55,13 @@ export default class CameraManager {
 
   private _runSceneLoop(scene: THREE.Scene) {
     this.renderer.setAnimationLoop((time: number) => this.Update(scene));
+  }
+
+  private _setRaycaster() {
+    this.raycaster = new THREE.Raycaster();
+    if (this.raycaster && this.raycaster.params && this.raycaster.params.Line) {
+      // this.raycaster.params.Line.threshold = 3;
+    }
   }
 
   private _setControls() {
