@@ -1,7 +1,9 @@
+import * as THREE from 'three';
 import { Component, ReactElement, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import ComponentManager from '../../engine/core/ComponentManager';
 import { formatScriptString } from '../../utils/script.utils';
+import BrowserEngine from '../../engine';
 
 interface IScriptContext {
   scripts: Engine.Script[];
@@ -26,12 +28,13 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {
+    const BE = new BrowserEngine();
     scripts.forEach(script => {
       try {
+        
         const formattedScript = formatScriptString(script);
         const NewComponent: any = eval(`(${formattedScript})`); // ! <-- dangerous usage of eval ;)
         Object.setPrototypeOf(NewComponent, Component); // ! <-- lol
-        
         const scriptCopy = `${script.content}`;
         const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11);
         let pureProps = removePrefix.substring(0, removePrefix.indexOf("// </public>"));

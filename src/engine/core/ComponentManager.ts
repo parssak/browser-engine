@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Transform from "../components/Transform";
+import Transform from "./Transform";
 import { BaseComponentType } from "./Component";
 import Entity from "./Entity";
 export default class ComponentManager {

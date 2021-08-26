@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Component from '../core/Component';
-import Entity from '../core/Entity';
+import Component from './Component';
+import Entity from './Entity';
 interface ITransformProps {
   position?: THREE.Vector3;
   rotation?: THREE.Euler;
