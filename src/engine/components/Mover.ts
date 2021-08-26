@@ -11,7 +11,7 @@ export default class Mover extends Component {
 
   init(props: IMoverProps) {
     this.speed = props?.speed ?? 0.05;
-    this.transform = this.entity.components['transform'] as Transform;
+    this.transform = this.entity.components['Transform'] as Transform;
   }
 
   update() {
