@@ -29,7 +29,7 @@ export const generateNewScript = (name: string): Engine.Script => {
 };
 
 export const formatScriptString = (script: Engine.Script): string => {
-  const formatted = `${script.content}`;
+  const formatted = `(${script.content})`;
   return formatted.replace(COMPONENT_DEF, `
           entity;
         

@@ -35,7 +35,6 @@ class EngineContext {
   }
 
   runEditMode() {
-    console.debug('ran run edit mode');
     this.sceneManager.runEditScene();
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene());
   }

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import useEditor from '../../state/editor/useEditor'
 import useScene from '../../state/scene/useScene'
 import useScripts from '../../state/scripts/useScripts'
@@ -12,7 +12,13 @@ export default function BrowserEngine(): ReactElement {
   const { renderElement, toggleRun, isRunning, handleClickScene } = useEditor()
   const { createScript, selectedScript, loadScript, saveScript } = useScripts();
 
-  const [scriptBody, setScriptBody] = useState('');
+  const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? '');
+
+  useEffect(() => {
+    if (!scriptBody && selectedScript) {
+      setScriptBody(selectedScript.content);
+    }
+  }, [selectedScript]);
 
   const handleEditorChange = (newValue: string | undefined) => {
     setScriptBody(newValue ?? '')

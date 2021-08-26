@@ -115,7 +115,6 @@ export default function Controls() {
 
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
-    console.debug('update component fields', selectedEntity);
     const updateComponentFields = (entity: Engine.EntityProps) => {
       const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {};
       Object.entries(entity.components).forEach(([type, props]) => {

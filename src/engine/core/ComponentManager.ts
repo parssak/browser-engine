@@ -25,17 +25,14 @@ export default class ComponentManager {
   };
 
   public registerComponent(componentName: string, component: BaseComponentType, props: Engine.ComponentProps): void {
-    console.debug('registering', component, component.name);
     this.components[componentName] = { constructor: component, props };
   };
 
   public getComponentProps(name: Engine.ComponentType): Engine.ComponentProps | null {
     const componentProps = this.components[name].props ?? null;
     if (!componentProps) {
-      console.error(`Component ${name} not found`);
       return null;
     }
-    console.debug('got component props', componentProps);
     return componentProps;
   }
 

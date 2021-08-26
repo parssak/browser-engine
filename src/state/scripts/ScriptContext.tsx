@@ -29,23 +29,22 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
     scripts.forEach(script => {
       try {
         const formattedScript = formatScriptString(script);
-        const NewComponent: any = eval(`(${formattedScript})`);
-        Object.setPrototypeOf(NewComponent, Component);
+        const NewComponent: any = eval(`(${formattedScript})`); // ! <-- dangerous usage of eval ;)
+        Object.setPrototypeOf(NewComponent, Component); // ! <-- lol
+        
         const scriptCopy = `${script.content}`;
         const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11);
-        // take substring of entire string justPublic until // </public>
         let pureProps = removePrefix.substring(0, removePrefix.indexOf("// </public>"));
-        pureProps = pureProps.replace(';', ',');
-        pureProps = pureProps.replace('=', ':');
+        pureProps = pureProps.replaceAll(';', ',');
+        pureProps = pureProps.replaceAll('=', ':');
         let props = {};
         if (`${pureProps}`.replace(/\s/g, "").length) {
           pureProps = `{${pureProps}}`
-          props = eval(`(${pureProps})`);
+          props = eval(`(${pureProps})`); // ! <-- dangerous usage of eval pt. 2 ;)
         }
-        console.debug('props>>', props);
         ComponentManager.instance.registerComponent(script.name, NewComponent, props);
       } catch (err) {
-        alert(err?.message);
+        console.error(err);
       }
     }
     )
