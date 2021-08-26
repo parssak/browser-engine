@@ -8,7 +8,6 @@ interface ITransformProps {
 }
 
 export default class Transform extends Component {
-  name = "transform";
   _entity: Entity;
 
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);

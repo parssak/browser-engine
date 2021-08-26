@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 
-* {
-  font-family: 'Inter', sans-serif;
+* :not(.monaco-editor) {
+  /* font-family: 'Inter', sans-serif; */
 }
 
 html {

@@ -4,7 +4,7 @@ declare namespace Engine {
   import oc from 'three-orbit-controls';
   
   // #region -- Script -- 
-  type Language = "typescript" | "javascript" | "glsl"
+  type Language = "ts" | "js" | "glsl"
   type ScriptType = "component" | "shader"
   type ScriptID = string;
 

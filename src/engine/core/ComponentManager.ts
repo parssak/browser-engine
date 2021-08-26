@@ -10,16 +10,17 @@ export default class ComponentManager {
   constructor() {
     if (ComponentManager.instance) return;
     ComponentManager.instance = this;
-    this.registerComponent('transform', Transform);
-    this.registerComponent('mover', Mover);
+    this.registerComponent(Transform);
+    this.registerComponent(Mover);
   }
 
-  public registerComponent(name: Engine.ComponentType, component: BaseComponentType): void {
-    this.components[name] = component;
+  public registerComponent(component: BaseComponentType): void {
+    console.debug('registering', component, component.name);
+    this.components[component.name.toLowerCase()] = component;
   };
 
   private getComponent(name: Engine.ComponentType): BaseComponentType | null {
-    return this.components[name] ?? null;
+    return this.components[name.toLowerCase()] ?? null;
   }
 
   public setComponent(entity: Entity, componentType: Engine.ComponentType, componentProps: Engine.ComponentProps): void {

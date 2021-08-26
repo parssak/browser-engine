@@ -127,7 +127,11 @@ export default function Controls() {
 
   const addComponent = () => {
     if (!selectedEntity) return;
-    const newComponentName = 'mover';
+    // const newComponentName = 'mover';
+    // const newComponentProps: Engine.ComponentProps = {
+    //   speed: 0.05
+    // };
+    const newComponentName = 'rotator';
     const newComponentProps: Engine.ComponentProps = {
       speed: 0.05
     };
