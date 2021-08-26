@@ -1,9 +1,8 @@
-import * as THREE from 'three';
+import * as three from 'three';
 import { Component, ReactElement, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import ComponentManager from '../../engine/core/ComponentManager';
 import { formatScriptString } from '../../utils/script.utils';
-import BrowserEngine from '../../engine';
 
 interface IScriptContext {
   scripts: Engine.Script[];
@@ -28,7 +27,7 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {
-    const BE = new BrowserEngine();
+    const THREE = three; // hoist reference of three.js
     scripts.forEach(script => {
       try {
         
