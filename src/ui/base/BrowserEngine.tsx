@@ -10,10 +10,12 @@ import ScriptPanel from '../components/ScriptPanel'
 export default function BrowserEngine(): ReactElement {
   const { createEntity, selectedEntity } = useScene()
   const { renderElement, toggleRun, isRunning, handleClickScene } = useEditor()
-  const { createScript, demoCompile, selectedScript } = useScripts();
+  const { createScript,  selectedScript, loadScript, saveScript } = useScripts();
+  
+  const [scriptBody, setScriptBody] = useState('');
   
   const handleEditorChange = (newValue: string | undefined) => {
-    console.debug(newValue)
+    setScriptBody(newValue ?? '')
   }
 
   return (
@@ -23,7 +25,6 @@ export default function BrowserEngine(): ReactElement {
         <button onClick={toggleRun} className="primary">{isRunning ? 'Stop' : 'Run'} Scene</button>
         <button onClick={createEntity} className="secondary">Add Entity</button>
         <button onClick={() => createScript('foo')} className="secondary">Add Script</button>
-        <button onClick={demoCompile} className="secondary">Compile Scripts</button>
       </nav>
       <section className="w-full h-full grid" style={{ gridTemplateColumns: '1fr 17rem' }}>
         {renderElement && (<div className="bg-gray-600" id="scene" ref={renderElement} onClick={(e) => handleClickScene(e)} />)}
@@ -37,8 +38,16 @@ export default function BrowserEngine(): ReactElement {
           </div>
         </div>
       </section>
-      {selectedScript && (<section className="fixed inset-0 grid place-items-center">
-        <div className="bg-black monaco-editor" style={{ width: '60vw' }}>
+      {selectedScript && (<section className="fixed inset-0 grid place-items-center" onClick={() => loadScript('')}>
+        <div
+          onClick={e => {
+            e.stopPropagation();
+            saveScript({ ...selectedScript, content: scriptBody });
+          }}
+          className="absolute top-10 right-10 py-2 px-4 cursor-pointer rounded-md bg-indigo-600 text-white">
+          Save
+        </div>
+        <div className="bg-black monaco-editor" style={{ width: '60vw' }} onClick={e => e.stopPropagation()}>
           <Editor
             height="90vh"
             defaultLanguage="javascript"

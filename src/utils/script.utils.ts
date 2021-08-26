@@ -24,3 +24,14 @@ export const generateNewScript = (name: string): Engine.Script => {
     type: 'component'
   }
 };
+
+export const formatScriptString = (script: Engine.Script): string => {
+  const formatted = `${script.content}`;
+  return formatted.replace(COMPONENT_DEF, `
+          entity;
+        
+          constructor(entity) {
+            this.entity = entity;
+          }
+        `);
+};

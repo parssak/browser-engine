@@ -1,12 +1,12 @@
 import Component from '../../engine/core/Component';
 import ComponentManager from '../../engine/core/ComponentManager';
-import { useContext, useState } from "react";
-import { generateNewScript } from "../../utils/script.utils";
+import { useContext, useEffect, useState } from "react";
+import { formatScriptString, generateNewScript } from "../../utils/script.utils";
 import { ScriptContext } from "./ScriptContext";
 import { BaseComponentType } from '../../engine/core/Component';
 
 const useScripts = () => {
-  const { scripts, setScripts, selectedScript, setSelectedScript } = useContext(ScriptContext);
+  const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } = useContext(ScriptContext);
 
   const loadScript = (scriptID: string) => {
     const script = scripts.find(s => s.id === scriptID);
@@ -14,7 +14,10 @@ const useScripts = () => {
   };
   
   const saveScript = (script: Engine.Script) => {
-    // TODO: implement this
+    const foundScript = scripts.find(s => s.id === script.id);
+    if (!foundScript) return;
+    foundScript.content = script.content;
+    compileScripts();
   };
   
   const createScript = (name: string) => {
@@ -22,39 +25,6 @@ const useScripts = () => {
     setScripts([...scripts, newScript]);
   };
 
-  const demoCompile = () => {
-    const COMPONENT_DEF = `// @defineComponent`;
-    const script = `
-      class Rotator {
-        ${COMPONENT_DEF}
-
-        init(props) {
-          this.speed = props?.speed ?? 0.05;
-          this.transform = this.entity.components['transform'];
-        }
-
-        update() {
-          this.transform.rotation.x += this.speed;
-          this.transform.rotation.y += this.speed;
-        }
-      }
-    `;
-    try {
-      const formattedScript = script.replace(COMPONENT_DEF, `
-        entity;
-      
-        constructor(entity) {
-          this.entity = entity;
-        }
-      `);
-      const NewComponent: any = eval(`(${formattedScript})`);
-      Object.setPrototypeOf(NewComponent, Component);
-      console.log(Object.getPrototypeOf(NewComponent));
-      ComponentManager.instance.registerComponent(NewComponent);
-    } catch (err) {
-      alert(err?.message);
-    }
-  }
 
   return {
     scripts,
@@ -64,7 +34,6 @@ const useScripts = () => {
     loadScript,
     saveScript,
     createScript,
-    demoCompile
   };
 }
 
