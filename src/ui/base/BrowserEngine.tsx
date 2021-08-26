@@ -5,6 +5,7 @@ import useScripts from '../../state/scripts/useScripts'
 import Controls from '../components/Controls'
 import TreeViewPanel from '../components/TreeViewPanel'
 import Editor from "@monaco-editor/react";
+import ScriptPanel from '../components/ScriptPanel'
 
 export default function BrowserEngine(): ReactElement {
   const { createEntity, selectedEntity } = useScene()
@@ -29,10 +30,10 @@ export default function BrowserEngine(): ReactElement {
         <div className="grid grid-rows-5 gap-0 5">
           <TreeViewPanel />
           <div className="row-span-2">
-            <Controls key={selectedEntity?.id ?? 'controls'} />
+            <Controls />
           </div>
           <div className="row-span-2">
-            
+            <ScriptPanel />
           </div>
         </div>
       </section>

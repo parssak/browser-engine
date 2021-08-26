@@ -8,7 +8,7 @@ export default function ScriptPanel(): ReactElement {
     <div>
       {
         scripts.map(s => (
-          <div onClick={() => loadScript(s.id)}>
+          <div onClick={() => loadScript(s.id)} key={s.id}>
             {s.name}
           </div>)
         )
