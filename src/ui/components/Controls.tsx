@@ -128,14 +128,6 @@ export default function Controls() {
   const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return;
     const componentProps = ComponentManager.instance.getComponentProps(componentName);
-    // const newComponentName = 'mover';
-    // const newComponentProps: Engine.ComponentProps = {
-    //   speed: 0.05
-    // };
-    // const newComponentName = 'rotator';
-    // const newComponentProps: Engine.ComponentProps = {
-    //   speed: 0.05
-    // };
     if (!componentProps) return;
     selectedEntity.components[componentName] = componentProps;
     updateEntity(selectedEntity);

@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import Mover from '../components/Mover';
 import Transform from "../components/Transform";
 import { BaseComponentType } from "./Component";
 import Entity from "./Entity";
@@ -16,8 +15,6 @@ export default class ComponentManager {
       rotation: { x: 0, y: 0, z: 0 },
       scale: { x: 1, y: 1, z: 1 },
     });
-
-    // this.registerComponent("Mover", Mover, { speed: 0.4 });
   }
 
   public getComponents() {

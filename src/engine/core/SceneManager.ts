@@ -1,4 +1,3 @@
-import { throws } from 'assert';
 import * as THREE from 'three';
 import { deepClone } from '../../utils';
 import Entity from "./Entity";
