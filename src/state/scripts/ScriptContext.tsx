@@ -3,6 +3,8 @@ import { Component, ReactElement, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import ComponentManager from '../../engine/core/ComponentManager';
 import { formatScriptString } from '../../utils/script.utils';
+import context from '../../engine/core/EngineContext';
+import SceneManager from '../../engine/core/SceneManager';
 
 interface IScriptContext {
   scripts: Engine.Script[];
@@ -27,10 +29,13 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {
-    const THREE = three; // hoist reference of three.js
+    // *  Cheeky reference hoist reference of three.js
+    
+    const THREE = three;
+    const SCENE = SceneManager.instance.getScene();
+    
     scripts.forEach(script => {
       try {
-        
         const formattedScript = formatScriptString(script);
         const NewComponent: any = eval(`(${formattedScript})`); // ! <-- dangerous usage of eval ;)
         Object.setPrototypeOf(NewComponent, Component); // ! <-- lol
