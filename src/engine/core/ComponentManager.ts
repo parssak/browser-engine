@@ -17,7 +17,7 @@ export default class ComponentManager {
       scale: { x: 1, y: 1, z: 1 },
     });
 
-    this.registerComponent("Mover", Mover, { speed: 0.4 });
+    // this.registerComponent("Mover", Mover, { speed: 0.4 });
   }
 
   public getComponents() {
