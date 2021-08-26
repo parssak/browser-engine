@@ -8,7 +8,7 @@ interface ITransformProps {
 }
 
 export default class Transform extends Component {
-  _entity: Entity;
+  entity: Entity;
 
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
@@ -16,7 +16,7 @@ export default class Transform extends Component {
 
   constructor(entity: Entity) {
     super(entity);
-    this._entity = entity;
+    this.entity = entity;
   }
 
   init(props?: ITransformProps) {
@@ -27,23 +27,23 @@ export default class Transform extends Component {
   }
 
   private applyPosition() {
-    this._entity.mesh.position.setX(this.position.x);
-    this._entity.mesh.position.setY(this.position.y);
-    this._entity.mesh.position.setZ(this.position.z);
+    this.entity.mesh.position.setX(this.position.x);
+    this.entity.mesh.position.setY(this.position.y);
+    this.entity.mesh.position.setZ(this.position.z);
   }
 
   private applyRotation() {
-    this._entity.mesh.setRotationFromEuler(new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z));
+    this.entity.mesh.setRotationFromEuler(new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z));
   }
 
   private applyScale() {
-    this._entity.mesh.scale.setX(this.scale.x);
-    this._entity.mesh.scale.setY(this.scale.y);
-    this._entity.mesh.scale.setZ(this.scale.z);
+    this.entity.mesh.scale.setX(this.scale.x);
+    this.entity.mesh.scale.setY(this.scale.y);
+    this.entity.mesh.scale.setZ(this.scale.z);
   }
 
   private applyMatrix() {
-    if (!this._entity) { return; }
+    if (!this.entity) { return; }
     this.applyPosition();
     this.applyRotation();
     this.applyScale();

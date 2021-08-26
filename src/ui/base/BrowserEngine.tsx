@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import useEditor from '../../state/editor/useEditor'
 import useScene from '../../state/scene/useScene'
 import useScripts from '../../state/scripts/useScripts'
@@ -9,7 +9,7 @@ import Editor from "@monaco-editor/react";
 export default function BrowserEngine(): ReactElement {
   const { createEntity, selectedEntity } = useScene()
   const { renderElement, toggleRun, isRunning, handleClickScene } = useEditor()
-  const { demoCompile } = useScripts();
+  const { demoCompile, selectedScript } = useScripts();
   
   const handleEditorChange = (newValue: string | undefined) => {
     console.debug(newValue)
@@ -32,16 +32,16 @@ export default function BrowserEngine(): ReactElement {
           </div>
         </div>
       </section>
-      {/* <section className="fixed inset-0 grid place-items-center">
+      {selectedScript && (<section className="fixed inset-0 grid place-items-center">
         <div className="bg-black monaco-editor" style={{ width: '60vw' }}>
           <Editor
             height="90vh"
-            defaultLanguage="typescript"
-            defaultValue="// some comment"
+            defaultLanguage="javascript"
+            defaultValue={selectedScript.content}
             theme="vs-dark"
             onChange={handleEditorChange} />
         </div>
-      </section> */}
+      </section>)}
     </main>
   )
 }

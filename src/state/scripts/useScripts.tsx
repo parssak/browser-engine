@@ -1,15 +1,16 @@
 import Component from '../../engine/core/Component';
 import ComponentManager from '../../engine/core/ComponentManager';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { generateNewScript } from "../../utils/script.utils";
 import { ScriptContext } from "./ScriptContext";
 import { BaseComponentType } from '../../engine/core/Component';
 
 const useScripts = () => {
-  const { scripts, setScripts } = useContext(ScriptContext);
+  const { scripts, setScripts, selectedScript, setSelectedScript } = useContext(ScriptContext);
 
-  const loadScript = (name: string) => {
-    // TODO: implement this
+  const loadScript = (scriptID: string) => {
+    const script = scripts.find(s => s.id === scriptID);
+    setSelectedScript(script);
   };
   
   const saveScript = (script: Engine.Script) => {
@@ -17,23 +18,19 @@ const useScripts = () => {
   };
   
   const createScript = (name: string) => {
-    // TODO: implement this
     const newScript = generateNewScript(name);
     setScripts([...scripts, newScript]);
   };
 
   const demoCompile = () => {
+    const COMPONENT_DEF = `// @defineComponent`;
     const script = `
       class Rotator {
-        _entity;
-
-        constructor(entity) {
-          this._entity = entity;
-        };
+        ${COMPONENT_DEF}
 
         init(props) {
           this.speed = props?.speed ?? 0.05;
-          this.transform = this._entity.components['transform'];
+          this.transform = this.entity.components['transform'];
         }
 
         update() {
@@ -43,7 +40,14 @@ const useScripts = () => {
       }
     `;
     try {
-      const NewComponent: any = eval(`(${script})`);
+      const formattedScript = script.replace(COMPONENT_DEF, `
+        entity;
+      
+        constructor(entity) {
+          this.entity = entity;
+        }
+      `);
+      const NewComponent: any = eval(`(${formattedScript})`);
       Object.setPrototypeOf(NewComponent, Component);
       console.log(Object.getPrototypeOf(NewComponent));
       ComponentManager.instance.registerComponent(NewComponent);
@@ -55,6 +59,8 @@ const useScripts = () => {
   return {
     scripts,
     setScripts,
+    selectedScript,
+    setSelectedScript,
     loadScript,
     saveScript,
     createScript,

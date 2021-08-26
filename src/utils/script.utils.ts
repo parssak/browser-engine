@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
+const COMPONENT_DEF = `// @defineComponent`;
+
 export const generateNewScript = (name: string): Engine.Script => {
   const id = uuidv4();
   return {
@@ -8,8 +10,7 @@ export const generateNewScript = (name: string): Engine.Script => {
     language: 'js',
     content: `
       class ${name} {
-        constructor() {
-        }
+        ${COMPONENT_DEF}
 
         init() {
 
