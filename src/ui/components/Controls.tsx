@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import ComponentManager from '../../engine/core/ComponentManager';
 import useEditor from '../../state/editor/useEditor';
 import useScene from '../../state/scene/useScene';
 
@@ -100,7 +101,7 @@ const ComponentNode = ({
 
 export default function Controls() {
   const { isRunning } = useEditor()
-  const { selectedEntity, updateEntity, sceneConfig,  } = useScene();
+  const { selectedEntity, updateEntity, sceneConfig, } = useScene();
 
   const [controls, setControls] = useState<Record<Engine.ComponentType, Engine.ComponentProps>>({});
   const [materialType, setMaterialType] = useState<Engine.MaterialType>('normal');
@@ -114,7 +115,7 @@ export default function Controls() {
 
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
-    console.debug('update component fields');
+    console.debug('update component fields', selectedEntity);
     const updateComponentFields = (entity: Engine.EntityProps) => {
       const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {};
       Object.entries(entity.components).forEach(([type, props]) => {
@@ -125,17 +126,19 @@ export default function Controls() {
     if (selectedEntity) updateComponentFields(selectedEntity);
   }, [selectedEntity, sceneConfig, isRunning]);
 
-  const addComponent = () => {
+  const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return;
+    const componentProps = ComponentManager.instance.getComponentProps(componentName);
     // const newComponentName = 'mover';
     // const newComponentProps: Engine.ComponentProps = {
     //   speed: 0.05
     // };
-    const newComponentName = 'rotator';
-    const newComponentProps: Engine.ComponentProps = {
-      speed: 0.05
-    };
-    selectedEntity.components[newComponentName] = newComponentProps;
+    // const newComponentName = 'rotator';
+    // const newComponentProps: Engine.ComponentProps = {
+    //   speed: 0.05
+    // };
+    if (!componentProps) return;
+    selectedEntity.components[componentName] = componentProps;
     updateEntity(selectedEntity);
   }
 
@@ -168,6 +171,13 @@ export default function Controls() {
   // todo: context.sceneManager.getSelectedEntityPayload()?.components?.transform.rotation
 
   if (!selectedEntity) return (<div className="bg-gray-900 h-full flex flex-col space-y-1"></div>)
+
+  const getComponentOptions = (): { label: string, value: string }[] => {
+    const components = ComponentManager.instance.getComponents();
+    return Object.keys(components).map(component => ({ label: component, value: component }));
+  }
+
+  const componentOptions = getComponentOptions();
 
   const materialOptions: { label: string, value: string }[] = [
     {
@@ -204,7 +214,7 @@ export default function Controls() {
   ]
 
   return (
-    <div className="bg-gray-900 h-full flex flex-col space-y-8">
+    <div className="bg-gray-900 h-full flex flex-col space-y-1">
       <section className="space-y-2">
         {
           Object.entries(controls).map(([type, props]) =>
@@ -218,10 +228,14 @@ export default function Controls() {
         }
       </section>
       <section>
-        <button
-          className="block mx-auto mt-6"
-          onClick={addComponent}>Add component
-        </button>
+        {
+          componentOptions.map(({ label, value }) => (
+            <button
+              className="block mx-auto mt-2"
+              onClick={() => addComponent(value)}
+              key={value}>Add {label}</button>
+          ))
+        }
       </section>
       <section>
         <div className="bg-gray-800 text-white p-2">

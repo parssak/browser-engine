@@ -31,8 +31,19 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
         const formattedScript = formatScriptString(script);
         const NewComponent: any = eval(`(${formattedScript})`);
         Object.setPrototypeOf(NewComponent, Component);
-        console.log(Object.getPrototypeOf(NewComponent));
-        ComponentManager.instance.registerComponent(NewComponent);
+        const scriptCopy = `${script.content}`;
+        const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11);
+        // take substring of entire string justPublic until // </public>
+        let pureProps = removePrefix.substring(0, removePrefix.indexOf("// </public>"));
+        pureProps = pureProps.replace(';', ',');
+        pureProps = pureProps.replace('=', ':');
+        let props = {};
+        if (`${pureProps}`.replace(/\s/g, "").length) {
+          pureProps = `{${pureProps}}`
+          props = eval(`(${pureProps})`);
+        }
+        console.debug('props>>', props);
+        ComponentManager.instance.registerComponent(script.name, NewComponent, props);
       } catch (err) {
         alert(err?.message);
       }

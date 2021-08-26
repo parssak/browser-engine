@@ -1,26 +1,46 @@
 import * as THREE from 'three';
 import Mover from '../components/Mover';
 import Transform from "../components/Transform";
-import Component, { BaseComponentType } from "./Component";
+import { BaseComponentType } from "./Component";
 import Entity from "./Entity";
 export default class ComponentManager {
   public static instance: ComponentManager;
-  private components: { [key: string]: BaseComponentType } = {};
-  
+  private components: { [key: string]: { constructor: BaseComponentType, props: Engine.ComponentProps } } = {};
+
   constructor() {
     if (ComponentManager.instance) return;
     ComponentManager.instance = this;
-    this.registerComponent(Transform);
-    this.registerComponent(Mover);
+
+    this.registerComponent("Transform", Transform, {
+      position: { x: 0, y: 0, z: 0 },
+      rotation: { x: 0, y: 0, z: 0 },
+      scale: { x: 1, y: 1, z: 1 },
+    });
+
+    this.registerComponent("Mover", Mover, { speed: 0.4 });
   }
 
-  public registerComponent(component: BaseComponentType): void {
-    console.debug('registering', component, component.name);
-    this.components[component.name.toLowerCase()] = component;
+  public getComponents() {
+    return { ...this.components };
   };
 
+  public registerComponent(componentName: string, component: BaseComponentType, props: Engine.ComponentProps): void {
+    console.debug('registering', component, component.name);
+    this.components[componentName] = { constructor: component, props };
+  };
+
+  public getComponentProps(name: Engine.ComponentType): Engine.ComponentProps | null {
+    const componentProps = this.components[name].props ?? null;
+    if (!componentProps) {
+      console.error(`Component ${name} not found`);
+      return null;
+    }
+    console.debug('got component props', componentProps);
+    return componentProps;
+  }
+
   private getComponent(name: Engine.ComponentType): BaseComponentType | null {
-    return this.components[name.toLowerCase()] ?? null;
+    return this.components[name].constructor ?? null;
   }
 
   public setComponent(entity: Entity, componentType: Engine.ComponentType, componentProps: Engine.ComponentProps): void {
@@ -29,7 +49,7 @@ export default class ComponentManager {
       console.error(`Component ${componentType} not found`);
       return;
     }
-  
+
     // Translate vector props 
     Object.entries(componentProps).forEach(([name, prop]) => {
       if (Array.isArray(prop)) {

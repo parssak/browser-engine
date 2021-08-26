@@ -49,7 +49,7 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
       geometry: 'box',
       children: [],
       components: {
-        "transform": {
+        "Transform": {
           position: {x: 3, y: 0.2, z: 1},
           rotation: {x: 3, y: 3, z: 3},
           scale: {x: 2, y: 1, z: 1},

@@ -10,9 +10,11 @@ interface ITransformProps {
 export default class Transform extends Component {
   entity: Entity;
 
+  // <@public>
   public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
   public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
+  // </@public>
 
   constructor(entity: Entity) {
     super(entity);
