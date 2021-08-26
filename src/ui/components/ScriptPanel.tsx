@@ -9,7 +9,7 @@ export default function ScriptPanel(): ReactElement {
       {
         scripts.map(s => (
           <div
-            className="transition hover:bg-indigo-600 p-2 rounded-md"
+            className="transition hover:bg-indigo-500 p-0.5 rounded-md font-mono text-sm"
             onClick={() => loadScript(s.id)} key={s.id}>
             {s.name}.{s.language}
           </div>)
