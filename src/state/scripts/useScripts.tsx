@@ -1,9 +1,6 @@
-import Component from '../../engine/core/Component';
-import ComponentManager from '../../engine/core/ComponentManager';
-import { useContext, useEffect, useState } from "react";
-import { formatScriptString, generateNewScript } from "../../utils/script.utils";
+import { useContext, } from "react";
+import { generateNewScript } from "../../utils/script.utils";
 import { ScriptContext } from "./ScriptContext";
-import { BaseComponentType } from '../../engine/core/Component';
 
 const useScripts = () => {
   const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } = useContext(ScriptContext);
