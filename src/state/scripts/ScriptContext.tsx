@@ -7,21 +7,21 @@ import SceneManager from "../../engine/core/SceneManager"
 import { generateNewEntity } from "../../utils/entity.utils"
 
 interface IScriptContext {
-  scripts: Engine.Script[]
+  scripts: Record<string, Engine.Script>
   selectedScript: Engine.Script | undefined
   scriptBody: string
   setScriptBody: (scriptBody: string) => void
-  setScripts: (scripts: Engine.Script[]) => void
+  setScripts: (scripts: Record<string, Engine.Script>) => void
   setSelectedScript: (script: Engine.Script | undefined) => void
   compileScripts: () => void
 }
 
 const initialValue: IScriptContext = {
-  scripts: [],
+  scripts: {},
   selectedScript: undefined,
   scriptBody: "",
   setScriptBody: (scriptBody: string) => {},
-  setScripts: (scripts: Engine.Script[]) => {},
+  setScripts: (scripts: Record<string, Engine.Script>) => {},
   setSelectedScript: (script: Engine.Script | undefined) => {},
   compileScripts: () => {},
 }
@@ -33,7 +33,7 @@ export const ScriptProvider = ({
 }: {
   children: ReactElement | ReactElement[]
 }) => {
-  const [scripts, setScripts] = useState<Engine.Script[]>([])
+  const [scripts, setScripts] = useState<Record<string, Engine.Script>>({})
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
   const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? "")
 
@@ -42,7 +42,7 @@ export const ScriptProvider = ({
     const Instantiate = SceneManager.instance.buildEntity.bind(SceneManager.instance)
     const CreateEntity = generateNewEntity
 
-    scripts.forEach((script) => {
+    Object.values(scripts).forEach((script) => {
       try {
         const scriptCopy = `${script.content}`
         const removePrefix = scriptCopy.substring(

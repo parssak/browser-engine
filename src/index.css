@@ -31,14 +31,14 @@ select {
 }
 
 h3 {
-  @apply text-gray-300 text-xs font-mono relative pt-1 mt-1;
+  @apply text-gray-300 text-xs relative pt-1 mt-2;
 }
-
+/* 
 h3::after {
   @apply absolute w-full bg-gray-300 top-0 left-0;
   content: "";
   height: 0.3px;
-}
+} */
 
 
 h4 {

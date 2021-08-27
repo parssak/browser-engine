@@ -27,8 +27,7 @@ function HierarchyNode({ entity }: Props): ReactElement {
           cursor-pointer
           select-none
         text-white
-        font-mono
-        text-sm
+          text-sm
           ${isSelected && "bg-gray-500"}
           ${isSelected ? "hover:bg-gray-600" : "hover:bg-gray-500"}
     `}

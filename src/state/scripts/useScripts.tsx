@@ -7,13 +7,12 @@ const useScripts = () => {
   const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } = useContext(ScriptContext);
   const [scriptBody, setScriptBody] = useState<string>(selectedScript?.content ?? "")
 
-  const loadScript = (scriptID: string) => {
-    const script = scripts.find(s => s.id === scriptID);
-    setSelectedScript(script);
+  const loadScript = (scriptName: string) => {
+    setSelectedScript(scripts[scriptName]);
   };
   
   const saveScript = (script: Engine.Script) => {
-    const foundScript = scripts.find(s => s.id === script.id);
+    const foundScript = Object.values(scripts).find((s) => s.id === script.id)
     if (!foundScript) return;
     foundScript.content = script.content;
     compileScripts();
@@ -21,12 +20,11 @@ const useScripts = () => {
   
   const createScript = (name: string) => {
     const newScript = generateNewScript(name);
-    setScripts([...scripts, newScript]);
+    setScripts({...scripts, [newScript.name]: newScript});
   };
 
-
   return {
-    scripts,
+    scripts: Object.values(scripts),
     setScripts,
     scriptBody,
     setScriptBody,

@@ -71,17 +71,16 @@ export default function InspectorPanel() {
     }
   }
 
-  // if (!selectedEntity)
-  //   return <div className="bg-gray-900 h-full flex flex-col space-y-1"></div>
-
   const getComponentOptions = (): { label: string; value: string }[] => {
     const components = ComponentManager.instance.getComponents()
-    if (!selectedEntity) return [];
-    const currentComponents = Object.keys(selectedEntity?.components);
-    return Object.keys(components).filter(c => !currentComponents.includes(c)).map((component) => ({
-      label: component,
-      value: component,
-    }))
+    if (!selectedEntity) return []
+    const currentComponents = Object.keys(selectedEntity?.components)
+    return Object.keys(components)
+      .filter((c) => !currentComponents.includes(c))
+      .map((component) => ({
+        label: component,
+        value: component,
+      }))
   }
 
   const componentOptions = getComponentOptions()
@@ -120,10 +119,12 @@ export default function InspectorPanel() {
     },
   ]
 
-  if (!selectedEntity) return (
-    <div className="panel">
-      <h4 className="panel-label">Inspector</h4>
-      </div>);
+  if (!selectedEntity)
+    return (
+      <div className="panel">
+        <h4 className="panel-label">Inspector</h4>
+      </div>
+    )
 
   return (
     <div className="panel">
@@ -141,19 +142,26 @@ export default function InspectorPanel() {
       </section>
 
       {/* Add components */}
-      <section>
-        <select onChange={e => console.log(e.target.value)} >
-          {componentOptions.map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </section>
+      {componentOptions.length > 0 && (
+        <section>
+          <select onChange={(e) => console.log(e.target.value)}>
+            {componentOptions.map(({ label, value }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+          <div className="grid place-items-center mt-2">
+            <button onClick={() => addComponent(componentOptions[0].value)}>
+              Add Component
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* Mesh */}
       <section>
-        <div className="bg-gray-800 text-white p-2">
+        <div className="bg-gray-800 text-white">
           <h3>Mesh</h3>
           <div className="space-y-2">
             <div className="flex space-x-2 items-center">
