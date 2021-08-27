@@ -31,8 +31,15 @@ select {
 }
 
 h3 {
-  @apply font-semibold text-gray-300 text-sm font-mono;
+  @apply text-gray-300 text-xs font-mono relative pt-1 mt-1;
 }
+
+h3::after {
+  @apply absolute w-full bg-gray-300 top-0 left-0;
+  content: "";
+  height: 0.3px;
+}
+
 
 h4 {
   @apply text-gray-300 text-xs font-mono;
@@ -40,4 +47,16 @@ h4 {
 
 details {
   @apply text-sm select-none;
+}
+
+.panel {
+  @apply bg-gray-800 p-1 h-full space-y-1 border border-gray-700;
+}
+
+.panel-label {
+  @apply text-red-500;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

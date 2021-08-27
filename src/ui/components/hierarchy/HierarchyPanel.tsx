@@ -2,10 +2,11 @@ import { ReactElement } from "react"
 import useScene from "../../../state/scene/useScene"
 import HierarchyNode from "./HierarchyNode"
 
-export default function Hierarchy(): ReactElement {
+export default function HierarchyPanel(): ReactElement {
   const { sceneConfig } = useScene()
   return (
-    <div className="bg-indigo-200 p-1.5 space-y-1">
+    <div className="panel">
+      <h4 className="panel-label">Hierarchy</h4>
       {sceneConfig.entities.map((entity) => (
         <HierarchyNode key={entity.id} entity={entity} />
       ))}

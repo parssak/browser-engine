@@ -71,8 +71,8 @@ export default function InspectorPanel() {
     }
   }
 
-  if (!selectedEntity)
-    return <div className="bg-gray-900 h-full flex flex-col space-y-1"></div>
+  // if (!selectedEntity)
+  //   return <div className="bg-gray-900 h-full flex flex-col space-y-1"></div>
 
   const getComponentOptions = (): { label: string; value: string }[] => {
     const components = ComponentManager.instance.getComponents()
@@ -120,8 +120,14 @@ export default function InspectorPanel() {
     },
   ]
 
+  if (!selectedEntity) return (
+    <div className="panel">
+      <h4 className="panel-label">Inspector</h4>
+      </div>);
+
   return (
-    <div className="bg-gray-900 h-full flex flex-col space-y-1">
+    <div className="panel">
+      <h4 className="panel-label">Inspector</h4>
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (

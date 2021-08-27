@@ -16,7 +16,7 @@ const ComponentNode = ({
   updateComponent,
 }: Props): React.ReactElement => {
   return (
-    <div className="bg-gray-800 text-white p-2">
+    <div className="bg-gray-800 text-white">
       <h3 className="mb-2">{componentType}</h3>
       <div className="space-y-2">
         {Object.entries(componentProps).map(([fieldName, fieldValue]) => (

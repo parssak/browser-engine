@@ -21,16 +21,20 @@ function HierarchyNode({ entity }: Props): ReactElement {
   return (
     <div
       className={`
-    p-2
-    rounded-md
-    transition
-    cursor-pointer
-    select-none
-    ${isSelected ? "hover:bg-indigo-500" : "hover:bg-indigo-400"}
-    ${isSelected && "bg-indigo-300"}`}
+          p-1
+          rounded-sm
+          transition
+          cursor-pointer
+          select-none
+        text-white
+        font-mono
+        text-sm
+          ${isSelected && "bg-gray-500"}
+          ${isSelected ? "hover:bg-gray-600" : "hover:bg-gray-500"}
+    `}
       onClick={handleClick}
     >
-      <h1>{entity?.name ?? "__ENTITY__"}</h1>
+      {entity?.name ?? "__ENTITY__"}
     </div>
   )
 }

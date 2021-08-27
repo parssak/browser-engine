@@ -1,22 +1,27 @@
-import React, { ReactElement } from 'react'
-import useScripts from '../../../state/scripts/useScripts'
-
-interface Props {
-  
-}
+import React, { ReactElement } from "react"
+import useScripts from "../../../state/scripts/useScripts"
 
 export default function ProjectPanel(): ReactElement {
-  const { scripts, loadScript } = useScripts()
+  const { scripts, loadScript, selectedScript } = useScripts()
   return (
-    <div className="bg-indigo-800 p-1 text-gray-300">
-      <h3>Project</h3>
+    <div className="panel text-white">
+      <h4 className="panel-label">Project</h4>
 
       {/* Scripts */}
       <details>
         <summary>Scripts</summary>
         {scripts.map((s) => (
           <div
-            className="transition hover:bg-indigo-500 p-0.5 rounded-md font-mono text-sm"
+            className={`p-1
+          rounded-sm
+          transition
+          cursor-pointer
+          select-none
+        text-white
+          ${selectedScript?.id === s.id && "bg-gray-500"}
+          ${
+            selectedScript?.id === s.id ? "hover:bg-gray-600" : "hover:bg-gray-500"
+          }`}
             onClick={() => loadScript(s.id)}
             key={s.id}
           >
@@ -36,7 +41,6 @@ export default function ProjectPanel(): ReactElement {
         <summary>Shaders</summary>
         No shaders.
       </details>
-
     </div>
   )
 }
