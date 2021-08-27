@@ -67,8 +67,12 @@ export default class SceneManager {
     this._scene.remove(this._axes);
     this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
-    this._buildEntities();
-    this._startEntities();
+    try {
+      this._buildEntities();
+      this._startEntities();
+    } catch (error) {
+      console.error('Error whilst setting up play scene');
+    }
   }
 
   /** Runs scene in edit mode
