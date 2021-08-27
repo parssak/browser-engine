@@ -67,8 +67,8 @@ export default class SceneManager {
     this._scene.remove(this._axes);
     this._scene.remove(this._gridHelper);
     if (this._selectionHelper) this._scene.remove(this._selectionHelper);
-    
     this._buildEntities();
+    this._startEntities();
   }
 
   /** Runs scene in edit mode
@@ -125,6 +125,12 @@ export default class SceneManager {
     this._entities.push(entity);
     this._scene.add(entity.mesh);
     return entity;
+  }
+
+  private _startEntities() {
+    this._entities.forEach(entity => {
+      entity.start();
+    });
   }
 
   private _resetScene() {

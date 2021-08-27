@@ -2,9 +2,10 @@ import * as three from 'three';
 import { Component, ReactElement, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import ComponentManager from '../../engine/core/ComponentManager';
-import { formatScriptString } from '../../utils/script.utils';
+import { formatScriptString, injectInitSection } from '../../utils/script.utils';
 import context from '../../engine/core/EngineContext';
 import SceneManager from '../../engine/core/SceneManager';
+import { generateNewEntity } from '../../utils/entity.utils';
 
 interface IScriptContext {
   scripts: Engine.Script[];
@@ -29,26 +30,26 @@ export const ScriptProvider = ({ children }: { children: ReactElement | ReactEle
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {
-    // *  Cheeky reference hoist reference of three.js
-    
     const THREE = three;
-    const SCENE = SceneManager.instance.getScene();
+    const Instantiate = SceneManager.instance.buildEntity.bind(SceneManager.instance);
+    const CreateEntity = generateNewEntity;
     
     scripts.forEach(script => {
       try {
-        const formattedScript = formatScriptString(script);
-        const NewComponent: any = eval(`(${formattedScript})`); // ! <-- dangerous usage of eval ;)
-        Object.setPrototypeOf(NewComponent, Component); // ! <-- lol
         const scriptCopy = `${script.content}`;
         const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11);
         let pureProps = removePrefix.substring(0, removePrefix.indexOf("// </public>"));
         pureProps = pureProps.replaceAll(';', ',');
         pureProps = pureProps.replaceAll('=', ':');
-        let props = {};
+        let props: Record<string, Engine.ComponentType> = {};
         if (`${pureProps}`.replace(/\s/g, "").length) {
           pureProps = `{${pureProps}}`
           props = eval(`(${pureProps})`); // ! <-- dangerous usage of eval pt. 2 ;)
         }
+        let formattedScript = formatScriptString(script);
+        formattedScript = injectInitSection(formattedScript, props);
+        const NewComponent: any = eval(`(${formattedScript})`); // ! <-- dangerous usage of eval ;)
+        Object.setPrototypeOf(NewComponent, Component); // ! <-- lol
         ComponentManager.instance.registerComponent(script.name, NewComponent, props);
       } catch (err) {
         console.error(err);

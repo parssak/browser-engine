@@ -49,10 +49,24 @@ export default class Entity {
   // TODO: Implement
   destroy() { }
 
+  start() {
+    if (SceneManager.isPlaying()) {
+      this._startComponents();
+    }
+  }
+
   update() {
     if (SceneManager.isPlaying()) {
       this._updateComponents();
     }
+  }
+
+  getComponent(componentName: string): Component | undefined {
+    return this.components[componentName];
+  }
+
+  private _startComponents() {
+    Object.values(this.components).forEach((component) => component.start())
   }
 
   private _updateComponents() {

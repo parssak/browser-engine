@@ -28,6 +28,10 @@ export default class Transform extends Component {
     this.applyMatrix();
   }
 
+  start() {
+    this.applyMatrix();
+  }
+
   private applyPosition() {
     this.entity.mesh.position.setX(this.position.x);
     this.entity.mesh.position.setY(this.position.y);

@@ -9,14 +9,15 @@ const baseScriptContent = `class Name {
 
   ${COMPONENT_DEF}
 
-  init(props) {
-
+  start() {
+    
   }
 
   update() {
 
   }
 }`
+
 export const generateNewScript = (name: string): Engine.Script => {
   const id = uuidv4();
   return {
@@ -28,6 +29,8 @@ export const generateNewScript = (name: string): Engine.Script => {
   }
 };
 
+const initPropPlaceholder = '// <initPropPlaceholder />';
+
 export const formatScriptString = (script: Engine.Script): string => {
   const formatted = `(${script.content})`;
   return formatted.replace(COMPONENT_DEF, `
@@ -36,5 +39,16 @@ export const formatScriptString = (script: Engine.Script): string => {
           constructor(entity) {
             this.entity = entity;
           }
+
+          ${initPropPlaceholder}
         `);
 };
+
+export const injectInitSection = (scriptBody: string, props: Record<string, Engine.ComponentPropType>): string => {
+  const actualInitSection = `
+  init(props) {
+    this.transform = this.entity.getComponent('Transform');
+    ${Object.entries(props).map(([key, value]) => `this.${key} = props?.${key} ?? ${value};`).join('\n')}
+  }`;
+  return scriptBody.replace(initPropPlaceholder, actualInitSection);
+}

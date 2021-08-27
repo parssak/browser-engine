@@ -38,6 +38,7 @@ export default class ComponentManager {
   }
 
   public setComponent(entity: Entity, componentType: Engine.ComponentType, componentProps: Engine.ComponentProps): void {
+    
     const component = this.getComponent(componentType);
     if (!component) {
       console.error(`Component ${componentType} not found`);
@@ -56,7 +57,11 @@ export default class ComponentManager {
       }
     });
     const componentInstance = new component(entity);
-    componentInstance.init(componentProps);
-    entity.components[componentType] = componentInstance;
+    try {
+      componentInstance.init(componentProps);
+      entity.components[componentType] = componentInstance;
+    } catch (e) {
+      console.error('Error whilst initializing component', e);
+    }
   }
 }

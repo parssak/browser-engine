@@ -7,8 +7,9 @@ export default abstract class Component {
     this.entity = entity;
   }
 
-  init(props: Engine.ComponentProps) {
-  }
+  abstract init(props: Engine.ComponentProps): void;
+
+  abstract start(): void;
 
   abstract update(): void;
 }
@@ -19,6 +20,8 @@ class BaseComponent extends Component {
   entity!: Entity;
 
   init(props: Engine.ComponentProps) { }
+
+  start() { }
 
   update() { }
 }
