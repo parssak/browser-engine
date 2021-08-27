@@ -15,11 +15,15 @@
     "@types/react-dom": "^17.0.0",
     "@types/three": "^0.131.0",
     "@types/uuid": "^8.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "leva": "^0.9.13",
     "monaco-editor": "^0.26.1",
+    "prettier": "^2.3.2",
     "re-resizable": "^6.9.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hotkeys": "^2.0.0",
     "react-scripts": "4.0.3",
     "three": "^0.131.3",
     "three-orbit-controls": "^82.1.0",
@@ -32,7 +36,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "pages": "craco build && git add build -f && git commit -m 'Updated build' && git subtree push --prefix build origin gh-pages"
+    "pages": "craco build && git add build -f && git commit -m 'Updated build' && git subtree push --prefix build origin gh-pages",
+    "lint": "eslint . --quiet --fix"
   },
   "eslintConfig": {
     "extends": [
