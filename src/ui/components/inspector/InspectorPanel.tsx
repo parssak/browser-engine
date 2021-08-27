@@ -76,7 +76,9 @@ export default function InspectorPanel() {
 
   const getComponentOptions = (): { label: string; value: string }[] => {
     const components = ComponentManager.instance.getComponents()
-    return Object.keys(components).map((component) => ({
+    if (!selectedEntity) return [];
+    const currentComponents = Object.keys(selectedEntity?.components);
+    return Object.keys(components).filter(c => !currentComponents.includes(c)).map((component) => ({
       label: component,
       value: component,
     }))
@@ -131,20 +133,18 @@ export default function InspectorPanel() {
           />
         ))}
       </section>
-      
+
       {/* Add components */}
       <section>
-        {componentOptions.map(({ label, value }) => (
-          <button
-            className="block mx-auto mt-2"
-            onClick={() => addComponent(value)}
-            key={value}
-          >
-            Add {label}
-          </button>
-        ))}
+        <select onChange={e => console.log(e.target.value)} >
+          {componentOptions.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
       </section>
-      
+
       {/* Mesh */}
       <section>
         <div className="bg-gray-800 text-white p-2">

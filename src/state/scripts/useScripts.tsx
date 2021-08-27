@@ -1,10 +1,11 @@
 
-import { useContext, } from "react";
+import { useContext, useState, } from "react";
 import { generateNewScript } from "../../utils/script.utils";
 import { ScriptContext } from "./ScriptContext";
 
 const useScripts = () => {
   const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } = useContext(ScriptContext);
+  const [scriptBody, setScriptBody] = useState<string>(selectedScript?.content ?? "")
 
   const loadScript = (scriptID: string) => {
     const script = scripts.find(s => s.id === scriptID);
@@ -27,6 +28,8 @@ const useScripts = () => {
   return {
     scripts,
     setScripts,
+    scriptBody,
+    setScriptBody,
     selectedScript,
     setSelectedScript,
     loadScript,
