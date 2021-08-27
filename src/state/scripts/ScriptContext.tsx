@@ -38,7 +38,7 @@ export const ScriptProvider = ({
   const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? "")
 
   const compileScripts = () => {
-    const THREE = three
+    const THREE = three                           
     const Instantiate = SceneManager.instance.buildEntity.bind(SceneManager.instance)
     const CreateEntity = generateNewEntity
 
@@ -57,12 +57,12 @@ export const ScriptProvider = ({
         let props: Record<string, Engine.ComponentType> = {}
         if (`${pureProps}`.replace(/\s/g, "").length) {
           pureProps = `{${pureProps}}`
-          props = eval(`(${pureProps})`) // ! <-- dangerous usage of eval pt. 2 ;)
+          props = eval(`(${pureProps})`) // ! <-- Eval
         }
         let formattedScript = formatScriptString(script)
         formattedScript = injectInitSection(formattedScript, props)
-        const NewComponent: any = eval(`(${formattedScript})`) // ! <-- dangerous usage of eval ;)
-        Object.setPrototypeOf(NewComponent, Component) // ! <-- lol
+        const NewComponent: any = eval(`(${formattedScript})`) // ! <-- Eval
+        Object.setPrototypeOf(NewComponent, Component)
         ComponentManager.instance.registerComponent(script.name, NewComponent, props)
       } catch (err) {
         console.error(err)

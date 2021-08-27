@@ -3,7 +3,7 @@ import SceneManager from './SceneManager';
 
 export default class CameraManager {
   public static instance: CameraManager;
-  private renderer = new THREE.WebGLRenderer({ antialias: true });
+  private renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
   private renderElement: HTMLElement | undefined;
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private fov = 60;

@@ -31,10 +31,6 @@ const useScripts = () => {
     setScripts({ ...scripts, [newScript.name]: newScript })
   }
 
-  useEffect(() => {
-    console.debug("script body is", scriptBody)
-  }, [scriptBody])
-
   return {
     scripts: Object.values(scripts),
     setScripts,
