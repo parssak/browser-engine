@@ -128,7 +128,7 @@ export default function InspectorPanel() {
 
   return (
     <div className="panel">
-      <h4 className="panel-label">Inspector</h4>
+      <h4 className="panel-label mb-1">Inspector</h4>
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (

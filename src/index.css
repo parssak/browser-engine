@@ -30,7 +30,7 @@ select {
 }
 
 h3 {
-  @apply text-gray-300 text-xs relative pt-1 mt-2;
+  @apply text-gray-300 text-xs relative;
 }
 
 h4 {

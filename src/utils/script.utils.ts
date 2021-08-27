@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const COMPONENT_DEF = `// @defineComponent`;
-const baseScriptContent = `class Name {
+const baseScriptContent = `class Component {
   
   // <public>
 
