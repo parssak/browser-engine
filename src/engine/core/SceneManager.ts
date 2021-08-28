@@ -46,7 +46,17 @@ export default class SceneManager {
   }
 
   setScenePayload(payload: Engine.ScenePayload) {
+    let shouldRecompileMaterials = false;
+    if (this._scenePayload) {
+      if (this._scenePayload.sceneConfig.materials !== payload.sceneConfig.materials) {
+        shouldRecompileMaterials = true
+      }
+    }
     this._scenePayload = payload
+    if (shouldRecompileMaterials) {
+      console.debug('recompiling mats')
+      this._compileMaterials();
+    }
   }
 
   getSelectedEntityPayload(): Engine.EntityProps | undefined {
@@ -81,7 +91,6 @@ export default class SceneManager {
     // this._scene.background = new THREE.Color("rgb(0,0,0)")
     if (this._selectionHelper) this._scene.remove(this._selectionHelper)
     try {
-      this._compileMaterials()
       this._buildEntities()
       this._startEntities()
     } catch (error) {
