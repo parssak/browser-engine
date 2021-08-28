@@ -75,7 +75,7 @@ void main() {
 
 const BASE_FRAGMENT_SHADER_CONTENT = `
 void main() {
-  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 }`
 
 export const generateNewMaterial = (name: string): Engine.Material => {
