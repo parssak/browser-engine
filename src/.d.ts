@@ -43,7 +43,7 @@ declare namespace Engine {
   // #endregion
 
   // #region -- Camera --
-  type ControlType = "orbit" | "firstPerson" | "fixed"
+  type ControlType = "orbit" | "fly" | "firstPerson" | "fixed"
 
   interface CameraProps {
     position: THREE.Vector3

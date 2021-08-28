@@ -1,5 +1,6 @@
 import CameraManager from "./CameraManager";
 import ComponentManager from "./ComponentManager";
+import ControlsManager from "./ControlsManager";
 import GeometryManager from "./GeometryManager";
 import MaterialManager from "./MaterialManager";
 import SceneManager from "./SceneManager";
@@ -10,6 +11,7 @@ class EngineContext {
   componentManager: ComponentManager;
   materialManager: MaterialManager;
   geometryManager: GeometryManager;
+  controlsManager: ControlsManager;
   private _renderElement!: HTMLElement;
   private isInitialized = false;
 
@@ -19,6 +21,7 @@ class EngineContext {
     this.componentManager = new ComponentManager();
     this.materialManager = new MaterialManager();
     this.geometryManager = new GeometryManager();
+    this.controlsManager = new ControlsManager();
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {

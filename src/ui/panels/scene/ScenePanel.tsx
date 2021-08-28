@@ -10,6 +10,7 @@ export default function ScenePanel(): ReactElement {
         <div
           id="scene"
           ref={renderElement}
+          tabIndex={-1}
           onClick={(e) => handleClickScene(e)}
         />
       )}

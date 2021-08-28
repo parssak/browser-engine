@@ -46,6 +46,7 @@ const useEditor = () => {
 
   const handleClickScene = (e: React.MouseEvent) => {
     const canvas: HTMLCanvasElement = e.target as unknown as HTMLCanvasElement
+    canvas.focus();
     const domRect: DOMRect = canvas.getBoundingClientRect()
     const [mouseX, mouseY]: [number, number] = [
       ((e.clientX - domRect.x) / domRect.width) * 2 - 1,

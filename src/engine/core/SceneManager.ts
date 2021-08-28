@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { deepClone } from "../../utils"
+import CameraManager from "./CameraManager"
 import Entity from "./Entity"
 
 export default class SceneManager {
@@ -23,19 +24,16 @@ export default class SceneManager {
     }
     SceneManager.instance = this
     this._scene = new THREE.Scene()
-    this._scene?.add(this._axes)
-    this._scene?.add(this._gridHelper)
-    this._scene?.add(new THREE.DirectionalLight(0xffffff, 0.6))
-    this._scene?.add(new THREE.AmbientLight(0x555555))
-    const loader = new THREE.CubeTextureLoader()
-    const texture = loader.load([
-      "resources/images/cubemaps/computer-history-museum/pos-x.jpg",
-      "resources/images/cubemaps/computer-history-museum/neg-x.jpg",
-      "resources/images/cubemaps/computer-history-museum/pos-y.jpg",
-      "resources/images/cubemaps/computer-history-museum/neg-y.jpg",
-      "resources/images/cubemaps/computer-history-museum/pos-z.jpg",
-      "resources/images/cubemaps/computer-history-museum/neg-z.jpg",
-    ])
+    this._scene.add(this._axes)
+    this._scene.add(this._gridHelper)
+    this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6))
+    this._scene.add(new THREE.AmbientLight(0x555555))
+    const loader = new THREE.TextureLoader()
+    loader.load("/browser-engine/resources/skybox.png", (texture) => {
+      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
+      rt.fromEquirectangularTexture(CameraManager.instance.renderer, texture)
+      this._scene.background = rt.texture
+    })
   }
 
   static isPlaying() {
@@ -63,7 +61,7 @@ export default class SceneManager {
     this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh)
   }
 
-  updateScene() {
+  updateScene(deltaTime: number) {
     this._entities.forEach((entity) => {
       entity.update()
     })
@@ -79,7 +77,7 @@ export default class SceneManager {
     this._resetScene()
     this._scene.remove(this._axes)
     this._scene.remove(this._gridHelper)
-    this._scene.background = new THREE.Color("rgb(0,0,0)")
+    // this._scene.background = new THREE.Color("rgb(0,0,0)")
     if (this._selectionHelper) this._scene.remove(this._selectionHelper)
     try {
       this._buildEntities()
@@ -98,7 +96,7 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
-    this._scene.background = new THREE.Color("rgb(0,2,60)")
+    // this._scene.background = new THREE.Color("rgb(0,2,60)")
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
     if (this._selectionHelper) this._scene.add(this._selectionHelper)
