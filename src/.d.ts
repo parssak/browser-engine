@@ -17,7 +17,7 @@ declare namespace Engine {
     type: ScriptType
   }
 
-  interface Shader {
+  interface Material {
     id: ShaderID
     name: string
     uniforms: Record<string, { value: unknown }>
@@ -78,7 +78,7 @@ declare namespace Engine {
   interface ScenePayload {
     sceneConfig: SceneConfig // all entities & camera
     scripts: Script[] // all custom scripts
-    shaders: Shader[]
+    materials: Shader[]
   }
   // #endregion
 }

@@ -103,6 +103,10 @@ export default function InspectorPanel() {
       label: "Phong",
       value: "phong",
     },
+    {
+      label: "Cool Material",
+      value: "coolMat",
+    },
   ]
 
   const geometryOptions: { label: string; value: string }[] = [

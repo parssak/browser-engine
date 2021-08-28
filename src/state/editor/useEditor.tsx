@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import context from "../../engine/core/EngineContext"
 import SceneManager from "../../engine/core/SceneManager"
+import { generateNewMaterial } from "../../utils/script.utils"
 import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
@@ -11,8 +12,8 @@ const useEditor = () => {
   const { renderElement } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
 
-  const scenePayload = useMemo(
-    () => ({ sceneConfig, scripts, shaders: [] }), // todo
+  const scenePayload: Engine.ScenePayload = useMemo(
+    () => ({ sceneConfig, scripts, materials: [generateNewMaterial("coolMat")] }), // todo
     [sceneConfig, scripts]
   )
 

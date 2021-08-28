@@ -71,14 +71,14 @@ varying vec3 vColor;
 
 void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-`
+}`
 
 const BASE_FRAGMENT_SHADER_CONTENT = `
 void main() {
   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }`
 
-export const generateNewShader = (name: string): Engine.Shader => {
+export const generateNewMaterial = (name: string): Engine.Material => {
   const id = uuidv4()
   return {
     id,
