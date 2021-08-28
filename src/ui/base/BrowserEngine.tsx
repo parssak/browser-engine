@@ -1,10 +1,10 @@
 import  { ReactElement } from "react"
-import InspectorPanel from "../components/inspector/InspectorPanel"
-import Nav from "../components/nav/Nav"
-import EditorPanel from "../components/editor/EditorPanel"
-import ScenePanel from "../components/scene/ScenePanel"
-import HierarchyPanel from "../components/hierarchy/HierarchyPanel"
-import ProjectPanel from "../components/project/ProjectPanel"
+import InspectorPanel from "../panels/inspector/InspectorPanel"
+import Nav from "../panels/nav/Nav"
+import EditorPanel from "../panels/editor/EditorPanel"
+import ScenePanel from "../panels/scene/ScenePanel"
+import HierarchyPanel from "../panels/hierarchy/HierarchyPanel"
+import ProjectPanel from "../panels/project/ProjectPanel"
 
 export default function BrowserEngine(): ReactElement {
 

@@ -1,10 +1,10 @@
-import React, { ReactElement } from "react"
+import { ReactElement } from "react"
 import useScripts from "../../../state/scripts/useScripts"
 
 export default function ProjectPanel(): ReactElement {
   const { scripts, loadScript, selectedScript } = useScripts()
   return (
-    <div className="panel text-white">
+    <div className="panel">
       <h4 className="panel-label">Project</h4>
 
       {/* Scripts */}
