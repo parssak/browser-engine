@@ -5,13 +5,13 @@ import BrowserEngine from "./ui/base/BrowserEngine"
 
 function App() {
   return (
-    <SceneProvider>
-      <ScriptProvider>
+    <ScriptProvider>
+      <SceneProvider>
         <EditorProvider>
           <BrowserEngine />
         </EditorProvider>
-      </ScriptProvider>
-    </SceneProvider>
+      </SceneProvider>
+    </ScriptProvider>
   )
 }
 

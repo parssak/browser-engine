@@ -4,12 +4,20 @@ import useScene from '../../../state/scene/useScene'
 import useScripts from '../../../state/scripts/useScripts';
 
 export default function Nav(): ReactElement {
-  const { createEntity } = useScene();
+  const { createEntity, createMaterial } = useScene();
   const { toggleRun, isRunning } = useEditor();
   const { createScript, selectedScript, loadScript, saveScript, scriptBody } = useScripts();
 
-  const handleCreateScript = () => {
-    createScript("Component")
+  const handleCreateComponent = () => {
+    const componentName = "NewComponent"
+    createScript(componentName, "js", "component")
+  }
+
+  const handleCreateMaterial = () => {
+    const materialName = "NewMaterial"
+    const vShader = createScript("vertex", "glsl", "vertex");
+    const fShader = createScript("fragment", "glsl", "fragment");
+    createMaterial(materialName, vShader.id, fShader.id)
   }
 
   const handleSaveScript = () => {
@@ -34,8 +42,11 @@ export default function Nav(): ReactElement {
           <button onClick={createEntity} className="secondary">
             Add Entity
           </button>
-          <button onClick={handleCreateScript} className="secondary">
-            Add Script
+          <button onClick={handleCreateComponent} className="secondary">
+            Add Component
+          </button>
+          <button onClick={handleCreateMaterial} className="secondary">
+            Add Material
           </button>
         </div>
         {selectedScript && (

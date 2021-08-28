@@ -26,9 +26,10 @@ const useScripts = () => {
     compileScripts()
   }
 
-  const createScript = (name: string) => {
-    const newScript = generateNewScript(name)
+  const createScript = (name: string, language: Engine.Language, type: Engine.ScriptType): Engine.Script => {
+    const newScript = generateNewScript(name, language, type)
     setScripts({ ...scripts, [newScript.name]: newScript })
+    return newScript;
   }
 
   return {

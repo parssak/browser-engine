@@ -13,7 +13,7 @@ const useEditor = () => {
   const [isRunning, setIsRunning] = useState(context.isPlaying())
 
   const scenePayload: Engine.ScenePayload = useMemo(
-    () => ({ sceneConfig, scripts, materials: [generateNewMaterial("coolMat")] }), // todo
+    () => ({ sceneConfig, scripts, materials: [] }), // todo
     [sceneConfig, scripts]
   )
 

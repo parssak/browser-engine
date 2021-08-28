@@ -11,6 +11,8 @@ interface ISceneContext {
   selectedEntityID: string | null;
   setSelectedEntityID: (entityID: string | null) => void;
   setCameraProps: (cameraProps: Engine.CameraProps) => void;
+  materials: Engine.Material[]
+  setMaterials: (materials: Engine.Material[]) => void;
 };
 
 const initialValue = {
@@ -22,12 +24,15 @@ const initialValue = {
       near: 0.1,
       far: 1000,
       controls: "orbit" as Engine.ControlType
-    }
+    },
+    materials: []
   },
   selectedEntityID: null,
   setEntities: (entities: Engine.EntityProps[]) => { },
   setSelectedEntityID: (entityID: string | null) => { },
-  setCameraProps: (cameraProps: Engine.CameraProps) => { }
+  setCameraProps: (cameraProps: Engine.CameraProps) => { },
+  materials: [],
+  setMaterials: (materials: Engine.Material[]) => { }
 };
 
 export const SceneContext = createContext<ISceneContext>(initialValue);
@@ -59,12 +64,14 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
   ])
   const [selectedEntityID, setSelectedEntityID] = useState<string | null>(null);
 
+  const [materials, setMaterials] = useState<Engine.Material[]>([] as Engine.Material[]);
   const sceneConfig = useMemo(() => (
     {
       entities,
-      camera: cameraProps
+      camera: cameraProps,
+      materials
     }
-  ), [entities, cameraProps]);
+  ), [entities, cameraProps, materials]);
 
   useEffect(() => {
     if (selectedEntityID) {
@@ -79,7 +86,9 @@ export const SceneProvider = ({ children }: { children: ReactElement | ReactElem
     selectedEntityID,
     setEntities,
     setCameraProps,
-    setSelectedEntityID
+    setSelectedEntityID,
+    materials,
+    setMaterials
   }
   return (
     <SceneContext.Provider value={contextValue}>

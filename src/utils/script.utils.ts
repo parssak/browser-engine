@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from "uuid"
 
-// #region -- Component Scripts --
 const COMPONENT_DEF = `// @defineComponent`
-const BASE_SCRIPT_CONTENT = `class Component {
+const BASE_COMPONENT_SCRIPT_CONTENT = `class Component {
   
   // <public>
 
@@ -19,14 +18,46 @@ const BASE_SCRIPT_CONTENT = `class Component {
   }
 }`
 
-export const generateNewScript = (name: string): Engine.Script => {
+const BASE_VERTEX_SHADER_CONTENT = `
+varying vec3 vColor;
+
+void main() {
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`
+
+const BASE_FRAGMENT_SHADER_CONTENT = `
+void main() {
+  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+}`
+
+export const generateNewScript = (
+  name: string,
+  language: Engine.Language,
+  type: Engine.ScriptType
+): Engine.Script => {
   const id = uuidv4()
+  let content = BASE_COMPONENT_SCRIPT_CONTENT
+
+  switch (type) {
+    case "component":
+      content = BASE_COMPONENT_SCRIPT_CONTENT
+      break
+    case "vertex":
+      content = BASE_VERTEX_SHADER_CONTENT
+      break
+    case "fragment":
+      content = BASE_FRAGMENT_SHADER_CONTENT
+      break
+    default:
+      break
+  }
+
   return {
     id,
     name,
-    language: "js",
-    content: BASE_SCRIPT_CONTENT,
-    type: "component",
+    language,
+    content,
+    type,
   }
 }
 
@@ -62,29 +93,17 @@ export const injectInitSection = (
   return scriptBody.replace(initPropPlaceholder, actualInitSection)
 }
 
-// #endregion
-
-// #region -- Shaders --
-
-const BASE_VERTEX_SHADER_CONTENT = `
-varying vec3 vColor;
-
-void main() {
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-}`
-
-const BASE_FRAGMENT_SHADER_CONTENT = `
-void main() {
-  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
-}`
-
-export const generateNewMaterial = (name: string): Engine.Material => {
+export const generateNewMaterial = (
+  name: string,
+  vertexShaderID: string,
+  fragmentShaderID: string
+): Engine.Material => {
   const id = uuidv4()
   return {
     id,
     name,
-    vertexShader: `${BASE_VERTEX_SHADER_CONTENT}`,
-    fragmentShader: `${BASE_FRAGMENT_SHADER_CONTENT}`,
-    uniforms: {}
+    vertexShaderID: vertexShaderID,
+    fragmentShaderID: fragmentShaderID,
+    uniforms: {},
   }
 }
