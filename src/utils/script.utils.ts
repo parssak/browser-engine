@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid"
 
-// #region -- Component Scripts -- 
-const COMPONENT_DEF = `// @defineComponent`;
-const baseScriptContent = `class Component {
+// #region -- Component Scripts --
+const COMPONENT_DEF = `// @defineComponent`
+const BASE_SCRIPT_CONTENT = `class Component {
   
   // <public>
 
@@ -20,21 +20,23 @@ const baseScriptContent = `class Component {
 }`
 
 export const generateNewScript = (name: string): Engine.Script => {
-  const id = uuidv4();
+  const id = uuidv4()
   return {
     id,
     name,
-    language: 'js',
-    content: baseScriptContent,
-    type: 'component'
+    language: "js",
+    content: BASE_SCRIPT_CONTENT,
+    type: "component",
   }
-};
+}
 
-const initPropPlaceholder = '// <initPropPlaceholder />';
+const initPropPlaceholder = "// <initPropPlaceholder />"
 
 export const formatScriptString = (script: Engine.Script): string => {
-  const formatted = `(${script.content})`;
-  return formatted.replace(COMPONENT_DEF, `
+  const formatted = `(${script.content})`
+  return formatted.replace(
+    COMPONENT_DEF,
+    `
           entity;
         
           constructor(entity) {
@@ -42,21 +44,47 @@ export const formatScriptString = (script: Engine.Script): string => {
           }
 
           ${initPropPlaceholder}
-        `);
-};
+        `
+  )
+}
 
-export const injectInitSection = (scriptBody: string, props: Record<string, Engine.ComponentPropType>): string => {
+export const injectInitSection = (
+  scriptBody: string,
+  props: Record<string, Engine.ComponentPropType>
+): string => {
   const actualInitSection = `
   init(props) {
     this.transform = this.entity.getComponent('Transform');
-    ${Object.entries(props).map(([key, value]) => `this.${key} = props?.${key} ?? ${value};`).join('\n')}
-  }`;
-  return scriptBody.replace(initPropPlaceholder, actualInitSection);
-};
+    ${Object.entries(props)
+      .map(([key, value]) => `this.${key} = props?.${key} ?? ${value};`)
+      .join("\n")}
+  }`
+  return scriptBody.replace(initPropPlaceholder, actualInitSection)
+}
 
 // #endregion
 
-// #region -- Shaders -- 
+// #region -- Shaders --
 
-const baseShaderContent = `
+const BASE_VERTEX_SHADER_CONTENT = `
+varying vec3 vColor;
+
+void main() {
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 `
+
+const BASE_FRAGMENT_SHADER_CONTENT = `
+void main() {
+  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}`
+
+export const generateNewShader = (name: string): Engine.Shader => {
+  const id = uuidv4()
+  return {
+    id,
+    name,
+    vertexShader: `${BASE_VERTEX_SHADER_CONTENT}`,
+    fragmentShader: `${BASE_FRAGMENT_SHADER_CONTENT}`,
+    uniforms: {}
+  }
+}

@@ -7,6 +7,7 @@ declare namespace Engine {
   type Language = "ts" | "js" | "glsl"
   type ScriptType = "component" | "shader"
   type ScriptID = string
+  type ShaderID = string
 
   interface Script {
     id: ScriptID
@@ -14,6 +15,14 @@ declare namespace Engine {
     content: string
     language: Language
     type: ScriptType
+  }
+
+  interface Shader {
+    id: ShaderID
+    name: string
+    uniforms: Record<string, { value: unknown }>
+    fragmentShader: ScriptID
+    vertexShader: ScriptID
   }
 
   // #endregion
@@ -69,6 +78,7 @@ declare namespace Engine {
   interface ScenePayload {
     sceneConfig: SceneConfig // all entities & camera
     scripts: Script[] // all custom scripts
+    shaders: Shader[]
   }
   // #endregion
 }

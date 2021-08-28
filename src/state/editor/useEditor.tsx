@@ -12,7 +12,7 @@ const useEditor = () => {
   const [isRunning, setIsRunning] = useState(context.isPlaying())
 
   const scenePayload = useMemo(
-    () => ({ sceneConfig, scripts }),
+    () => ({ sceneConfig, scripts, shaders: [] }), // todo
     [sceneConfig, scripts]
   )
 
