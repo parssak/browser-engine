@@ -1,22 +1,33 @@
-import { ReactElement } from 'react'
-import useEditor from '../../../state/editor/useEditor';
-import useScene from '../../../state/scene/useScene'
-import useScripts from '../../../state/scripts/useScripts';
+import { ReactElement } from "react"
+import useEditor from "../../../state/editor/useEditor"
+import useScene from "../../../state/scene/useScene"
+import useScripts from "../../../state/scripts/useScripts"
 
 export default function Nav(): ReactElement {
-  const { createEntity, createMaterial } = useScene();
-  const { toggleRun, isRunning } = useEditor();
-  const { createScript, selectedScript, loadScript, saveScript, scriptBody } = useScripts();
+  const { createEntity, createMaterial } = useScene()
+  const { toggleRun, isRunning } = useEditor()
+  const { createScript, selectedScript, loadScript, saveScript, scriptBody } =
+    useScripts()
 
   const handleCreateComponent = () => {
     const componentName = "NewComponent"
-    createScript(componentName, "js", "component")
+    createScript([{ name: componentName, language: "js", type: "component" }])
   }
 
   const handleCreateMaterial = () => {
     const materialName = "NewMaterial"
-    const vShader = createScript("vertex", "glsl", "vertex");
-    const fShader = createScript("fragment", "glsl", "fragment");
+    const [vShader, fShader] = createScript([
+      {
+        name: "vertex",
+        language: "glsl",
+        type: "vertex",
+      },
+      {
+        name: "fragment",
+        language: "glsl",
+        type: "fragment",
+      },
+    ])
     createMaterial(materialName, vShader.id, fShader.id)
   }
 

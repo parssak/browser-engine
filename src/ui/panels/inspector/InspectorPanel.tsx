@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useEffect } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
+import context from "../../../engine/core/EngineContext"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import Panel from "../Panel"
@@ -86,28 +87,36 @@ export default function InspectorPanel() {
 
   const componentOptions = getComponentOptions()
 
-  const materialOptions: { label: string; value: string }[] = [
-    {
-      label: "Normal",
-      value: "normal",
-    },
-    {
-      label: "Basic",
-      value: "basic",
-    },
-    {
-      label: "Lambert",
-      value: "lambert",
-    },
-    {
-      label: "Phong",
-      value: "phong",
-    },
-    {
-      label: "Cool Material",
-      value: "coolMat",
-    },
-  ]
+  const getMaterialOptions = (): { label: string; value: string }[] => {
+    return Object.keys(context.materialManager.materials).map((material) => ({
+      label: material,
+      value: material,
+    }))
+  }
+  
+  const materialOptions: { label: string; value: string }[] = getMaterialOptions();
+  // const materialOptions: { label: string; value: string }[] = [
+  //   {
+  //     label: "Normal",
+  //     value: "normal",
+  //   },
+  //   {
+  //     label: "Basic",
+  //     value: "basic",
+  //   },
+  //   {
+  //     label: "Lambert",
+  //     value: "lambert",
+  //   },
+  //   {
+  //     label: "Phong",
+  //     value: "phong",
+  //   },
+  //   {
+  //     label: "Cool Material",
+  //     value: "coolMat",
+  //   },
+  // ]
 
   const geometryOptions: { label: string; value: string }[] = [
     {
@@ -124,10 +133,7 @@ export default function InspectorPanel() {
     },
   ]
 
-  if (!selectedEntity)
-    return (
-      <Panel label="Inspector" />
-    )
+  if (!selectedEntity) return <Panel label="Inspector" />
 
   return (
     <Panel label="Inspector">

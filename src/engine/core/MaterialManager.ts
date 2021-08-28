@@ -21,11 +21,13 @@ export default class MaterialManager {
   }
 
   addCustomMaterial(materialPayload: Engine.MaterialPayload): void {
+    console.debug('adding custom material');
     const mat = materialPayload.material;
     this.materials[mat.name] = new THREE.ShaderMaterial({
       uniforms: mat.uniforms,
       vertexShader: materialPayload.vertexShader,
       fragmentShader: materialPayload.fragmentShader,
     })
+    console.log(this.materials);
   }
 }

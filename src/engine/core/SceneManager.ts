@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
 import Entity from "./Entity"
+import MaterialManager from "./MaterialManager"
 
 export default class SceneManager {
   public static instance: SceneManager
@@ -80,6 +81,7 @@ export default class SceneManager {
     // this._scene.background = new THREE.Color("rgb(0,0,0)")
     if (this._selectionHelper) this._scene.remove(this._selectionHelper)
     try {
+      this._compileMaterials()
       this._buildEntities()
       this._startEntities()
     } catch (error) {
@@ -164,6 +166,27 @@ export default class SceneManager {
     const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload)
     localPayloadCopy.sceneConfig.entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
+    })
+  }
+
+  private _compileMaterials() {
+    if (!this._scenePayload) return
+    this._scenePayload.sceneConfig.materials.forEach((material) => {
+      const associatedVertexShader = this._scenePayload?.scripts.find(
+        (script) => script.id === material.vertexShaderID
+      )
+
+      const associatedFragmentShader = this._scenePayload?.scripts.find(
+        (script) => script.id === material.fragmentShaderID
+      )
+
+      if (!associatedVertexShader || !associatedFragmentShader) return
+      const materialPayload: Engine.MaterialPayload = {
+        material,
+        vertexShader: associatedVertexShader.content,
+        fragmentShader: associatedFragmentShader.content,
+      }
+      MaterialManager.instance.addCustomMaterial(materialPayload)
     })
   }
 }

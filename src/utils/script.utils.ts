@@ -18,15 +18,13 @@ const BASE_COMPONENT_SCRIPT_CONTENT = `class Component {
   }
 }`
 
-const BASE_VERTEX_SHADER_CONTENT = `
-varying vec3 vColor;
+const BASE_VERTEX_SHADER_CONTENT = `varying vec3 vColor;
 
 void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }`
 
-const BASE_FRAGMENT_SHADER_CONTENT = `
-void main() {
+const BASE_FRAGMENT_SHADER_CONTENT = `void main() {
   gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 }`
 

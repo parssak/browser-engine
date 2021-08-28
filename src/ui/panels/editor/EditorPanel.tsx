@@ -15,6 +15,20 @@ export default function EditorPanel(): ReactElement {
     setScriptBody(newValue ?? "")
   }
 
+  const getLanguage = () => {
+    if (!selectedScript) return 'javascript';
+    switch (selectedScript.language) {
+      case 'js':
+        return 'javascript';
+      case 'ts':
+        return 'typescript';
+      case 'glsl':
+        return 'c';
+      default:
+        return 'cpp';
+    }
+  }
+
   return (
     <>
       {selectedScript && (
@@ -23,7 +37,7 @@ export default function EditorPanel(): ReactElement {
             <Editor
               height="100%"
               width="100%"
-              defaultLanguage="javascript"
+              defaultLanguage={getLanguage()}
               defaultValue={selectedScript.content}
               theme="vs-dark"
               onChange={handleEditorChange}

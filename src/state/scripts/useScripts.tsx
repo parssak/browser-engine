@@ -26,10 +26,22 @@ const useScripts = () => {
     compileScripts()
   }
 
-  const createScript = (name: string, language: Engine.Language, type: Engine.ScriptType): Engine.Script => {
-    const newScript = generateNewScript(name, language, type)
-    setScripts({ ...scripts, [newScript.name]: newScript })
-    return newScript;
+  interface CreateScriptPayload {
+    name: string
+    language: Engine.Language
+    type: Engine.ScriptType
+  }
+  const createScript = (scriptsPayload: CreateScriptPayload[]): Engine.Script[] => {
+    const newScripts: Engine.Script[] = [];
+    const updatedScriptsObject = scripts
+    scriptsPayload.forEach((scriptPayload) => {
+      const newScript = generateNewScript(scriptPayload.name, scriptPayload.language, scriptPayload.type)
+      newScripts.push(newScript)
+      updatedScriptsObject[newScript.name] = newScript
+    })
+    
+    setScripts(updatedScriptsObject)
+    return newScripts;
   }
 
   return {

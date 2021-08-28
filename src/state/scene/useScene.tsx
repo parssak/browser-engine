@@ -3,6 +3,7 @@ import { SceneContext } from "./SceneContext"
 import context from "../../engine/core/EngineContext"
 import { generateNewEntity } from "../../utils/entity.utils"
 import { generateNewMaterial } from "../../utils/script.utils"
+import useScripts from "../scripts/useScripts"
 
 const useScene = () => {
   const {
@@ -13,6 +14,7 @@ const useScene = () => {
     materials,
     setMaterials,
   } = useContext(SceneContext)
+
 
   const selectEntity = (id: Engine.EntityID) => {
     if (id === selectedEntityID) {
