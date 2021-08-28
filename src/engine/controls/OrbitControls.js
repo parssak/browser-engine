@@ -76,9 +76,9 @@ class OrbitControls extends EventDispatcher {
 
     // Set to false to disable panning
     this.enablePan = true
-    this.panSpeed = 1.0
+    this.panSpeed = 7.0
     this.screenSpacePanning = true // if false, pan orthogonal to world-space direction camera.up
-    this.keyPanSpeed = 7.0 // pixels moved per arrow key push
+    this.keyPanSpeed = 15 // pixels moved per arrow key push
 
     // Set to true to automatically rotate around the target
     // If auto-rotate is enabled, you must call controls.update() in your animation loop
@@ -550,14 +550,21 @@ class OrbitControls extends EventDispatcher {
       let needsUpdate = false
       if (document.activeElement.id !== "scene") return
         switch (event.code) {
-          case scope.keys.UP :
           case "KeyW":
+            dollyIn(0.3)
+            needsUpdate = true
+            break
+            case "KeyS":
+            dollyOut(0.3)
+            needsUpdate = true
+            break
+          case scope.keys.UP:
+          case "Space":
             pan(0, scope.keyPanSpeed)
             needsUpdate = true
             break
 
           case scope.keys.BOTTOM:
-          case "KeyS":
             pan(0, -scope.keyPanSpeed)
             needsUpdate = true
             break
@@ -568,7 +575,7 @@ class OrbitControls extends EventDispatcher {
             needsUpdate = true
             break
 
-          case scope.keys.RIGHT || 'd':
+          case scope.keys.RIGHT || "d":
           case "KeyD":
             pan(-scope.keyPanSpeed, 0)
             needsUpdate = true
