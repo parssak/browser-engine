@@ -7,22 +7,29 @@ declare namespace Engine {
   type Language = "ts" | "js" | "glsl"
   type ScriptType = "component" | "shader"
   type ScriptID = string
-  type ShaderID = string
+  type ScriptContent = string
+  type MaterialID = string
 
   interface Script {
     id: ScriptID
     name: string
-    content: string
+    content: ScriptContent
     language: Language
     type: ScriptType
   }
 
   interface Material {
-    id: ShaderID
+    id: MaterialID
     name: string
     uniforms: Record<string, { value: unknown }>
     fragmentShader: ScriptID
     vertexShader: ScriptID
+  }
+
+  interface MaterialPayload {
+    material: Material
+    fragmentShader: ScriptContent
+    vertexShader: ScriptContent
   }
 
   // #endregion
