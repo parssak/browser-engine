@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// #region -- Component Scripts -- 
 const COMPONENT_DEF = `// @defineComponent`;
 const baseScriptContent = `class Component {
   
@@ -51,4 +52,11 @@ export const injectInitSection = (scriptBody: string, props: Record<string, Engi
     ${Object.entries(props).map(([key, value]) => `this.${key} = props?.${key} ?? ${value};`).join('\n')}
   }`;
   return scriptBody.replace(initPropPlaceholder, actualInitSection);
-}
+};
+
+// #endregion
+
+// #region -- Shaders -- 
+
+const baseShaderContent = `
+`

@@ -1,15 +1,17 @@
 import { ReactElement } from "react"
 import useScene from "../../../state/scene/useScene"
+import Panel from "../Panel"
 import HierarchyNode from "./HierarchyNode"
 
 export default function HierarchyPanel(): ReactElement {
   const { sceneConfig } = useScene()
   return (
-    <div className="panel">
-      <h4 className="panel-label">Hierarchy</h4>
-      {sceneConfig.entities.map((entity) => (
-        <HierarchyNode key={entity.id} entity={entity} />
-      ))}
-    </div>
+    <Panel label="Hierarchy">
+      <div className="space-y-1">
+        {sceneConfig.entities.map((entity) => (
+          <HierarchyNode key={entity.id} entity={entity} />
+        ))}
+      </div>
+    </Panel>
   )
 }

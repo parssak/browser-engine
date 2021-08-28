@@ -1,70 +1,74 @@
 declare namespace Engine {
-  import { v4 as uuidv4 } from 'uuid';
-  const OrbitControls = oc(THREE);
-  import oc from 'three-orbit-controls';
-  
-  // #region -- Script -- 
+  import { v4 as uuidv4 } from "uuid"
+  const OrbitControls = oc(THREE)
+  import oc from "three-orbit-controls"
+
+  // #region -- Script --
   type Language = "ts" | "js" | "glsl"
   type ScriptType = "component" | "shader"
-  type ScriptID = string;
+  type ScriptID = string
 
   interface Script {
-    id: ScriptID;
-    name: string;
-    content: string;
-    language: Language;
-    type: ScriptType;
+    id: ScriptID
+    name: string
+    content: string
+    language: Language
+    type: ScriptType
   }
 
   // #endregion
 
-  // #region -- Entity -- 
-  type EntityID = string;
-  type GeometryType = 'box' | 'sphere' | 'torus' | string;
-  type MaterialType = 'basic' | 'normal' | 'lambert' | 'phong' | string;
+  // #region -- Entity --
+  type EntityID = string
+  type GeometryType = "box" | "sphere" | "torus" | string
+  type MaterialType = "basic" | "normal" | "lambert" | "phong" | string
 
   interface EntityProps {
-    id: EntityID;
-    name: string;
-    children: EntityID[];
-    components: Record<ComponentType, ComponentProps>;
-    geometry: GeometryType;
-    material: MaterialType;
+    id: EntityID
+    name: string
+    children: EntityID[]
+    components: Record<ComponentType, ComponentProps>
+    geometry: GeometryType
+    material: MaterialType
   }
   // #endregion
 
   // #region -- Camera --
-  type ControlType = "orbit" | "firstPerson" | "fixed";
-  
+  type ControlType = "orbit" | "firstPerson" | "fixed"
+
   interface CameraProps {
-    position: THREE.Vector3;
-    fov: number;
-    near: number;
-    far: number;
+    position: THREE.Vector3
+    fov: number
+    near: number
+    far: number
     controls: ControlType
   }
 
   // #endregion
 
-  // #region -- Component -- 
+  // #region -- Component --
 
-
-  type ComponentType = "transform" | string;
-  type ComponentPropType = [number, number] | [number, number, number] | { x: number, y: number, z: number } | number | string; // deprecate [number, number] & [number, number, number]
+  type ComponentType = "transform" | string
+  type ComponentPropType =
+    | [number, number]
+    | [number, number, number]
+    | { x: number; y: number; z: number }
+    | number
+    | string // deprecate [number, number] & [number, number, number]
   type CombinedComponentPropName = `${ComponentType}--${string}`
-  type ComponentProps = Record<string, ComponentPropType>;
+  type ComponentProps = Record<string, ComponentPropType>
 
   // #endregion
 
   // #region -- Scene --
   interface SceneConfig {
-    camera: CameraProps;
+    camera: CameraProps
     entities: EntityProps[]
   }
 
   interface ScenePayload {
-    sceneConfig: SceneConfig; // all entities & camera
+    sceneConfig: SceneConfig // all entities & camera
     scripts: Script[] // all custom scripts
   }
-  // #endregion 
+  // #endregion
 }

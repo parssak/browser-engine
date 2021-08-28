@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
+import Panel from "../Panel"
 import ComponentNode from "./ComponentNode"
 
 export default function InspectorPanel() {
@@ -121,14 +122,11 @@ export default function InspectorPanel() {
 
   if (!selectedEntity)
     return (
-      <div className="panel">
-        <h4 className="panel-label">Inspector</h4>
-      </div>
+      <Panel label="Inspector" />
     )
 
   return (
-    <div className="panel">
-      <h4 className="panel-label mb-1">Inspector</h4>
+    <Panel label="Inspector">
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (
@@ -203,6 +201,6 @@ export default function InspectorPanel() {
           </div>
         </div>
       </section>
-    </div>
+    </Panel>
   )
 }
