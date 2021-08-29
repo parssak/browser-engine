@@ -5,7 +5,7 @@ import Panel from "../Panel"
 import ProjectNode from "./ProjectNode"
 
 export default function ProjectPanel(): ReactElement {
-  const { sceneConfig } = useScene()
+  const { sceneConfig, selectedMaterial, selectMaterial } = useScene()
   const { scripts, loadScript, selectedScript } = useScripts()
   return (
     <Panel label="Project" bodyClass="space-y-2">
@@ -28,13 +28,22 @@ export default function ProjectPanel(): ReactElement {
       <ProjectNode title="Prefabs"></ProjectNode>
 
       <ProjectNode title="Materials">
-        {
-          sceneConfig.materials.map(material => (
-            <div key={material.id}>
-              {material.name}
-            </div>
-          ))
-        }
+        {sceneConfig.materials.map((material) => (
+          <div
+            key={material.id}
+            className={`project-node ${
+              selectedMaterial?.id === material.id && "bg-gray-500"
+            }
+          ${
+            selectedMaterial?.id === material.id
+              ? "hover:bg-gray-600"
+              : "hover:bg-gray-500"
+              }`}
+            onClick={() => selectMaterial(material.id)}
+          >
+            {material.name}
+          </div>
+        ))}
       </ProjectNode>
     </Panel>
   )

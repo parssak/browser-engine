@@ -46,16 +46,28 @@ export default class SceneManager {
   }
 
   setScenePayload(payload: Engine.ScenePayload) {
-    let shouldRecompileMaterials = false;
-    if (this._scenePayload) {
-      if (this._scenePayload.sceneConfig.materials !== payload.sceneConfig.materials) {
-        shouldRecompileMaterials = true
-      }
-    }
+    let shouldRecompileMaterials = true
+    // TODO: Optimize this so materials aren't over-compiled
+    // if (this._scenePayload) {
+    //   console.debug('has scene payload')
+    //   if (
+    //     JSON.stringify(this._scenePayload.sceneConfig.materials).length !==
+    //     JSON.stringify(payload.sceneConfig.materials).length
+    //   ) {
+    //     console.debug("should recompile")
+    //     shouldRecompileMaterials = true
+    //   } else {
+    //     console.debug(
+    //       "shouldnt recompile",
+    //       JSON.stringify(this._scenePayload.sceneConfig.materials),
+    //       JSON.stringify(payload.sceneConfig.materials)
+    //     )
+    //   }
+    // }
     this._scenePayload = payload
     if (shouldRecompileMaterials) {
-      console.debug('recompiling mats')
-      this._compileMaterials();
+      console.debug("recompiling mats")
+      this._compileMaterials()
     }
   }
 

@@ -4,12 +4,14 @@ import ComponentManager from "../../../engine/core/ComponentManager"
 import context from "../../../engine/core/EngineContext"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
+import useScripts from "../../../state/scripts/useScripts"
 import Panel from "../Panel"
 import ComponentNode from "./ComponentNode"
 
 export default function InspectorPanel() {
   const { isRunning } = useEditor()
-  const { selectedEntity, updateEntity, sceneConfig } = useScene()
+  const { selectedEntity, selectedMaterial, updateEntity, sceneConfig } = useScene()
+  const { loadScript } = useScripts()
 
   const [controls, setControls] = useState<
     Record<Engine.ComponentType, Engine.ComponentProps>
@@ -93,8 +95,8 @@ export default function InspectorPanel() {
       value: material,
     }))
   }
-  
-  const materialOptions: { label: string; value: string }[] = getMaterialOptions();
+
+  const materialOptions: { label: string; value: string }[] = getMaterialOptions()
   // const materialOptions: { label: string; value: string }[] = [
   //   {
   //     label: "Normal",
@@ -132,11 +134,40 @@ export default function InspectorPanel() {
       value: "torus",
     },
   ]
-
-  if (!selectedEntity) return <Panel label="Inspector" />
+  
+  if (!selectedEntity && !selectedMaterial) return <Panel label="Inspector" />
+  
+  if (selectedMaterial) return (
+    <Panel label="Inspector">
+      <h1>{selectedMaterial.name}</h1>
+      <section>
+        Fragment shader{" "}
+        <small
+          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
+          onClick={() => {
+            loadScript(selectedMaterial.fragmentShaderID, 'id')
+          }}
+        >
+          Open in editor
+        </small>
+      </section>
+      <section>
+        Vertex shader{" "}
+        <small
+          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
+          onClick={() => {
+            loadScript(selectedMaterial.vertexShaderID, 'id')
+          }}
+        >
+          Open in editor
+        </small>
+      </section>
+    </Panel>
+  )
 
   return (
     <Panel label="Inspector">
+      <h1>{selectedEntity?.name}</h1>
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (
@@ -144,6 +175,7 @@ export default function InspectorPanel() {
             componentType={type}
             componentProps={props}
             key={type}
+            componentScriptID={""}
             updateComponent={updateComponent}
           />
         ))}

@@ -13,8 +13,16 @@ const useScripts = () => {
     setScriptBody,
   } = useContext(ScriptContext)
 
-  const loadScript = (scriptName: string) => {
-    const foundScript = scripts[scriptName]
+  const loadScript = (
+    scriptName: string | Engine.ScriptID,
+    method: 'name' | 'id' = 'name'
+  ) => {
+    let foundScript
+    if (method === 'name') {
+      foundScript = scripts[scriptName]
+    } else if (method === 'id') {
+      foundScript = Object.values(scripts).find(script => script.id === scriptName)
+    }
     setSelectedScript(foundScript)
     setScriptBody(foundScript?.content ?? "")
   }
@@ -22,7 +30,7 @@ const useScripts = () => {
   const saveScript = (script: Engine.Script) => {
     const foundScript = Object.values(scripts).find((s) => s.id === script.id)
     if (!foundScript) return
-    foundScript.content = scriptBody;
+    foundScript.content = scriptBody
     compileScripts()
   }
 
@@ -32,16 +40,20 @@ const useScripts = () => {
     type: Engine.ScriptType
   }
   const createScript = (scriptsPayload: CreateScriptPayload[]): Engine.Script[] => {
-    const newScripts: Engine.Script[] = [];
+    const newScripts: Engine.Script[] = []
     const updatedScriptsObject = scripts
     scriptsPayload.forEach((scriptPayload) => {
-      const newScript = generateNewScript(scriptPayload.name, scriptPayload.language, scriptPayload.type)
+      const newScript = generateNewScript(
+        scriptPayload.name,
+        scriptPayload.language,
+        scriptPayload.type
+      )
       newScripts.push(newScript)
       updatedScriptsObject[newScript.name] = newScript
     })
-    
+
     setScripts(updatedScriptsObject)
-    return newScripts;
+    return newScripts
   }
 
   return {

@@ -13,8 +13,9 @@ const useScene = () => {
     setSelectedEntityID,
     materials,
     setMaterials,
+    selectedMaterialID,
+    setSelectedMaterialID,
   } = useContext(SceneContext)
-
 
   const selectEntity = (id: Engine.EntityID) => {
     if (id === selectedEntityID) {
@@ -24,10 +25,15 @@ const useScene = () => {
     }
     context.selectEntity(id)
     setSelectedEntityID(id)
+    setSelectedMaterialID("")
   }
 
   const selectedEntity: Engine.EntityProps | null = useMemo(() => {
     return sceneConfig.entities.find((e) => e.id === selectedEntityID) ?? null
+  }, [sceneConfig, selectedEntityID])
+
+  const selectedMaterial: Engine.Material | null = useMemo(() => {
+    return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedEntityID])
 
   const updateEntity = (entity: Engine.EntityProps) => {
@@ -55,20 +61,35 @@ const useScene = () => {
   const createMaterial = (
     materialName: string,
     vertexShaderID: Engine.ScriptID,
-    fragmentShaderID: Engine.ScriptID,
+    fragmentShaderID: Engine.ScriptID
   ) => {
-    const newMaterial = generateNewMaterial(materialName, vertexShaderID, fragmentShaderID);
+    const newMaterial = generateNewMaterial(
+      materialName,
+      vertexShaderID,
+      fragmentShaderID
+    )
     setMaterials([...materials, newMaterial])
+  }
+
+  const selectMaterial = (materialID: Engine.MaterialID) => {
+    if (materialID === selectedMaterialID) {
+      setSelectedMaterialID("")
+      return
+    }
+    setSelectedMaterialID(materialID)
+    setSelectedEntityID("")
   }
 
   return {
     sceneConfig,
     selectedEntity,
+    selectedMaterial,
     createEntity,
     selectEntity,
     updateEntity,
     updateEntityParent,
     createMaterial,
+    selectMaterial,
   }
 }
 

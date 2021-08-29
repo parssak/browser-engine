@@ -4,6 +4,7 @@ import ComponentFieldValue from "./ComponentFieldValue"
 interface Props {
   componentType: Engine.ComponentType
   componentProps: Engine.ComponentProps
+  componentScriptID: Engine.ScriptID
   updateComponent: (
     type: Engine.ComponentType,
     field: string,

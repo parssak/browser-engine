@@ -13,7 +13,7 @@ export default class GeometryManager {
       case 'box':
         return new THREE.BoxBufferGeometry();
       case 'sphere':
-        return new THREE.SphereBufferGeometry(1, 16, 8);
+        return new THREE.SphereBufferGeometry(1, 16, 16);
       case 'cylinder':
         return new THREE.CylinderBufferGeometry(1, 1, 1, 16, 1);
       case 'torus':
