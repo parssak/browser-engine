@@ -47,34 +47,21 @@ export default class SceneManager {
 
   setScenePayload(payload: Engine.ScenePayload) {
     let shouldRecompileMaterials = true
-    if (equal(this._scenePayload, payload)) {
-      console.log("payloads equal")
+    // TODO: Optimize this so materials aren't over-compiled
 
-    }
-    if (this._scenePayload?.sceneConfig && equal(this._scenePayload.sceneConfig.materials, payload.sceneConfig.materials)) {
-      console.log('materials are equal')
-      shouldRecompileMaterials = false
-    } else {
-      console.log("materials are NOT equal")
-    }
-      // TODO: Optimize this so materials aren't over-compiled
-      // if (this._scenePayload) {
-      //   console.debug('has scene payload')
-      //   if (
-      //     JSON.stringify(this._scenePayload.sceneConfig.materials).length !==
-      //     JSON.stringify(payload.sceneConfig.materials).length
-      //   ) {
-      //     console.debug("should recompile")
-      //     shouldRecompileMaterials = true
-      //   } else {
-      //     console.debug(
-      //       "shouldnt recompile",
-      //       JSON.stringify(this._scenePayload.sceneConfig.materials),
-      //       JSON.stringify(payload.sceneConfig.materials)
-      //     )
-      //   }
-      // }
-      this._scenePayload = payload
+    // if (equal(this._scenePayload, payload)) {
+    //   console.log("payloads equal")
+    // }
+    // if (
+    //   this._scenePayload?.sceneConfig &&
+    //   equal(this._scenePayload.sceneConfig.materials, payload.sceneConfig.materials)
+    // ) {
+    //   // console.log("materials are equal")
+    //   shouldRecompileMaterials = false
+    // } else {
+    //   // console.log("materials are NOT equal")
+    // }
+    this._scenePayload = payload
     if (shouldRecompileMaterials) {
       this._compileMaterials()
       console.debug("recompiling mats")
