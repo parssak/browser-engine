@@ -6,243 +6,143 @@ import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import useScripts from "../../../state/scripts/useScripts"
 import Panel from "../Panel"
-import ComponentNode from "./ComponentNode"
+import EntityInspector from "./EntityInspector"
+import ComponentNode from "./entity/ComponentNode"
+import MaterialInspector from "./MaterialInspector"
 
 export default function InspectorPanel() {
-  const { isRunning } = useEditor()
+  // const { isRunning } = useEditor()
   const { selectedEntity, selectedMaterial, updateEntity, sceneConfig } = useScene()
   const { loadScript } = useScripts()
 
-  const [controls, setControls] = useState<
-    Record<Engine.ComponentType, Engine.ComponentProps>
-  >({})
-  const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
-  const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")
+  // const [controls, setControls] = useState<
+  //   Record<Engine.ComponentType, Engine.ComponentProps>
+  // >({})
+  // const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
+  // const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")
 
-  useEffect(() => {
-    if (!selectedEntity) return
-    setMaterialType(selectedEntity.material)
-    setGeometryType(selectedEntity.geometry)
-  }, [selectedEntity])
+  // useEffect(() => {
+  //   if (!selectedEntity) return
+  //   setMaterialType(selectedEntity.material)
+  //   setGeometryType(selectedEntity.geometry)
+  // }, [selectedEntity])
 
-  // * Handles populating all correct value fields when selecting entity */
-  useEffect(() => {
-    const updateComponentFields = (entity: Engine.EntityProps) => {
-      const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {}
-      Object.entries(entity.components).forEach(([type, props]) => {
-        propFields[type] = props
-      })
-      setControls({ ...propFields } as any)
-    }
-    if (selectedEntity) updateComponentFields(selectedEntity)
-  }, [selectedEntity, sceneConfig, isRunning])
+  // // * Handles populating all correct value fields when selecting entity */
+  // useEffect(() => {
+  //   const updateComponentFields = (entity: Engine.EntityProps) => {
+  //     const propFields: Record<Engine.ComponentType, Engine.ComponentProps> = {}
+  //     Object.entries(entity.components).forEach(([type, props]) => {
+  //       propFields[type] = props
+  //     })
+  //     setControls({ ...propFields } as any)
+  //   }
+  //   if (selectedEntity) updateComponentFields(selectedEntity)
+  // }, [selectedEntity, sceneConfig, isRunning])
 
-  const addComponent = (componentName: Engine.ComponentType) => {
-    if (!selectedEntity) return
-    const componentProps = ComponentManager.instance.getComponentProps(componentName)
-    if (!componentProps) return
-    selectedEntity.components[componentName] = componentProps
-    updateEntity(selectedEntity)
-  }
+  // const addComponent = (componentName: Engine.ComponentType) => {
+  //   if (!selectedEntity) return
+  //   const componentProps = ComponentManager.instance.getComponentProps(componentName)
+  //   if (!componentProps) return
+  //   selectedEntity.components[componentName] = componentProps
+  //   updateEntity(selectedEntity)
+  // }
 
-  const updateComponent = (
-    type: Engine.ComponentType,
-    field: string,
-    value: Engine.ComponentPropType
-  ) => {
-    const newControls = { ...controls }
-    newControls[type][field] = value
-    setControls(newControls)
-    if (selectedEntity) {
-      selectedEntity.components = newControls
-      updateEntity({ ...selectedEntity })
-    }
-  }
+  // const updateComponent = (
+  //   type: Engine.ComponentType,
+  //   field: string,
+  //   value: Engine.ComponentPropType
+  // ) => {
+  //   const newControls = { ...controls }
+  //   newControls[type][field] = value
+  //   setControls(newControls)
+  //   if (selectedEntity) {
+  //     selectedEntity.components = newControls
+  //     updateEntity({ ...selectedEntity })
+  //   }
+  // }
 
-  const updateMaterial = (newMaterial: Engine.MaterialType) => {
-    setMaterialType(newMaterial)
-    if (selectedEntity) {
-      selectedEntity.material = newMaterial
-      updateEntity({ ...selectedEntity })
-    }
-  }
+  // const updateMaterial = (newMaterial: Engine.MaterialType) => {
+  //   setMaterialType(newMaterial)
+  //   if (selectedEntity) {
+  //     selectedEntity.material = newMaterial
+  //     updateEntity({ ...selectedEntity })
+  //   }
+  // }
 
-  const updateGeometry = (newGeometry: Engine.GeometryType) => {
-    setGeometryType(newGeometry)
-    if (selectedEntity) {
-      selectedEntity.geometry = newGeometry
-      updateEntity({ ...selectedEntity })
-    }
-  }
+  // const updateGeometry = (newGeometry: Engine.GeometryType) => {
+  //   setGeometryType(newGeometry)
+  //   if (selectedEntity) {
+  //     selectedEntity.geometry = newGeometry
+  //     updateEntity({ ...selectedEntity })
+  //   }
+  // }
 
-  const getComponentOptions = (): { label: string; value: string }[] => {
-    const components = ComponentManager.instance.getComponents()
-    if (!selectedEntity) return []
-    const currentComponents = Object.keys(selectedEntity?.components)
-    return Object.keys(components)
-      .filter((c) => !currentComponents.includes(c))
-      .map((component) => ({
-        label: component,
-        value: component,
-      }))
-  }
+  // const getComponentOptions = (): { label: string; value: string }[] => {
+  //   const components = ComponentManager.instance.getComponents()
+  //   if (!selectedEntity) return []
+  //   const currentComponents = Object.keys(selectedEntity?.components)
+  //   return Object.keys(components)
+  //     .filter((c) => !currentComponents.includes(c))
+  //     .map((component) => ({
+  //       label: component,
+  //       value: component,
+  //     }))
+  // }
 
-  const componentOptions = getComponentOptions()
+  // const componentOptions = getComponentOptions()
 
-  const getMaterialOptions = (): { label: string; value: string }[] => {
-    return Object.keys(context.materialManager.materials).map((material) => ({
-      label: material,
-      value: material,
-    }))
-  }
+  // const getMaterialOptions = (): { label: string; value: string }[] => {
+  //   return Object.keys(context.materialManager.materials).map((material) => ({
+  //     label: material,
+  //     value: material,
+  //   }))
+  // }
 
-  const materialOptions: { label: string; value: string }[] = getMaterialOptions()
-  // const materialOptions: { label: string; value: string }[] = [
+  // const materialOptions: { label: string; value: string }[] = getMaterialOptions()
+  // // const materialOptions: { label: string; value: string }[] = [
+  // //   {
+  // //     label: "Normal",
+  // //     value: "normal",
+  // //   },
+  // //   {
+  // //     label: "Basic",
+  // //     value: "basic",
+  // //   },
+  // //   {
+  // //     label: "Lambert",
+  // //     value: "lambert",
+  // //   },
+  // //   {
+  // //     label: "Phong",
+  // //     value: "phong",
+  // //   },
+  // //   {
+  // //     label: "Cool Material",
+  // //     value: "coolMat",
+  // //   },
+  // // ]
+
+  // const geometryOptions: { label: string; value: string }[] = [
   //   {
-  //     label: "Normal",
-  //     value: "normal",
+  //     label: "Box",
+  //     value: "box",
   //   },
   //   {
-  //     label: "Basic",
-  //     value: "basic",
+  //     label: "Sphere",
+  //     value: "sphere",
   //   },
   //   {
-  //     label: "Lambert",
-  //     value: "lambert",
-  //   },
-  //   {
-  //     label: "Phong",
-  //     value: "phong",
-  //   },
-  //   {
-  //     label: "Cool Material",
-  //     value: "coolMat",
+  //     label: "Torus",
+  //     value: "torus",
   //   },
   // ]
-
-  const geometryOptions: { label: string; value: string }[] = [
-    {
-      label: "Box",
-      value: "box",
-    },
-    {
-      label: "Sphere",
-      value: "sphere",
-    },
-    {
-      label: "Torus",
-      value: "torus",
-    },
-  ]
-  
-  if (!selectedEntity && !selectedMaterial) return <Panel label="Inspector" />
   
   if (selectedMaterial) return (
-    <Panel label="Inspector">
-      <h1>{selectedMaterial.name}</h1>
-      <section>
-        Fragment shader{" "}
-        <small
-          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
-          onClick={() => {
-            loadScript(selectedMaterial.fragmentShaderID, 'id')
-          }}
-        >
-          Open in editor
-        </small>
-      </section>
-      <section>
-        Vertex shader{" "}
-        <small
-          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
-          onClick={() => {
-            loadScript(selectedMaterial.vertexShaderID, 'id')
-          }}
-        >
-          Open in editor
-        </small>
-      </section>
-    </Panel>
+    <MaterialInspector selectedMaterial={selectedMaterial} />
   )
-
-  return (
-    <Panel label="Inspector">
-      <h1>{selectedEntity?.name}</h1>
-      {/* Components */}
-      <section className="space-y-2">
-        {Object.entries(controls).map(([type, props]) => (
-          <ComponentNode
-            componentType={type}
-            componentProps={props}
-            key={type}
-            componentScriptID={""}
-            updateComponent={updateComponent}
-          />
-        ))}
-      </section>
-
-      {/* Add components */}
-      {componentOptions.length > 0 && (
-        <section>
-          <select onChange={(e) => console.log(e.target.value)}>
-            {componentOptions.map(({ label, value }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <div className="grid place-items-center mt-2">
-            <button onClick={() => addComponent(componentOptions[0].value)}>
-              Add Component
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* Mesh */}
-      <section>
-        <div className="bg-gray-800 text-white">
-          <h3>Mesh</h3>
-          <div className="space-y-2">
-            <div className="flex space-x-2 items-center">
-              <p
-                className="text-xs font-mono text-gray-200"
-                style={{ minWidth: "10ch" }}
-              >
-                Material
-              </p>
-              <select
-                onChange={(e) => updateMaterial(e.target.value)}
-                defaultValue={materialType}
-              >
-                {materialOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex space-x-2 items-center">
-              <p
-                className="text-xs font-mono text-gray-200"
-                style={{ minWidth: "10ch" }}
-              >
-                Geometry
-              </p>
-              <select
-                onChange={(e) => updateGeometry(e.target.value)}
-                value={geometryType}
-              >
-                {geometryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-      </section>
-    </Panel>
+  else if (selectedEntity) return (
+    <EntityInspector selectedEntity={selectedEntity} />
   )
+  else return <Panel label="Inspector" />
+
 }

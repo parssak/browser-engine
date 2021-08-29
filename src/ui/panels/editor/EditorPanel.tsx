@@ -41,6 +41,7 @@ export default function EditorPanel(): ReactElement {
               defaultValue={selectedScript.content}
               theme="vs-dark"
               onChange={handleEditorChange}
+              defaultPath="/src/modal"
             />
           </div>
         </>

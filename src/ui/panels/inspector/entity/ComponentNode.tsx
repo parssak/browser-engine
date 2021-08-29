@@ -1,4 +1,4 @@
-import useScripts from "../../../state/scripts/useScripts"
+import useScripts from "../../../../state/scripts/useScripts"
 import ComponentFieldValue from "./ComponentFieldValue"
 
 interface Props {
