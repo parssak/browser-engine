@@ -20,7 +20,7 @@ export default class MaterialManager {
     return this.materials[type] ?? this.materials.basic
   }
 
-  addCustomMaterial(materialPayload: Engine.MaterialPayload): void {
+  addCustomMaterial(materialPayload: Engine.Material): void {
     const mat = materialPayload.material;
     this.materials[mat.name] = new THREE.ShaderMaterial({
       uniforms: mat.uniforms,

@@ -95,7 +95,7 @@ export const generateNewMaterial = (
   name: string,
   vertexShaderID: string,
   fragmentShaderID: string
-): Engine.Material => {
+): Engine.MaterialProps => {
   const id = uuidv4()
   return {
     id,

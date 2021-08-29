@@ -202,7 +202,7 @@ export default class SceneManager {
       )
 
       if (!associatedVertexShader || !associatedFragmentShader) return
-      const materialPayload: Engine.MaterialPayload = {
+      const materialPayload: Engine.Material = {
         material,
         vertexShader: associatedVertexShader.content,
         fragmentShader: associatedFragmentShader.content,

@@ -3,7 +3,7 @@ import useScripts from '../../../state/scripts/useScripts'
 import Panel from '../Panel'
 
 interface Props {
-  selectedMaterial: Engine.Material
+  selectedMaterial: Engine.MaterialProps
 }
 
 export default function MaterialInspector({ selectedMaterial }: Props): ReactElement {

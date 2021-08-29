@@ -13,8 +13,8 @@ interface ISceneContext {
   selectedMaterialID: string | null
   setSelectedMaterialID: (materialID: string | null) => void
   setCameraProps: (cameraProps: Engine.CameraProps) => void
-  materials: Engine.Material[]
-  setMaterials: (materials: Engine.Material[]) => void
+  materials: Record<string, Engine.MaterialProps>
+  setMaterials: (materials: Record<string, Engine.MaterialProps>) => void
 }
 
 const initialValue = {
@@ -32,11 +32,11 @@ const initialValue = {
   selectedEntityID: null,
   selectedMaterialID: null,
   setEntities: (entities: Engine.EntityProps[]) => {},
-  setSelectedEntityID: (entityID: string | null) => { },
-  setSelectedMaterialID: (materialID: string | null) => { },
+  setSelectedEntityID: (entityID: string | null) => {},
+  setSelectedMaterialID: (materialID: string | null) => {},
   setCameraProps: (cameraProps: Engine.CameraProps) => {},
-  materials: [],
-  setMaterials: (materials: Engine.Material[]) => {},
+  materials: {},
+  setMaterials: (materials: Record<string, Engine.MaterialProps>) => {},
 }
 
 export const SceneContext = createContext<ISceneContext>(initialValue)
@@ -71,16 +71,16 @@ export const SceneProvider = ({
     },
   ])
   const [selectedEntityID, setSelectedEntityID] = useState<string | null>(null)
-  const [selectedMaterialID, setSelectedMaterialID] = useState<string | null>(null)
 
-  const [materials, setMaterials] = useState<Engine.Material[]>(
-    [] as Engine.Material[]
+  const [selectedMaterialID, setSelectedMaterialID] = useState<string | null>(null)
+  const [materials, setMaterials] = useState<Record<string, Engine.MaterialProps>>(
+    {} as Record<string, Engine.MaterialProps>
   )
-  const sceneConfig = useMemo(
+  const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({
       entities,
       camera: cameraProps,
-      materials,
+      materials: Object.values(materials),
     }),
     [entities, cameraProps, materials]
   )

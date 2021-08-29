@@ -52,7 +52,7 @@ const useScripts = () => {
       updatedScriptsObject[newScript.name] = newScript
     })
 
-    setScripts(updatedScriptsObject)
+    setScripts({...updatedScriptsObject})
     return newScripts
   }
 

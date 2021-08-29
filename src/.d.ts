@@ -18,7 +18,7 @@ declare namespace Engine {
     type: ScriptType
   }
 
-  interface Material {
+  interface MaterialProps {
     id: MaterialID
     name: string
     uniforms: Record<string, { value: unknown }>
@@ -26,8 +26,8 @@ declare namespace Engine {
     vertexShaderID: ScriptID
   }
 
-  interface MaterialPayload {
-    material: Material
+  interface Material {
+    material: MaterialProps
     fragmentShader: ScriptContent
     vertexShader: ScriptContent
   }
@@ -80,7 +80,7 @@ declare namespace Engine {
   interface SceneConfig {
     camera: CameraProps
     entities: EntityProps[]
-    materials: Material[]
+    materials: MaterialProps[]
   }
 
   interface ScenePayload {

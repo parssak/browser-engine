@@ -32,7 +32,7 @@ const useScene = () => {
     return sceneConfig.entities.find((e) => e.id === selectedEntityID) ?? null
   }, [sceneConfig, selectedEntityID])
 
-  const selectedMaterial: Engine.Material | null = useMemo(() => {
+  const selectedMaterial: Engine.MaterialProps | null = useMemo(() => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedEntityID])
 
@@ -63,12 +63,14 @@ const useScene = () => {
     vertexShaderID: Engine.ScriptID,
     fragmentShaderID: Engine.ScriptID
   ) => {
+    const updatedMaterialsObject = materials;
     const newMaterial = generateNewMaterial(
       materialName,
       vertexShaderID,
       fragmentShaderID
     )
-    setMaterials([...materials, newMaterial])
+    updatedMaterialsObject[materialName] = newMaterial;
+    setMaterials({...updatedMaterialsObject})
   }
 
   const selectMaterial = (materialID: Engine.MaterialID) => {

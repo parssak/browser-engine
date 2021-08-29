@@ -165,7 +165,7 @@ export default function EntityInspector({
               </p>
               <select
                 onChange={(e) => updateMaterial(e.target.value)}
-                defaultValue={materialType}
+                value={materialType}
               >
                 {materialOptions.map((option) => (
                   <option key={option.value} value={option.value}>
