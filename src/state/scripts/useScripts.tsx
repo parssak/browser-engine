@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { generateNewScript } from "../../utils/script.utils"
 import { ScriptContext } from "./ScriptContext"
 
