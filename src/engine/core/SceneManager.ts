@@ -48,19 +48,6 @@ export default class SceneManager {
   setScenePayload(payload: Engine.ScenePayload) {
     let shouldRecompileMaterials = true
     // TODO: Optimize this so materials aren't over-compiled
-
-    // if (equal(this._scenePayload, payload)) {
-    //   console.log("payloads equal")
-    // }
-    // if (
-    //   this._scenePayload?.sceneConfig &&
-    //   equal(this._scenePayload.sceneConfig.materials, payload.sceneConfig.materials)
-    // ) {
-    //   // console.log("materials are equal")
-    //   shouldRecompileMaterials = false
-    // } else {
-    //   // console.log("materials are NOT equal")
-    // }
     this._scenePayload = payload
     if (shouldRecompileMaterials) {
       this._compileMaterials()

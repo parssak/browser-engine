@@ -42,9 +42,7 @@ export default function Nav(): ReactElement {
   }
   return (
     <div>
-      <header
-        className={`h-0.5 transition bg-red-600 ${isRunning && "bg-green-500"}`}
-      />
+      <header className={`h-0.5 transition bg-red-600 ${isRunning && "bg-green-500"}`} />
       <nav className="bg-gray-900 p-2 flex w-full">
         <div className="space-x-2">
           <button onClick={toggleRun} className="primary">

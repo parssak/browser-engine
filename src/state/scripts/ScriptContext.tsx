@@ -39,6 +39,7 @@ export const ScriptProvider = ({
 
   useEffect(() => {
     compileScripts()
+    console.log('SHOULD COMPILE SCRIPTS')
   }, [scripts])
 
   const contextValue = {

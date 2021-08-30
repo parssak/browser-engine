@@ -12,8 +12,9 @@ const useEditor = () => {
   const { renderElement } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
 
+
   const scenePayload: Engine.ScenePayload = useMemo(
-    () => ({ sceneConfig, scripts, materials: [] }), // todo
+    () => ({ sceneConfig, scripts }),
     [sceneConfig, scripts]
   )
 
@@ -26,6 +27,14 @@ const useEditor = () => {
     }
     init()
   }, [renderElement])
+
+  useEffect(() => {
+    console.log("scene config change")
+  }, [sceneConfig])
+  
+  useEffect(() => {
+    console.log("scripts change")
+  }, [scripts])
 
   useEffect(() => {
     context.updateScenePayload(scenePayload)
@@ -46,7 +55,7 @@ const useEditor = () => {
 
   const handleClickScene = (e: React.MouseEvent) => {
     const canvas: HTMLCanvasElement = e.target as unknown as HTMLCanvasElement
-    canvas.focus();
+    canvas.focus()
     const domRect: DOMRect = canvas.getBoundingClientRect()
     const [mouseX, mouseY]: [number, number] = [
       ((e.clientX - domRect.x) / domRect.width) * 2 - 1,

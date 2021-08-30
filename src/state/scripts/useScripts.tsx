@@ -39,6 +39,7 @@ const useScripts = () => {
     language: Engine.Language
     type: Engine.ScriptType
   }
+
   const createScript = (scriptsPayload: CreateScriptPayload[]): Engine.Script[] => {
     const newScripts: Engine.Script[] = []
     const updatedScriptsObject = scripts
@@ -58,7 +59,7 @@ const useScripts = () => {
 
   return {
     scripts: Object.values(scripts),
-    setScripts,
+    // setScripts,
     scriptBody,
     setScriptBody,
     selectedScript,
