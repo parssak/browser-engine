@@ -1,5 +1,4 @@
 import * as THREE from "three"
-import { generateNewMaterial } from "../../utils/script.utils"
 
 export default class MaterialManager {
   public static instance: MaterialManager
@@ -21,9 +20,9 @@ export default class MaterialManager {
   }
 
   addCustomMaterial(materialPayload: Engine.Material): void {
-    const mat = materialPayload.material;
+    const mat = materialPayload.material
     this.materials[mat.name] = new THREE.ShaderMaterial({
-      uniforms: mat.uniforms,
+      uniforms: { ...mat.uniforms, time: { value: 0.0 } },
       vertexShader: materialPayload.vertexShader,
       fragmentShader: materialPayload.fragmentShader,
     })

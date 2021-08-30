@@ -32,10 +32,6 @@ export default class CameraManager {
     this._runSceneLoop(scene)
   }
 
-  resetCamera() {
-    this.renderer.setAnimationLoop(null)
-  }
-
   handleClick(mouseX: number, mouseY: number) {
     const pointer = new THREE.Vector2(mouseX, mouseY)
     this.raycaster.setFromCamera(pointer, this.camera)
@@ -83,19 +79,6 @@ export default class CameraManager {
     )
   }
 
-  private changeControls() {
-    if (this.currentControls === "fly") {
-      this.currentControls = "orbit"
-    } else if (this.currentControls === "orbit") {
-      this.currentControls = "fly"
-    }
-    ControlsManager.instance.setControls(
-      this.currentControls,
-      this.camera,
-      this.renderer.domElement
-    )
-  }
-
   handleResize() {
     if (!this.renderElement) return
     const dimensions = this.renderElement.getBoundingClientRect()
@@ -108,7 +91,8 @@ export default class CameraManager {
   update(scene: THREE.Scene) {
     this.renderer.render(scene, this.camera)
     const deltaTime = this.clock.getDelta()
-    SceneManager.instance.updateScene(deltaTime)
+    const elapsedTime = this.clock.getElapsedTime()
+    SceneManager.instance.updateScene(deltaTime, elapsedTime)
     ControlsManager.instance.updateControls(deltaTime)
   }
 }

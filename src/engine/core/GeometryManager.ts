@@ -1,35 +1,25 @@
-import * as THREE from 'three';
+import * as THREE from "three"
 
 export default class GeometryManager {
-  public static instance: GeometryManager;
-
-  constructor() {
-    if (GeometryManager.instance) return;
-    GeometryManager.instance = this;
+  public static instance: GeometryManager
+  geometries: Record<Engine.GeometryType, THREE.BufferGeometry> = {
+    box: new THREE.BoxBufferGeometry(),
+    sphere: new THREE.SphereBufferGeometry(1, 16, 16),
+    cylinder: new THREE.CylinderBufferGeometry(1, 1, 1, 16, 1),
+    torus: new THREE.TorusBufferGeometry(6, 1.1, 10, 32, 6.3),
+    plane: new THREE.PlaneBufferGeometry(1, 1),
+    tetrahedron: new THREE.TetrahedronBufferGeometry(),
+    octahedron: new THREE.OctahedronBufferGeometry(),
+    dodecahedron: new THREE.DodecahedronBufferGeometry(),
+    icosahedron: new THREE.IcosahedronBufferGeometry(),
   }
 
-  getGeometry(type: Engine.MaterialType): THREE.BufferGeometry {
-    switch (type) {
-      case 'box':
-        return new THREE.BoxBufferGeometry();
-      case 'sphere':
-        return new THREE.SphereBufferGeometry(1, 16, 16);
-      case 'cylinder':
-        return new THREE.CylinderBufferGeometry(1, 1, 1, 16, 1);
-      case 'torus':
-        return new THREE.TorusBufferGeometry(6, 1.1, 10, 32, 6.3);
-      case 'plane':
-        return new THREE.PlaneBufferGeometry(1, 1);
-      case 'tetrahedron':
-        return new THREE.TetrahedronBufferGeometry();
-      case 'octahedron':
-        return new THREE.OctahedronBufferGeometry();
-      case 'dodecahedron':
-        return new THREE.DodecahedronBufferGeometry();
-      case 'icosahedron':
-        return new THREE.IcosahedronBufferGeometry();
-      default:
-        return new THREE.SphereBufferGeometry();
-    }
+  constructor() {
+    if (GeometryManager.instance) return
+    GeometryManager.instance = this
+  }
+
+  getGeometry(type: Engine.GeometryType): THREE.BufferGeometry {
+    return this.geometries[type] ?? this.geometries.box
   }
 }

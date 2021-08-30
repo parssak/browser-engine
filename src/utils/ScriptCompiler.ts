@@ -1,6 +1,9 @@
+/* eslint-disable no-eval */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as three from "three"
 import Component from "../engine/core/Component"
 import ComponentManager from "../engine/core/ComponentManager"
+import context from "../engine/core/EngineContext"
 import SceneManager from "../engine/core/SceneManager"
 import { generateNewEntity } from "./entity.utils"
 import { formatScriptString, injectInitSection } from "./script.utils"
@@ -25,6 +28,7 @@ export default class ScriptCompiler {
     const THREE = three
     const Instantiate = SceneManager.instance.buildEntity.bind(SceneManager.instance)
     const CreateEntity = generateNewEntity
+    const Time = context.time;
 
     const scriptCopy = `${script.content}`
     const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11)

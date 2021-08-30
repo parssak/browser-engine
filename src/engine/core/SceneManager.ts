@@ -81,9 +81,9 @@ export default class SceneManager {
     this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh)
   }
 
-  updateScene(deltaTime: number) {
+  updateScene(deltaTime: number, elapsedTime: number) {
     this._entities.forEach((entity) => {
-      entity.update()
+      entity.update(deltaTime, elapsedTime)
     })
   }
 

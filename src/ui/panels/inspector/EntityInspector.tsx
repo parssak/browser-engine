@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import ComponentManager from '../../../engine/core/ComponentManager'
+import GeometryManager from '../../../engine/core/GeometryManager'
 import MaterialManager from '../../../engine/core/MaterialManager'
 import useEditor from '../../../state/editor/useEditor'
 import useScene from '../../../state/scene/useScene'
@@ -8,6 +9,11 @@ import ComponentNode from './entity/ComponentNode'
 
 interface Props {
   selectedEntity: Engine.EntityProps
+}
+
+interface SelectOption {
+  label: string
+  value: string
 }
 
 export default function EntityInspector({
@@ -62,7 +68,7 @@ export default function EntityInspector({
     }
   }
 
-  const getComponentOptions = (): { label: string; value: string }[] => {
+  const getComponentOptions = (): SelectOption[] => {
     const components = ComponentManager.instance.getComponents()
     if (!selectedEntity) return []
     const currentComponents = Object.keys(selectedEntity?.components)
@@ -92,30 +98,23 @@ export default function EntityInspector({
     }
   }
 
-  const getMaterialOptions = (): { label: string; value: string }[] => {
+  const getMaterialOptions = (): SelectOption[] => {
     return Object.keys(MaterialManager.instance.materials).map((material) => ({
       label: material,
       value: material,
     }))
   }
 
-  const materialOptions: { label: string; value: string }[] = getMaterialOptions()
+  const materialOptions: SelectOption[] = getMaterialOptions()
 
-  const geometryOptions: { label: string; value: string }[] = [
-    {
-      label: "Box",
-      value: "box",
-    },
-    {
-      label: "Sphere",
-      value: "sphere",
-    },
-    {
-      label: "Torus",
-      value: "torus",
-    },
-  ]
-  
+  const getGeometryOptions = (): SelectOption[] => {
+    return Object.keys(GeometryManager.instance.geometries).map((geometry) => ({
+      label: geometry,
+      value: geometry,
+    }))
+  }
+
+  const geometryOptions: SelectOption[] = getGeometryOptions()
 
   return (
     <Panel label="Inspector">

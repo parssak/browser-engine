@@ -34,7 +34,7 @@ const useScene = () => {
 
   const selectedMaterial: Engine.MaterialProps | null = useMemo(() => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
-  }, [sceneConfig, selectedEntityID])
+  }, [sceneConfig, selectedMaterialID])
 
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex((e) => e.id === entity.id)

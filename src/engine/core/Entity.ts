@@ -55,9 +55,13 @@ export default class Entity {
     }
   }
 
-  update() {
+  update(deltaTime: number, elapsedTime: number) {
     if (SceneManager.isPlaying()) {
       this._updateComponents();
+    }
+    const mat = this.mesh.material as any;
+    if (mat.uniforms) {
+      mat.uniforms.time.value = elapsedTime;
     }
   }
 
