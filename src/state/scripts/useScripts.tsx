@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { generateNewScript } from "../../utils/script.utils"
-import { ScriptContext } from "./ScriptContext"
+import { scriptBody, ScriptContext, setScriptBody } from "./ScriptContext"
 
 const useScripts = () => {
   const {
@@ -9,19 +9,19 @@ const useScripts = () => {
     selectedScript,
     setSelectedScript,
     compileScripts,
-    scriptBody,
-    setScriptBody,
+    // scriptBody,
+    // setScriptBody,
   } = useContext(ScriptContext)
 
   const loadScript = (
     scriptName: string | Engine.ScriptID,
-    method: 'name' | 'id' = 'name'
+    method: "name" | "id" = "name"
   ) => {
     let foundScript
-    if (method === 'name') {
+    if (method === "name") {
       foundScript = scripts[scriptName]
-    } else if (method === 'id') {
-      foundScript = Object.values(scripts).find(script => script.id === scriptName)
+    } else if (method === "id") {
+      foundScript = Object.values(scripts).find((script) => script.id === scriptName)
     }
     setSelectedScript(foundScript)
     setScriptBody(foundScript?.content ?? "")
@@ -53,7 +53,7 @@ const useScripts = () => {
       updatedScriptsObject[newScript.name] = newScript
     })
 
-    setScripts({...updatedScriptsObject})
+    setScripts({ ...updatedScriptsObject })
     return newScripts
   }
 

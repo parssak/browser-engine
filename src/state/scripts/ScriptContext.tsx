@@ -24,6 +24,10 @@ const initialValue: IScriptContext = {
 
 export const ScriptContext = createContext<IScriptContext>(initialValue)
 
+export let scriptBody = ""
+export const setScriptBody = (val: string) => {
+  scriptBody = val
+}
 export const ScriptProvider = ({
   children,
 }: {
@@ -31,7 +35,7 @@ export const ScriptProvider = ({
 }) => {
   const [scripts, setScripts] = useState<Record<string, Engine.Script>>({})
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
-  const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? "")
+  // const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? "")
 
   const compileScripts = () => {
     ScriptCompiler.CompileScripts(Object.values(scripts));
@@ -39,7 +43,6 @@ export const ScriptProvider = ({
 
   useEffect(() => {
     compileScripts()
-    console.log('SHOULD COMPILE SCRIPTS')
   }, [scripts])
 
   const contextValue = {

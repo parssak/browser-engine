@@ -29,14 +29,6 @@ const useEditor = () => {
   }, [renderElement])
 
   useEffect(() => {
-    console.log("scene config change")
-  }, [sceneConfig])
-  
-  useEffect(() => {
-    console.log("scripts change")
-  }, [scripts])
-
-  useEffect(() => {
     context.updateScenePayload(scenePayload)
   }, [scenePayload])
 
