@@ -41,14 +41,16 @@ declare namespace Engine {
 
   // #region -- Lighting -- 
 
-  type Hexadecimal = string;
+  type Hexadecimal = number;
   type LightType = "ambient" | "directional" | "hemisphere" | "point"
   type LightID = string;
   interface LightProps {
     id: LightID
+    name: string
     type: LightType
     color: Hexadecimal
-    intensity: number
+    intensity: number,
+    position: THREE.Vector3
   }
 
   // #endregion

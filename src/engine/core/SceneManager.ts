@@ -1,3 +1,4 @@
+import { rgbToHexa } from './../../utils/index';
 import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
@@ -28,6 +29,10 @@ export default class SceneManager {
     this._scene.add(this._gridHelper)
     this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6))
     this._scene.add(new THREE.AmbientLight(0x555555))
+    const pointLight = new THREE.PointLight('rgb(255,0,0)', 1, 100)
+    pointLight.position.set(3, 3, 3);
+    pointLight.shadow.needsUpdate = true;
+    this._scene.add(pointLight)
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -165,6 +170,7 @@ export default class SceneManager {
   }
 
   private _buildEntities() {
+    console.debug("called build entity")
     if (!this._scenePayload) return
     // This prevents all of the strange object mutation
     const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload)

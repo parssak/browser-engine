@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { v4 as uuidv4 } from "uuid"
 
 const COMPONENT_DEF = `// @defineComponent`
@@ -112,8 +113,10 @@ export const generateNewLight = (): Engine.LightProps => {
   const id = uuidv4();
   return {
     id,
+    name: 'newLight',
     type: 'point',
-    color: "#FF00FF",
-    intensity: 1
+    color: 0x0ff00f,
+    intensity: 1,
+    position: new THREE.Vector3(3, 3, 3)
   }
 }

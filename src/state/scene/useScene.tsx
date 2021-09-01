@@ -114,7 +114,9 @@ const useScene = () => {
     createMaterial,
     selectMaterial,
     createLight,
-    selectLight
+    selectLight,
+    selectedLightID,
+    setSelectedLightID
   }
 }
 
