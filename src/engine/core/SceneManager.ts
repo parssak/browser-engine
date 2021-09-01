@@ -3,7 +3,6 @@ import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
-import equal from "deep-equal"
 export default class SceneManager {
   public static instance: SceneManager
   private isPlaying: boolean = false // If true, in play mode, else in edit mode

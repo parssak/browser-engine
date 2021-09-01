@@ -4,7 +4,7 @@ import useScene from "../../../state/scene/useScene"
 import useScripts from "../../../state/scripts/useScripts"
 
 export default function Nav(): ReactElement {
-  const { createEntity, createMaterial } = useScene()
+  const { createEntity, createMaterial, createLight } = useScene()
   const { toggleRun, isRunning } = useEditor()
   const { createScript, selectedScript, loadScript, saveScript, scriptBody } =
     useScripts()
@@ -29,6 +29,10 @@ export default function Nav(): ReactElement {
       },
     ])
     createMaterial(materialName, vShader.id, fShader.id)
+  }
+
+  const handleCreateLight = () => {
+    createLight();
   }
 
   const handleSaveScript = () => {
@@ -56,6 +60,9 @@ export default function Nav(): ReactElement {
           </button>
           <button onClick={handleCreateMaterial} className="secondary">
             Add Material
+          </button>
+          <button onClick={handleCreateLight} className="secondary">
+            Add Light
           </button>
         </div>
         {selectedScript && (

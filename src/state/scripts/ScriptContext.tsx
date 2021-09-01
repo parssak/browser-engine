@@ -35,7 +35,6 @@ export const ScriptProvider = ({
 }) => {
   const [scripts, setScripts] = useState<Record<string, Engine.Script>>({})
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
-  // const [scriptBody, setScriptBody] = useState(selectedScript?.content ?? "")
 
   const compileScripts = () => {
     ScriptCompiler.CompileScripts(Object.values(scripts));

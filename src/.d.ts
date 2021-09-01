@@ -18,6 +18,10 @@ declare namespace Engine {
     type: ScriptType
   }
 
+  // #endregion
+
+  // #region -- Material -- 
+
   interface MaterialProps {
     id: MaterialID
     name: string
@@ -26,10 +30,25 @@ declare namespace Engine {
     vertexShaderID: ScriptID
   }
 
+
   interface Material {
     material: MaterialProps
     fragmentShader: ScriptContent
     vertexShader: ScriptContent
+  }
+
+  // #endregion
+
+  // #region -- Lighting -- 
+
+  type Hexadecimal = string;
+  type LightType = "ambient" | "directional" | "hemisphere" | "point"
+  type LightID = string;
+  interface LightProps {
+    id: LightID
+    type: LightType
+    color: Hexadecimal
+    intensity: number
   }
 
   // #endregion
@@ -81,6 +100,7 @@ declare namespace Engine {
     camera: CameraProps
     entities: EntityProps[]
     materials: MaterialProps[]
+    lights: LightProps[]
   }
 
   interface ScenePayload {

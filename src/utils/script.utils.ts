@@ -107,3 +107,13 @@ export const generateNewMaterial = (
     uniforms: {},
   }
 }
+
+export const generateNewLight = (): Engine.LightProps => {
+  const id = uuidv4();
+  return {
+    id,
+    type: 'point',
+    color: "#FF00FF",
+    intensity: 1
+  }
+}
