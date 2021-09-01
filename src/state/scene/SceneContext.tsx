@@ -69,7 +69,7 @@ export const SceneProvider = ({
     {
       id: uuidv4(),
       name: "Entity A",
-      material: "normal",
+      material: "phong",
       geometry: "box",
       children: [],
       components: {

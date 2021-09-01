@@ -115,7 +115,7 @@ export const generateNewLight = (): Engine.LightProps => {
     id,
     name: 'newLight',
     type: 'point',
-    color: 0x0ff00f,
+    color: '#00ff00',
     intensity: 1,
     position: new THREE.Vector3(3, 3, 3)
   }

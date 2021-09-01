@@ -48,7 +48,8 @@ declare namespace Engine {
     id: LightID
     name: string
     type: LightType
-    color: Hexadecimal
+    color: THREE.ColorRepresentation
+    color2?: THREE.ColorRepresentation
     intensity: number,
     position: THREE.Vector3
   }

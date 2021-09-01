@@ -40,6 +40,12 @@ const useScene = () => {
   const selectedMaterial: Engine.MaterialProps | null = useMemo(() => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedMaterialID])
+  
+  const selectedLight: Engine.LightProps | null = useMemo(() => {
+    return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
+  }, [sceneConfig, selectedLightID])
+
+  
 
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex((e) => e.id === entity.id)
@@ -116,7 +122,8 @@ const useScene = () => {
     createLight,
     selectLight,
     selectedLightID,
-    setSelectedLightID
+    setSelectedLightID,
+    selectedLight,
   }
 }
 

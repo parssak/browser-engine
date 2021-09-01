@@ -1,14 +1,16 @@
-import { rgbToHexa } from './../../utils/index';
+import { rgbToHexa } from "./../../utils/index"
 import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
+import Light from "./Light"
 export default class SceneManager {
   public static instance: SceneManager
   private isPlaying: boolean = false // If true, in play mode, else in edit mode
   private _scene!: THREE.Scene
   private _entities: Entity[] = []
+  private _lights: Light[] = []
   private _scenePayload: Engine.ScenePayload | undefined
 
   // Selection
@@ -29,9 +31,9 @@ export default class SceneManager {
     this._scene.add(this._gridHelper)
     this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6))
     this._scene.add(new THREE.AmbientLight(0x555555))
-    const pointLight = new THREE.PointLight('rgb(255,0,0)', 1, 100)
-    pointLight.position.set(3, 3, 3);
-    pointLight.shadow.needsUpdate = true;
+    const pointLight = new THREE.PointLight("rgb(255,0,0)", 1, 100)
+    pointLight.position.set(3, 3, 3)
+    pointLight.shadow.needsUpdate = true
     this._scene.add(pointLight)
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
@@ -91,7 +93,7 @@ export default class SceneManager {
     // this._scene.background = new THREE.Color("rgb(0,0,0)")
     if (this._selectionHelper) this._scene.remove(this._selectionHelper)
     try {
-      this._buildEntities()
+      this._buildScene()
       this._startEntities()
     } catch (error) {
       console.error("Error whilst setting up play scene")
@@ -111,7 +113,7 @@ export default class SceneManager {
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
     if (this._selectionHelper) this._scene.add(this._selectionHelper)
-    this._buildEntities()
+    this._buildScene()
   }
 
   /** Select an entity by ID */
@@ -155,6 +157,13 @@ export default class SceneManager {
     return entity
   }
 
+  buildLight(props: Engine.LightProps): Light {
+    const light = new Light(props)
+    this._lights.push(light)
+    this._scene.add(light._light)
+    return light
+  }
+
   private _startEntities() {
     this._entities.forEach((entity) => {
       entity.start()
@@ -167,15 +176,31 @@ export default class SceneManager {
       entity.destroy()
     })
     this._entities = []
+
+    this._lights.forEach((light) => {
+      this._scene.remove(light._light)
+    })
+    this._lights = []
   }
 
-  private _buildEntities() {
-    console.debug("called build entity")
+  private _buildScene() {
     if (!this._scenePayload) return
-    // This prevents all of the strange object mutation
     const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload)
-    localPayloadCopy.sceneConfig.entities.forEach((entityProps) => {
+    this._buildEntities(localPayloadCopy.sceneConfig.entities)
+    
+  }
+
+  private _buildEntities(entities: Engine.EntityProps[]) {
+    console.debug("called build entities")
+    entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
+    })
+  }
+
+  private _buildLights(lights: Engine.LightProps[]) {
+    console.debug('called build lights')
+    lights.forEach(lightProps => {
+      this.buildLight(lightProps)
     })
   }
 
