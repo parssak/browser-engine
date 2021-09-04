@@ -152,23 +152,25 @@ export default class SceneManager {
     const entityObject = entity.getObject()
     if (entityObject) {
       this._scene.add(entityObject)
-      const previouslyMadeHelper = this._lightHelpers.some(
-        (helper) => helper.uuid === props.id
-      )
       if (
         entityObject.type === "PointLight" &&
-        !this.isPlaying &&
-        !previouslyMadeHelper
-      ) {
-        console.debug("making helper")
-        const sphereSize = 1
-        const pointLightHelper = new THREE.PointLightHelper(
-          entityObject as THREE.PointLight,
-          sphereSize
+        !this.isPlaying
+        ) {
+        const previouslyMadeHelper = this._lightHelpers.some(
+          (helper) => helper.uuid === props.id
         )
-        pointLightHelper.uuid = entityObject.uuid
-        this._scene.add(pointLightHelper)
-        this._lightHelpers.push(pointLightHelper)
+        console.debug({ previouslyMadeHelper })
+        if (!previouslyMadeHelper) {
+          console.debug("making helper")
+          const sphereSize = 1
+          const pointLightHelper = new THREE.PointLightHelper(
+            entityObject as THREE.PointLight,
+            sphereSize
+          )
+          pointLightHelper.uuid = entityObject.uuid
+          this._scene.add(pointLightHelper)
+          this._lightHelpers.push(pointLightHelper)
+        }
       }
     }
     return entity
@@ -233,8 +235,10 @@ export default class SceneManager {
     }
 
     this._lightHelpers.forEach((helper) => {
-      helper.visible = false
+      helper.dispose()
+      this._scene.remove(helper)
     })
+    this._lightHelpers = []
   }
 
   private _showHelpers() {
@@ -244,9 +248,5 @@ export default class SceneManager {
     if (this._selectionHelper) {
       this._selectionHelper.visible = true
     }
-
-    this._lightHelpers.forEach((helper) => {
-      helper.visible = true
-    })
   }
 }
