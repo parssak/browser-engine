@@ -21,8 +21,8 @@ export default class Entity {
 
   public init(props: Engine.EntityProps) {
     this._initObject(props);
+    this._appendIdentifiers(props.id, props.name);
     this._initComponents(props.components)
-    this._appendObjectIdentifiers(props.id, props.name);
   }
 
   public start() {
@@ -75,7 +75,7 @@ export default class Entity {
   private _initObject (props: Engine.EntityProps) {
     if (props.type === "basic" && props.geometry && props.material) {
       this._initMesh(props.material, props.geometry)
-    } else if (props.type === "light" && props.lightProps) {
+    } else if (props.type === "light" && props.lightProps && !this.light) {
       this._initLight(props.lightProps)
     }
   }
@@ -109,7 +109,7 @@ export default class Entity {
     this.light = createLight(lightProps)
   }
 
-  private _appendObjectIdentifiers (id: string, name: string) {
+  private _appendIdentifiers (id: string, name: string) {
     const object: THREE.Object3D | undefined = this.getObject();
     if (!object) return;
     object.uuid = id;

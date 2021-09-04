@@ -62,16 +62,20 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
-    console.debug('updating entity payload')
+    console.debug('updating entity payload', entityID, entityProps)
     const updateIndex = this._entities.findIndex((e) => e.id === entityID)
     if (updateIndex === -1) return
     this._entities[updateIndex].init(entityProps)
     const object = this._entities[updateIndex].getObject()
     if (object) {
-      this._selectionHelper?.setFromObject(object)
-      console.debug("updated lights")
+      console.log('object', object)
+      if (object.type === "Mesh") {
+        this._selectionHelper?.setFromObject(object)
+      } else {
+        const pointLightHelper = new THREE.PointLightHelper(object as THREE.PointLight, 1)
+        this._scene.add(pointLightHelper)
+      }
       this._lightHelpers.forEach((helper) => {
-        console.log(helper.light)
         helper.update()
       })
     }
@@ -163,7 +167,6 @@ export default class SceneManager {
         const sphereSize = 1
         const pointLightHelper = new THREE.PointLightHelper(entityObject as THREE.PointLight, sphereSize)
         this._scene.add(pointLightHelper)
-        this._lightHelpers.push(pointLightHelper);
       }
     }
     return entity
