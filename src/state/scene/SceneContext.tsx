@@ -71,6 +71,7 @@ export const SceneProvider = ({
       name: "Entity A",
       material: "phong",
       geometry: "box",
+      type: "basic",
       children: [],
       components: {
         Transform: {

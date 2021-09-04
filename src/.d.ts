@@ -20,7 +20,7 @@ declare namespace Engine {
 
   // #endregion
 
-  // #region -- Material -- 
+  // #region -- Material --
 
   interface MaterialProps {
     id: MaterialID
@@ -30,7 +30,6 @@ declare namespace Engine {
     vertexShaderID: ScriptID
   }
 
-
   interface Material {
     material: MaterialProps
     fragmentShader: ScriptContent
@@ -39,18 +38,18 @@ declare namespace Engine {
 
   // #endregion
 
-  // #region -- Lighting -- 
+  // #region -- Lighting --
 
-  type Hexadecimal = number;
+  type Hexadecimal = number
   type LightType = "ambient" | "directional" | "hemisphere" | "point"
-  type LightID = string;
+  type LightID = string
   interface LightProps {
     id: LightID
     name: string
     type: LightType
     color: THREE.ColorRepresentation
     color2?: THREE.ColorRepresentation
-    intensity: number,
+    intensity: number
     position: THREE.Vector3
   }
 
@@ -58,6 +57,7 @@ declare namespace Engine {
 
   // #region -- Entity --
   type EntityID = string
+  type EntityType = "basic" | "light" | "singleton" // TODO: Come up with a better name for this
   type GeometryType = "box" | "sphere" | "torus" | string
   type MaterialType = "basic" | "normal" | "lambert" | "phong" | string
 
@@ -66,8 +66,10 @@ declare namespace Engine {
     name: string
     children: EntityID[]
     components: Record<ComponentType, ComponentProps>
-    geometry: GeometryType
-    material: MaterialType
+    type: EntityType
+    geometry?: GeometryType
+    material?: MaterialType
+    lightProps?: LightProps
   }
   // #endregion
 
@@ -103,7 +105,7 @@ declare namespace Engine {
     camera: CameraProps
     entities: EntityProps[]
     materials: MaterialProps[]
-    lights: LightProps[]
+    // lights: LightProps[]
   }
 
   interface ScenePayload {

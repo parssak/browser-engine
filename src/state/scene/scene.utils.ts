@@ -8,10 +8,10 @@
 
 //       // entity.children = []; // TODO: Do I need to detach children to prevent cyclic ref?
 //       flattened.push(entity);
-
+      
 //       // Pass all children
-//       const childrenEntities = flattenEntities(children);
-//       flattened.push(...childrenEntities);
+//       // const childrenEntities = flattenEntities(children);
+//       // flattened.push(...childrenEntities);
 //     } else {
 //       flattened.push(entity);
 //     }

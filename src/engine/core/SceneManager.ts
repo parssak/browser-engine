@@ -1,4 +1,3 @@
-import { rgbToHexa } from "./../../utils/index"
 import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
@@ -29,12 +28,8 @@ export default class SceneManager {
     this._scene = new THREE.Scene()
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
-    this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6))
-    this._scene.add(new THREE.AmbientLight(0x555555))
-    const pointLight = new THREE.PointLight("rgb(255,0,0)", 1, 100)
-    pointLight.position.set(3, 3, 3)
-    pointLight.shadow.needsUpdate = true
-    this._scene.add(pointLight)
+    this._scene.add(new THREE.DirectionalLight("rgb(255,255,255)", 0.6))
+    this._scene.add(new THREE.AmbientLight("rgb(200,200,200"))
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -71,7 +66,10 @@ export default class SceneManager {
     const updateIndex = this._entities.findIndex((e) => e.id === entityID)
     if (updateIndex === -1) return
     this._entities[updateIndex].init(entityProps)
-    this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh)
+    const object = this._entities[updateIndex].getObject()
+    if (object) {
+      this._selectionHelper?.setFromObject(object)
+    }
   }
 
   updateScene(deltaTime: number, elapsedTime: number) {
@@ -153,7 +151,10 @@ export default class SceneManager {
   buildEntity(props: Engine.EntityProps): Entity {
     const entity = new Entity(props)
     this._entities.push(entity)
-    this._scene.add(entity.mesh)
+    const entityObject = entity.getObject();
+    if (entityObject) {
+      this._scene.add(entityObject);
+    }
     return entity
   }
 
@@ -172,7 +173,10 @@ export default class SceneManager {
 
   private _resetScene() {
     this._entities.forEach((entity) => {
-      this._scene.remove(entity.mesh)
+      const object = entity.getObject()
+      if (object) {
+        this._scene.remove(object)
+      }
       entity.destroy()
     })
     this._entities = []
@@ -187,7 +191,6 @@ export default class SceneManager {
     if (!this._scenePayload) return
     const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload)
     this._buildEntities(localPayloadCopy.sceneConfig.entities)
-    
   }
 
   private _buildEntities(entities: Engine.EntityProps[]) {
@@ -198,8 +201,8 @@ export default class SceneManager {
   }
 
   private _buildLights(lights: Engine.LightProps[]) {
-    console.debug('called build lights')
-    lights.forEach(lightProps => {
+    console.debug("called build lights")
+    lights.forEach((lightProps) => {
       this.buildLight(lightProps)
     })
   }

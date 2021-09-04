@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react"
+import { ReactElement } from "react"
 import Panel from "../Panel"
-import ComponentFieldValue from "./entity/ComponentFieldValue"
 
 interface Props {
   selectedLight: Engine.LightProps

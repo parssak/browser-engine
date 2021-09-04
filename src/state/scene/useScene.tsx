@@ -41,9 +41,9 @@ const useScene = () => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedMaterialID])
   
-  const selectedLight: Engine.LightProps | null = useMemo(() => {
-    return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
-  }, [sceneConfig, selectedLightID])
+  // const selectedLight: Engine.LightProps | null = useMemo(() => {
+  //   return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
+  // }, [sceneConfig, selectedLightID])
 
   
 
@@ -94,20 +94,20 @@ const useScene = () => {
     setSelectedEntityID("")
   }
 
-  const createLight = () => {
-    const newLight: Engine.LightProps = generateNewLight();
-    setLights([...lights, newLight]);
-  }
+  // const createLight = () => {
+  //   const newLight: Engine.LightProps = generateNewLight();
+  //   setLights([...lights, newLight]);
+  // }
 
-  const selectLight = (lightID: Engine.LightID) => {
-    if (lightID === selectedLightID) {
-      setSelectedLightID("")
-      return
-    }
-    setSelectedLightID(lightID)
-    setSelectedMaterialID("")
-    setSelectedEntityID("")
-  }
+  // const selectLight = (lightID: Engine.LightID) => {
+  //   if (lightID === selectedLightID) {
+  //     setSelectedLightID("")
+  //     return
+  //   }
+  //   setSelectedLightID(lightID)
+  //   setSelectedMaterialID("")
+  //   setSelectedEntityID("")
+  // }
 
   return {
     sceneConfig,
@@ -119,11 +119,11 @@ const useScene = () => {
     updateEntityParent,
     createMaterial,
     selectMaterial,
-    createLight,
-    selectLight,
-    selectedLightID,
-    setSelectedLightID,
-    selectedLight,
+    // createLight,
+    // selectLight,
+    // selectedLightID,
+    // setSelectedLightID,
+    // selectedLight,
   }
 }
 
