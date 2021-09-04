@@ -107,12 +107,14 @@ export default class Entity {
           return new THREE.AmbientLight(props.color, props.intensity)
       }
     }
+    
     if (!this.light) {
       this.light = createLight(lightProps)
     }
     
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any
+
     if (downcastedLight.color) {
       downcastedLight.color = new Color(lightProps.color)
     }

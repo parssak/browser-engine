@@ -27,10 +27,7 @@ export default class SceneManager {
     this._scene = new THREE.Scene()
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
-    this._scene.add(new THREE.DirectionalLight("rgb(100,100,100)", 0.6))
-    this._scene.add(new THREE.AmbientLight("rgb(222,221,220)", 0.6))
     this._selectionHelper = new THREE.BoxHelper(this._gridHelper, 0xffff00)
-    
     this._scene.add(this._selectionHelper)
     this._selectionHelper.visible = false
     const loader = new THREE.TextureLoader()
@@ -161,7 +158,6 @@ export default class SceneManager {
         )
         console.debug({ previouslyMadeHelper })
         if (!previouslyMadeHelper) {
-          console.debug("making helper")
           const sphereSize = 1
           const pointLightHelper = new THREE.PointLightHelper(
             entityObject as THREE.PointLight,

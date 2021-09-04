@@ -48,7 +48,6 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   const handleChangeName = (newName: string) => {
     if (!selectedEntity) return
     updateEntity({ ...selectedEntity, name: newName })
-    
   }
   const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return
@@ -86,8 +85,6 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
   const componentOptions = getComponentOptions()
 
- 
-
   const updateLightProps = (updatedProps: Engine.LightProps) => {
     if (selectedEntity) {
       selectedEntity.lightProps = updatedProps
@@ -96,22 +93,22 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   }
 
   // #region -- mesh --
-   const updateMaterial = (newMaterial: Engine.MaterialType) => {
-     setMaterialType(newMaterial)
-     if (selectedEntity) {
-       selectedEntity.material = newMaterial
-       updateEntity({ ...selectedEntity })
-     }
-   }
+  const updateMaterial = (newMaterial: Engine.MaterialType) => {
+    setMaterialType(newMaterial)
+    if (selectedEntity) {
+      selectedEntity.material = newMaterial
+      updateEntity({ ...selectedEntity })
+    }
+  }
 
-   const updateGeometry = (newGeometry: Engine.GeometryType) => {
-     setGeometryType(newGeometry)
-     if (selectedEntity) {
-       selectedEntity.geometry = newGeometry
-       updateEntity({ ...selectedEntity })
-     }
-   }
-  
+  const updateGeometry = (newGeometry: Engine.GeometryType) => {
+    setGeometryType(newGeometry)
+    if (selectedEntity) {
+      selectedEntity.geometry = newGeometry
+      updateEntity({ ...selectedEntity })
+    }
+  }
+
   const getMaterialOptions = (): SelectOption[] => {
     return Object.keys(MaterialManager.instance.materials).map((material) => ({
       label: material,
@@ -135,10 +132,12 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     <Panel label="Inspector">
       <h1>
         <input
-          className="bg-gray-800 focus:bg-gray-700"
+          className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
           type="text"
           defaultValue={selectedEntity?.name}
           onBlur={(e) => handleChangeName(e.target.value)}
+          // @ts-ignore
+          onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
         />
       </h1>
       {/* Components */}
