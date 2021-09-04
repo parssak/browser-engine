@@ -100,6 +100,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   const updateLightProps = (updatedProps: Engine.LightProps) => {
     if (selectedEntity) {
       selectedEntity.lightProps = updatedProps;
+      console.debug('updated props', updatedProps)
       updateEntity({ ...selectedEntity })
     }
   }
