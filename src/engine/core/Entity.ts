@@ -4,6 +4,7 @@ import ComponentManager from "./ComponentManager"
 import MaterialManager from "./MaterialManager"
 import GeometryManager from "./GeometryManager"
 import SceneManager from "./SceneManager"
+import { Color } from "three"
 
 export default class Entity {
   public name: string = ""
@@ -112,14 +113,17 @@ export default class Entity {
     
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any
+    console.debug(downcastedLight);
     if (downcastedLight.color) {
-      downcastedLight.color = lightProps.color
-    } else if (downcastedLight.groundColor) {
-      downcastedLight.groundColor = lightProps.color
+      downcastedLight.color = new Color(lightProps.color)
+    }
+    
+    else if (downcastedLight.groundColor) {
+      downcastedLight.groundColor = new Color(lightProps.color)
     }
 
     if (downcastedLight.skyColor && lightProps.color2) {
-      downcastedLight.skyColor = lightProps.color2
+      downcastedLight.skyColor = new Color(lightProps.color2)
     }
   }
 

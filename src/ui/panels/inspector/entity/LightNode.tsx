@@ -13,8 +13,8 @@ export default function LightNode({ lightProps, updateLightProps }: Props): Reac
     } as any;
     updatedLightProps[fieldName] = value;
     updateLightProps(updatedLightProps);
-
   }
+  console.log(lightProps.color)
   return (
     <div>
       <h3>Light Inspector</h3>
@@ -24,6 +24,7 @@ export default function LightNode({ lightProps, updateLightProps }: Props): Reac
           field={lightProps.intensity}
           updateField={(e) => setLightProps(e, 'intensity')}
         />
+        <input type="color" value={lightProps.color as any} />
       </div>
     </div>
   )
