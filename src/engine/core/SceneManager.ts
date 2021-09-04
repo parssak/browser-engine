@@ -72,12 +72,10 @@ export default class SceneManager {
       if (object.type === "Mesh") {
         this._selectionHelper?.setFromObject(object)
       } else {
-        const pointLightHelper = new THREE.PointLightHelper(object as THREE.PointLight, 1)
-        this._scene.add(pointLightHelper)
+        this._lightHelpers.forEach((helper) => {
+          helper.update()
+        })
       }
-      this._lightHelpers.forEach((helper) => {
-        helper.update()
-      })
     }
   }
 
@@ -125,7 +123,7 @@ export default class SceneManager {
 
   /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
-    this.select(this._entities.find((e) => e.id === entityID)?.mesh ?? undefined)
+    this.select(this._entities.find((e) => e.id === entityID)?.getObject() ?? undefined)
   }
 
   /** Sets Entity with corresponding object as selected,
@@ -141,6 +139,7 @@ export default class SceneManager {
     }
 
     if (object) {
+      console.debug('selecitng', object);
       this._selectedEntityID = object.uuid
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
@@ -166,8 +165,11 @@ export default class SceneManager {
       if (entityObject.type === "PointLight") {
         const sphereSize = 1
         const pointLightHelper = new THREE.PointLightHelper(entityObject as THREE.PointLight, sphereSize)
+        pointLightHelper.uuid = entityObject.uuid;
         this._scene.add(pointLightHelper)
       }
+
+
     }
     return entity
   }
