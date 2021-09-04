@@ -16,12 +16,12 @@ export default class SceneManager {
   // Helpers
   private _axes = new THREE.AxesHelper(2)
   private _gridHelper = new THREE.GridHelper(60, 6)
-  private _selectionHelper: THREE.BoxHelper | undefined
-  private _lightHelpers: THREE.PointLightHelper[] = [];
+  private _selectionHelper!: THREE.BoxHelper
+  private _lightHelpers: THREE.PointLightHelper[] = []
 
   constructor() {
     if (SceneManager.instance) {
-      return
+      return SceneManager.instance
     }
     SceneManager.instance = this
     this._scene = new THREE.Scene()
@@ -29,6 +29,9 @@ export default class SceneManager {
     this._scene.add(this._gridHelper)
     this._scene.add(new THREE.DirectionalLight("rgb(100,100,100)", 0.6))
     this._scene.add(new THREE.AmbientLight("rgb(222,221,220)", 0.6))
+    this._selectionHelper = new THREE.BoxHelper(this._gridHelper, 0xffff00)
+    this._selectionHelper.visible = false
+    this._scene.add(this._selectionHelper)
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -66,7 +69,6 @@ export default class SceneManager {
     this._entities[updateIndex].init(entityProps)
     const object = this._entities[updateIndex].getObject()
     if (object) {
-      console.log('object', object)
       if (object.type === "Mesh") {
         this._selectionHelper?.setFromObject(object)
       } else {
@@ -91,10 +93,7 @@ export default class SceneManager {
   runPlayScene() {
     this.isPlaying = true
     this._resetScene()
-    this._scene.remove(this._axes)
-    this._scene.remove(this._gridHelper)
-    // this._scene.background = new THREE.Color("rgb(0,0,0)")
-    if (this._selectionHelper) this._scene.remove(this._selectionHelper)
+    this._hideHelpers()
     try {
       this._buildScene()
       this._startEntities()
@@ -112,9 +111,7 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
-    this._scene.add(this._axes)
-    this._scene.add(this._gridHelper)
-    if (this._selectionHelper) this._scene.add(this._selectionHelper)
+    this._showHelpers()
     this._buildScene()
   }
 
@@ -129,22 +126,22 @@ export default class SceneManager {
    */
   select(object?: THREE.Object3D) {
     if (this.isPlaying) return
-    if (!object && this._selectionHelper && this._selectedEntityID) {
-      this._scene.remove(this._selectionHelper)
+    if (!object && this._selectionHelper?.visible && this._selectedEntityID) {
+      this._selectionHelper.visible = false
       this._selectedEntityID = undefined
       return
     }
 
     if (object) {
       this._selectedEntityID = object.uuid
-      if (!this._selectionHelper) {
-        this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
-        this._scene.add(this._selectionHelper)
-        return
-      }
+      // if (!this._selectionHelper) {
+      //   this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
+      //   // this._scene.add(this._selectionHelper)
+      //   return
+      // }
 
-      this._selectionHelper?.setFromObject(object)
-      this._scene.add(this._selectionHelper)
+      this._selectionHelper.setFromObject(object)
+      // this._scene.add(this._selectionHelper)
     }
   }
 
@@ -158,18 +155,27 @@ export default class SceneManager {
     const entityObject = entity.getObject()
     if (entityObject) {
       this._scene.add(entityObject)
-      if (entityObject.type === "PointLight") {
+      const previouslyMadeHelper = this._lightHelpers.some(
+        (helper) => helper.uuid === props.id
+      )
+      if (
+        entityObject.type === "PointLight" &&
+        !this.isPlaying &&
+        !previouslyMadeHelper
+      ) {
+        console.debug("making helper")
         const sphereSize = 1
-        const pointLightHelper = new THREE.PointLightHelper(entityObject as THREE.PointLight, sphereSize)
-        pointLightHelper.uuid = entityObject.uuid;
+        const pointLightHelper = new THREE.PointLightHelper(
+          entityObject as THREE.PointLight,
+          sphereSize
+        )
+        pointLightHelper.uuid = entityObject.uuid
         this._scene.add(pointLightHelper)
+        this._lightHelpers.push(pointLightHelper)
       }
-
-
     }
     return entity
   }
-
 
   private _startEntities() {
     this._entities.forEach((entity) => {
@@ -218,6 +224,32 @@ export default class SceneManager {
         fragmentShader: associatedFragmentShader.content,
       }
       MaterialManager.instance.addCustomMaterial(materialPayload)
+    })
+  }
+
+  private _hideHelpers() {
+    this._axes.visible = false
+    this._gridHelper.visible = false
+
+    if (this._selectionHelper) {
+      this._selectionHelper.visible = false
+    }
+
+    this._lightHelpers.forEach((helper) => {
+      helper.visible = false
+    })
+  }
+
+  private _showHelpers() {
+    this._axes.visible = true
+    this._gridHelper.visible = true
+
+    if (this._selectionHelper) {
+      this._selectionHelper.visible = true
+    }
+
+    this._lightHelpers.forEach((helper) => {
+      helper.visible = true
     })
   }
 }

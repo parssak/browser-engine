@@ -28,7 +28,6 @@ class EngineContext {
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
     if (this.isInitialized) return
-    console.log('called init')
     this._renderElement = renderElement
     if (payload) this.updateScenePayload(payload)
     this.runEditMode()
@@ -49,7 +48,6 @@ class EngineContext {
   }
 
   updateScenePayload(payload: Engine.ScenePayload) {
-    console.log('updating scene payload')
     this.sceneManager.setScenePayload(payload)
   }
 
