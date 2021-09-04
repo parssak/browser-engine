@@ -25,7 +25,10 @@ export default class CameraManager {
     this.renderer.setSize(renderElement.clientWidth, renderElement.clientHeight)
     this.renderElement = renderElement
     this.renderElement.appendChild(this.renderer.domElement)
-    
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    this.renderer.toneMappingExposure = 1.2
     this.handleResize()
     this._setControls()
     this._setRaycaster()

@@ -71,8 +71,8 @@ export const SceneProvider = ({
       },
       lightProps: {
         type: "ambient",
-        color: "#d7ffff",
-        intensity: 0.6,
+        color: "#ffffff",
+        intensity: 0.4,
       },
     },
     {
@@ -89,10 +89,29 @@ export const SceneProvider = ({
       },
       lightProps: {
         type: "directional",
-        color: "#d9deff",
-        intensity: 0.5,
+        color: "#ffffff",
+        intensity: 0.1,
       },
     },
+    // {
+    //   id: uuidv4(),
+    //   name: "Hemispheric Light",
+    //   type: "light",
+    //   children: [],
+    //   components: {
+    //     Transform: {
+    //       position: { x: 0, y: 0, z: 0 },
+    //       rotation: { x: 0, y: 0, z: 0 },
+    //       scale: { x: 1, y: 1, z: 1 },
+    //     },
+    //   },
+    //   lightProps: {
+    //     type: "hemisphere",
+    //     color: "#00ff00",
+    //     color2: "#ff0e22",
+    //     intensity: 4,
+    //   },
+    // },
     {
       id: uuidv4(),
       name: "Plane",
