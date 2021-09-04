@@ -45,6 +45,11 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     if (selectedEntity) updateComponentFields(selectedEntity)
   }, [selectedEntity, sceneConfig, isRunning])
 
+  const handleChangeName = (newName: string) => {
+    if (!selectedEntity) return
+    updateEntity({ ...selectedEntity, name: newName })
+    
+  }
   const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return
     const componentProps = ComponentManager.instance.getComponentProps(componentName)
@@ -81,29 +86,32 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
   const componentOptions = getComponentOptions()
 
-  const updateMaterial = (newMaterial: Engine.MaterialType) => {
-    setMaterialType(newMaterial)
-    if (selectedEntity) {
-      selectedEntity.material = newMaterial
-      updateEntity({ ...selectedEntity })
-    }
-  }
-
-  const updateGeometry = (newGeometry: Engine.GeometryType) => {
-    setGeometryType(newGeometry)
-    if (selectedEntity) {
-      selectedEntity.geometry = newGeometry
-      updateEntity({ ...selectedEntity })
-    }
-  }
+ 
 
   const updateLightProps = (updatedProps: Engine.LightProps) => {
     if (selectedEntity) {
-      selectedEntity.lightProps = updatedProps;
+      selectedEntity.lightProps = updatedProps
       updateEntity({ ...selectedEntity })
     }
   }
 
+  // #region -- mesh --
+   const updateMaterial = (newMaterial: Engine.MaterialType) => {
+     setMaterialType(newMaterial)
+     if (selectedEntity) {
+       selectedEntity.material = newMaterial
+       updateEntity({ ...selectedEntity })
+     }
+   }
+
+   const updateGeometry = (newGeometry: Engine.GeometryType) => {
+     setGeometryType(newGeometry)
+     if (selectedEntity) {
+       selectedEntity.geometry = newGeometry
+       updateEntity({ ...selectedEntity })
+     }
+   }
+  
   const getMaterialOptions = (): SelectOption[] => {
     return Object.keys(MaterialManager.instance.materials).map((material) => ({
       label: material,
@@ -121,10 +129,18 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   }
 
   const geometryOptions: SelectOption[] = getGeometryOptions()
+  // #endregion
 
   return (
     <Panel label="Inspector">
-      <h1>{selectedEntity?.name}</h1>
+      <h1>
+        <input
+          className="bg-gray-800 focus:bg-gray-700"
+          type="text"
+          defaultValue={selectedEntity?.name}
+          onBlur={(e) => handleChangeName(e.target.value)}
+        />
+      </h1>
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (
