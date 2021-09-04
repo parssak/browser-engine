@@ -37,8 +37,10 @@ export default class CameraManager {
     this.raycaster.setFromCamera(pointer, this.camera)
     const intersects = this.raycaster
       .intersectObjects(SceneManager.instance.getScene().children, true)
-      .filter((e) => e.object.type === "Mesh")
-
+      .filter(e => e.object.type === "Mesh" || e.object.type === "Light")
+    console.debug(
+      this.raycaster.intersectObjects(SceneManager.instance.getScene().children, true)
+    )
     if (intersects.length > 0) {
       SceneManager.instance.select(intersects[0].object)
     } else {

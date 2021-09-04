@@ -19,13 +19,65 @@ export default class Entity {
     this.init(props)
   }
 
-  init(props: Engine.EntityProps) {
+  public init(props: Engine.EntityProps) {
+    this._initObject(props);
+    this._initComponents(props.components)
+    this._appendObjectIdentifiers(props.id, props.name);
+  }
+
+  public start() {
+    if (SceneManager.isPlaying()) {
+      this._startComponents()
+    }
+  }
+
+  public update(deltaTime: number, elapsedTime: number) {
+    if (SceneManager.isPlaying()) {
+      this._updateComponents()
+    }
+
+    const mat = this?.mesh?.material as any
+    if (mat?.uniforms) {
+      mat.uniforms.time.value = elapsedTime
+    }
+  }
+
+  // TODO: Implement
+  public destroy() {}
+
+  public getComponent(componentName: string): Component | undefined {
+    return this.components[componentName]
+  }
+
+  public getObject(): THREE.Object3D | undefined {
+    if (this.mesh) return this.mesh
+    else if (this.light) return this.light
+    return undefined
+  }
+
+  private _startComponents() {
+    Object.values(this.components).forEach((component) => component.start())
+  }
+
+  private _updateComponents() {
+    Object.values(this.components).forEach((component) => component.update())
+  }
+
+  private _initComponents(
+    components: Record<Engine.ComponentType, Engine.ComponentProps>
+  ) {
+    this.components = {}
+    Object.entries(components).forEach(([type, props]) => {
+      ComponentManager.instance.setComponent(this, type, props)
+    })
+  }
+
+  private _initObject (props: Engine.EntityProps) {
     if (props.type === "basic" && props.geometry && props.material) {
       this._initMesh(props.material, props.geometry)
     } else if (props.type === "light" && props.lightProps) {
       this._initLight(props.lightProps)
     }
-    this.initComponents(props.components)
   }
 
   private _initMesh(materialType: string, geometryType: string) {
@@ -37,8 +89,6 @@ export default class Entity {
       this.mesh.geometry = geometry
       this.mesh.material = mat
     }
-    this.mesh.uuid = this.id
-    this.mesh.name = this.name
   }
 
   private _initLight(lightProps: Engine.LightProps) {
@@ -56,54 +106,13 @@ export default class Entity {
           return new THREE.AmbientLight(props.color, props.intensity)
       }
     }
-    this.light = createLight(lightProps);
+    this.light = createLight(lightProps)
   }
 
-  initComponents(components: Record<Engine.ComponentType, Engine.ComponentProps>) {
-    this.components = {}
-    Object.entries(components).forEach(([type, props]) => {
-      ComponentManager.instance.setComponent(this, type, props)
-    })
-  }
-
-  // TODO: Implement
-  addChild(child: Entity) {}
-
-  // TODO: Implement
-  destroy() {}
-
-  start() {
-    if (SceneManager.isPlaying()) {
-      this._startComponents()
-    }
-  }
-
-  update(deltaTime: number, elapsedTime: number) {
-    if (SceneManager.isPlaying()) {
-      this._updateComponents()
-    }
-
-    const mat = this?.mesh?.material as any
-    if (mat?.uniforms) {
-      mat.uniforms.time.value = elapsedTime
-    }
-  }
-
-  getComponent(componentName: string): Component | undefined {
-    return this.components[componentName]
-  }
-
-  getObject(): THREE.Object3D | undefined {
-    if (this.mesh) return this.mesh;
-    else if (this.light) return this.light;
-    return undefined;
-  }
-
-  private _startComponents() {
-    Object.values(this.components).forEach((component) => component.start())
-  }
-
-  private _updateComponents() {
-    Object.values(this.components).forEach((component) => component.update())
+  private _appendObjectIdentifiers (id: string, name: string) {
+    const object: THREE.Object3D | undefined = this.getObject();
+    if (!object) return;
+    object.uuid = id;
+    object.name = name;
   }
 }

@@ -17,6 +17,7 @@ export default class SceneManager {
   private _axes = new THREE.AxesHelper(2)
   private _gridHelper = new THREE.GridHelper(60, 6)
   private _selectionHelper: THREE.BoxHelper | undefined
+  private _lightHelpers: THREE.PointLightHelper[] = [];
 
   constructor() {
     if (SceneManager.instance) {
@@ -50,7 +51,7 @@ export default class SceneManager {
     this._scenePayload = payload
     if (shouldRecompileMaterials) {
       this._compileMaterials()
-      console.debug("recompiling mats")
+      // console.debug("recompiling mats")
     }
   }
 
@@ -61,12 +62,18 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
+    console.debug('updating entity payload')
     const updateIndex = this._entities.findIndex((e) => e.id === entityID)
     if (updateIndex === -1) return
     this._entities[updateIndex].init(entityProps)
     const object = this._entities[updateIndex].getObject()
     if (object) {
       this._selectionHelper?.setFromObject(object)
+      console.debug("updated lights")
+      this._lightHelpers.forEach((helper) => {
+        console.log(helper.light)
+        helper.update()
+      })
     }
   }
 
@@ -152,6 +159,12 @@ export default class SceneManager {
     const entityObject = entity.getObject()
     if (entityObject) {
       this._scene.add(entityObject)
+      if (entityObject.type === "PointLight") {
+        const sphereSize = 1
+        const pointLightHelper = new THREE.PointLightHelper(entityObject as THREE.PointLight, sphereSize)
+        this._scene.add(pointLightHelper)
+        this._lightHelpers.push(pointLightHelper);
+      }
     }
     return entity
   }
@@ -181,7 +194,6 @@ export default class SceneManager {
   }
 
   private _buildEntities(entities: Engine.EntityProps[]) {
-    console.debug("called build entities")
     entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
     })
