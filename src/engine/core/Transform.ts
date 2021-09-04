@@ -1,61 +1,63 @@
-import * as THREE from 'three';
-import Component from './Component';
-import Entity from './Entity';
+import * as THREE from "three"
+import Component from "./Component"
+import Entity from "./Entity"
 interface ITransformProps {
-  position?: THREE.Vector3;
-  rotation?: THREE.Euler;
-  scale?: THREE.Vector3;
+  position?: THREE.Vector3
+  rotation?: THREE.Euler
+  scale?: THREE.Vector3
 }
 
 export default class Transform extends Component {
-  entity: Entity;
+  entity: Entity
+  _object: THREE.Object3D
 
   // <@public>
-  public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, 'XYZ');
-  public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
+  public position: THREE.Vector3 = new THREE.Vector3(0, 0, 0)
+  public rotation: THREE.Euler = new THREE.Euler(0, 0, 0, "XYZ")
+  public scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1)
   // </@public>
 
   constructor(entity: Entity) {
-    super(entity);
-    this.entity = entity;
+    super(entity)
+    this.entity = entity
+    this._object = this.entity.getObject() as THREE.Object3D
   }
 
   init(props?: ITransformProps) {
-    this.position = props?.position ?? this.position;
-    this.rotation = props?.rotation ?? this.rotation;
-    this.scale = props?.scale ?? this.scale;
-    this.applyMatrix();
+    this.position = props?.position ?? this.position
+    this.rotation = props?.rotation ?? this.rotation
+    this.scale = props?.scale ?? this.scale
+    this.applyMatrix()
   }
 
   start() {
-    this.applyMatrix();
+    this.applyMatrix()
   }
 
   private applyPosition() {
-    this.entity.mesh.position.setX(this.position.x);
-    this.entity.mesh.position.setY(this.position.y);
-    this.entity.mesh.position.setZ(this.position.z);
+    this._object.position.set(this.position.x, this.position.y, this.position.z)
   }
 
   private applyRotation() {
-    this.entity.mesh.setRotationFromEuler(new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z));
+    this._object.setRotationFromEuler(
+      new THREE.Euler(this.rotation.x, this.rotation.y, this.rotation.z)
+    )
   }
 
   private applyScale() {
-    this.entity.mesh.scale.setX(this.scale.x);
-    this.entity.mesh.scale.setY(this.scale.y);
-    this.entity.mesh.scale.setZ(this.scale.z);
+    this._object.scale.set(this.scale.x, this.scale.y, this.scale.z)
   }
 
   private applyMatrix() {
-    if (!this.entity) { return; }
-    this.applyPosition();
-    this.applyRotation();
-    this.applyScale();
+    if (!this.entity) {
+      return
+    }
+    this.applyPosition()
+    this.applyRotation()
+    this.applyScale()
   }
 
   update() {
-    this.applyMatrix();
+    this.applyMatrix()
   }
 }
