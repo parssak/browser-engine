@@ -28,8 +28,8 @@ export default class SceneManager {
     this._scene = new THREE.Scene()
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
-    this._scene.add(new THREE.DirectionalLight("rgb(255,255,255)", 0.6))
-    this._scene.add(new THREE.AmbientLight("rgb(200,200,200"))
+    this._scene.add(new THREE.DirectionalLight("rgb(100,100,100)", 0.6))
+    this._scene.add(new THREE.AmbientLight("rgb(222,221,220)", 0.6))
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -151,9 +151,9 @@ export default class SceneManager {
   buildEntity(props: Engine.EntityProps): Entity {
     const entity = new Entity(props)
     this._entities.push(entity)
-    const entityObject = entity.getObject();
+    const entityObject = entity.getObject()
     if (entityObject) {
-      this._scene.add(entityObject);
+      this._scene.add(entityObject)
     }
     return entity
   }
