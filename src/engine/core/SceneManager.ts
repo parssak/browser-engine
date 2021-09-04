@@ -1,16 +1,13 @@
-import { rgbToHexa } from "./../../utils/index"
 import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
-import Light from "./Light"
 export default class SceneManager {
   public static instance: SceneManager
   private isPlaying: boolean = false // If true, in play mode, else in edit mode
   private _scene!: THREE.Scene
   private _entities: Entity[] = []
-  private _lights: Light[] = []
   private _scenePayload: Engine.ScenePayload | undefined
 
   // Selection
@@ -20,6 +17,7 @@ export default class SceneManager {
   private _axes = new THREE.AxesHelper(2)
   private _gridHelper = new THREE.GridHelper(60, 6)
   private _selectionHelper: THREE.BoxHelper | undefined
+  private _lightHelpers: THREE.PointLightHelper[] = [];
 
   constructor() {
     if (SceneManager.instance) {
@@ -29,12 +27,8 @@ export default class SceneManager {
     this._scene = new THREE.Scene()
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
-    this._scene.add(new THREE.DirectionalLight(0xffffff, 0.6))
-    this._scene.add(new THREE.AmbientLight(0x555555))
-    const pointLight = new THREE.PointLight("rgb(255,0,0)", 1, 100)
-    pointLight.position.set(3, 3, 3)
-    pointLight.shadow.needsUpdate = true
-    this._scene.add(pointLight)
+    this._scene.add(new THREE.DirectionalLight("rgb(100,100,100)", 0.6))
+    this._scene.add(new THREE.AmbientLight("rgb(222,221,220)", 0.6))
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -57,7 +51,7 @@ export default class SceneManager {
     this._scenePayload = payload
     if (shouldRecompileMaterials) {
       this._compileMaterials()
-      console.debug("recompiling mats")
+      // console.debug("recompiling mats")
     }
   }
 
@@ -68,10 +62,21 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
+    console.debug('updating entity payload', entityID, entityProps)
     const updateIndex = this._entities.findIndex((e) => e.id === entityID)
     if (updateIndex === -1) return
     this._entities[updateIndex].init(entityProps)
-    this._selectionHelper?.setFromObject(this._entities[updateIndex].mesh)
+    const object = this._entities[updateIndex].getObject()
+    if (object) {
+      console.log('object', object)
+      if (object.type === "Mesh") {
+        this._selectionHelper?.setFromObject(object)
+      } else {
+        this._lightHelpers.forEach((helper) => {
+          helper.update()
+        })
+      }
+    }
   }
 
   updateScene(deltaTime: number, elapsedTime: number) {
@@ -118,7 +123,7 @@ export default class SceneManager {
 
   /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
-    this.select(this._entities.find((e) => e.id === entityID)?.mesh ?? undefined)
+    this.select(this._entities.find((e) => e.id === entityID)?.getObject() ?? undefined)
   }
 
   /** Sets Entity with corresponding object as selected,
@@ -134,6 +139,7 @@ export default class SceneManager {
     }
 
     if (object) {
+      console.debug('selecitng', object);
       this._selectedEntityID = object.uuid
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
@@ -153,16 +159,21 @@ export default class SceneManager {
   buildEntity(props: Engine.EntityProps): Entity {
     const entity = new Entity(props)
     this._entities.push(entity)
-    this._scene.add(entity.mesh)
+    const entityObject = entity.getObject()
+    if (entityObject) {
+      this._scene.add(entityObject)
+      if (entityObject.type === "PointLight") {
+        const sphereSize = 1
+        const pointLightHelper = new THREE.PointLightHelper(entityObject as THREE.PointLight, sphereSize)
+        pointLightHelper.uuid = entityObject.uuid;
+        this._scene.add(pointLightHelper)
+      }
+
+
+    }
     return entity
   }
 
-  buildLight(props: Engine.LightProps): Light {
-    const light = new Light(props)
-    this._lights.push(light)
-    this._scene.add(light._light)
-    return light
-  }
 
   private _startEntities() {
     this._entities.forEach((entity) => {
@@ -172,35 +183,24 @@ export default class SceneManager {
 
   private _resetScene() {
     this._entities.forEach((entity) => {
-      this._scene.remove(entity.mesh)
+      const object = entity.getObject()
+      if (object) {
+        this._scene.remove(object)
+      }
       entity.destroy()
     })
     this._entities = []
-
-    this._lights.forEach((light) => {
-      this._scene.remove(light._light)
-    })
-    this._lights = []
   }
 
   private _buildScene() {
     if (!this._scenePayload) return
     const localPayloadCopy = deepClone<Engine.ScenePayload>(this._scenePayload)
     this._buildEntities(localPayloadCopy.sceneConfig.entities)
-    
   }
 
   private _buildEntities(entities: Engine.EntityProps[]) {
-    console.debug("called build entities")
     entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
-    })
-  }
-
-  private _buildLights(lights: Engine.LightProps[]) {
-    console.debug('called build lights')
-    lights.forEach(lightProps => {
-      this.buildLight(lightProps)
     })
   }
 

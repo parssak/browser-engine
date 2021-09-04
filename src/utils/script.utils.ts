@@ -108,15 +108,3 @@ export const generateNewMaterial = (
     uniforms: {},
   }
 }
-
-export const generateNewLight = (): Engine.LightProps => {
-  const id = uuidv4();
-  return {
-    id,
-    name: 'newLight',
-    type: 'point',
-    color: '#00ff00',
-    intensity: 1,
-    position: new THREE.Vector3(3, 3, 3)
-  }
-}

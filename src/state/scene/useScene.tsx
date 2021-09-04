@@ -2,8 +2,7 @@ import { useContext, useMemo } from "react"
 import { SceneContext } from "./SceneContext"
 import context from "../../engine/core/EngineContext"
 import { generateNewEntity } from "../../utils/entity.utils"
-import { generateNewLight, generateNewMaterial } from "../../utils/script.utils"
-import useScripts from "../scripts/useScripts"
+import {  generateNewMaterial } from "../../utils/script.utils"
 
 const useScene = () => {
   const {
@@ -15,10 +14,6 @@ const useScene = () => {
     setMaterials,
     selectedMaterialID,
     setSelectedMaterialID,
-    lights,
-    setLights,
-    selectedLightID,
-    setSelectedLightID,
   } = useContext(SceneContext)
 
   const selectEntity = (id: Engine.EntityID) => {
@@ -28,7 +23,6 @@ const useScene = () => {
       return
     }
     context.selectEntity(id)
-    setSelectedLightID("")
     setSelectedMaterialID("")
     setSelectedEntityID(id)
   }
@@ -41,9 +35,9 @@ const useScene = () => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedMaterialID])
   
-  const selectedLight: Engine.LightProps | null = useMemo(() => {
-    return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
-  }, [sceneConfig, selectedLightID])
+  // const selectedLight: Engine.LightProps | null = useMemo(() => {
+  //   return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
+  // }, [sceneConfig, selectedLightID])
 
   
 
@@ -63,10 +57,9 @@ const useScene = () => {
     // TODO: Implement this
   }
 
-  const createEntity = () => {
-    const newEntity: Engine.EntityProps = generateNewEntity()
-    setEntities([...sceneConfig.entities, newEntity])
-    context.addNewEntity(newEntity)
+  const createEntity = (entity: Engine.EntityProps) => {
+    setEntities([...sceneConfig.entities, entity])
+    context.addNewEntity(entity)
   }
 
   const createMaterial = (
@@ -89,23 +82,7 @@ const useScene = () => {
       setSelectedMaterialID("")
       return
     }
-    setSelectedLightID("")
     setSelectedMaterialID(materialID)
-    setSelectedEntityID("")
-  }
-
-  const createLight = () => {
-    const newLight: Engine.LightProps = generateNewLight();
-    setLights([...lights, newLight]);
-  }
-
-  const selectLight = (lightID: Engine.LightID) => {
-    if (lightID === selectedLightID) {
-      setSelectedLightID("")
-      return
-    }
-    setSelectedLightID(lightID)
-    setSelectedMaterialID("")
     setSelectedEntityID("")
   }
 
@@ -119,11 +96,6 @@ const useScene = () => {
     updateEntityParent,
     createMaterial,
     selectMaterial,
-    createLight,
-    selectLight,
-    selectedLightID,
-    setSelectedLightID,
-    selectedLight,
   }
 }
 

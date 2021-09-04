@@ -15,10 +15,6 @@ interface ISceneContext {
   setCameraProps: (cameraProps: Engine.CameraProps) => void
   materials: Record<string, Engine.MaterialProps>
   setMaterials: (materials: Record<string, Engine.MaterialProps>) => void
-  selectedLightID: string | null
-  setSelectedLightID: (lightID: Engine.LightID | null) => void
-  lights: Engine.LightProps[]
-  setLights: (lights: Engine.LightProps[]) => void
 }
 
 const initialValue = {
@@ -32,7 +28,6 @@ const initialValue = {
       controls: "orbit" as Engine.ControlType,
     },
     materials: [],
-    lights: [] as Engine.LightProps[],
   },
   selectedEntityID: null,
   selectedMaterialID: null,
@@ -42,10 +37,6 @@ const initialValue = {
   setCameraProps: (cameraProps: Engine.CameraProps) => {},
   materials: {},
   setMaterials: (materials: Record<string, Engine.MaterialProps>) => {},
-  lights: [],
-  setLights: (lights: Engine.LightProps[]) => { },
-  selectedLightID: null,
-  setSelectedLightID: (lightID: Engine.LightID | null) => { }
 }
 
 export const SceneContext = createContext<ISceneContext>(initialValue)
@@ -71,6 +62,7 @@ export const SceneProvider = ({
       name: "Entity A",
       material: "phong",
       geometry: "box",
+      type: "basic",
       children: [],
       components: {
         Transform: {
@@ -90,17 +82,16 @@ export const SceneProvider = ({
   )
 
   // lights
-  const [lights, setLights] = useState<Engine.LightProps[]>([]);
-  const [selectedLightID, setSelectedLightID] = useState<Engine.LightID | null>(null)
+  // const [lights, setLights] = useState<Engine.LightProps[]>([]);
+  // const [selectedLightID, setSelectedLightID] = useState<Engine.LightID | null>(null)
 
   const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({
       entities,
       camera: cameraProps,
       materials: Object.values(materials),
-      lights
     }),
-    [entities, cameraProps, materials, lights]
+    [entities, cameraProps, materials]
   )
 
   useEffect(() => {
@@ -109,6 +100,7 @@ export const SceneProvider = ({
       if (!entityProps) return
       context.updateSpecificEntity(selectedEntityID, entityProps)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sceneConfig])
 
   const contextValue = {
@@ -121,10 +113,6 @@ export const SceneProvider = ({
     setSelectedMaterialID,
     materials,
     setMaterials,
-    lights,
-    setLights,
-    selectedLightID,
-    setSelectedLightID,
   }
   return <SceneContext.Provider value={contextValue}>{children}</SceneContext.Provider>
 }

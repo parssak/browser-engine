@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import ComponentManager from '../../../engine/core/ComponentManager'
-import GeometryManager from '../../../engine/core/GeometryManager'
-import MaterialManager from '../../../engine/core/MaterialManager'
-import useEditor from '../../../state/editor/useEditor'
-import useScene from '../../../state/scene/useScene'
-import Panel from '../Panel'
-import ComponentNode from './entity/ComponentNode'
+import React, { ReactElement, useEffect, useState } from "react"
+import ComponentManager from "../../../engine/core/ComponentManager"
+import GeometryManager from "../../../engine/core/GeometryManager"
+import MaterialManager from "../../../engine/core/MaterialManager"
+import useEditor from "../../../state/editor/useEditor"
+import useScene from "../../../state/scene/useScene"
+import Panel from "../Panel"
+import ComponentNode from "./entity/ComponentNode"
 
 interface Props {
   selectedEntity: Engine.EntityProps
@@ -16,22 +16,20 @@ interface SelectOption {
   value: string
 }
 
-export default function EntityInspector({
-  selectedEntity
-}: Props): ReactElement {
+export default function EntityInspector({ selectedEntity }: Props): ReactElement {
   const { updateEntity, sceneConfig } = useScene()
   const { isRunning } = useEditor()
 
   const [controls, setControls] = useState<
     Record<Engine.ComponentType, Engine.ComponentProps>
-    >({})
+  >({})
   const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
   const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")
 
   useEffect(() => {
     if (!selectedEntity) return
-    setMaterialType(selectedEntity.material)
-    setGeometryType(selectedEntity.geometry)
+    setMaterialType(selectedEntity.material ?? "")
+    setGeometryType(selectedEntity.geometry ?? "")
   }, [selectedEntity])
 
   // * Handles populating all correct value fields when selecting entity */
@@ -151,49 +149,50 @@ export default function EntityInspector({
       )}
 
       {/* Mesh */}
-      <section>
-        <div className="bg-gray-800 text-white">
-          <h3>Mesh</h3>
-          <div className="space-y-2">
-            <div className="flex space-x-2 items-center">
-              <p
-                className="text-xs font-mono text-gray-200"
-                style={{ minWidth: "10ch" }}
-              >
-                Material
-              </p>
-              <select
-                onChange={(e) => updateMaterial(e.target.value)}
-                value={materialType}
-              >
-                {materialOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex space-x-2 items-center">
-              <p
-                className="text-xs font-mono text-gray-200"
-                style={{ minWidth: "10ch" }}
-              >
-                Geometry
-              </p>
-              <select
-                onChange={(e) => updateGeometry(e.target.value)}
-                value={geometryType}
-              >
-                {geometryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+      {selectedEntity.type === "basic" && (
+        <section>
+          <div className="bg-gray-800 text-white">
+            <h3>Mesh</h3>
+            <div className="space-y-2">
+              <div className="flex space-x-2 items-center">
+                <p className="inspector-field-label">Material</p>
+                <select
+                  onChange={(e) => updateMaterial(e.target.value)}
+                  value={materialType}
+                >
+                  {materialOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex space-x-2 items-center">
+                <p className="inspector-field-label">Geometry</p>
+                <select
+                  onChange={(e) => updateGeometry(e.target.value)}
+                  value={geometryType}
+                >
+                  {geometryOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Light */}
+      {selectedEntity.type === "light" && (
+        <section>
+          <div className="bg-gray-800 text-white">
+            <h3>Light Inspector</h3>
+          </div>
+        </section>
+      )}
     </Panel>
   )
 }

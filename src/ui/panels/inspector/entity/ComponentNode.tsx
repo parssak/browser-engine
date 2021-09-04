@@ -36,12 +36,7 @@ const ComponentNode = ({
       <div className="space-y-2">
         {Object.entries(componentProps).map(([fieldName, fieldValue]) => (
           <div key={fieldName} className="flex space-x-2">
-            <p
-              className="text-xs capitalize text-gray-200"
-              style={{ minWidth: "10ch" }}
-            >
-              {fieldName}
-            </p>
+            <p className="inspector-field-label">{fieldName}</p>
             <ComponentFieldValue
               field={fieldValue}
               updateField={(e) => updateComponent(componentType, fieldName, e)}
