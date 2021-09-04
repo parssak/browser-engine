@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
 import GeometryManager from "../../../engine/core/GeometryManager"
 import MaterialManager from "../../../engine/core/MaterialManager"
@@ -6,6 +6,7 @@ import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import Panel from "../Panel"
 import ComponentNode from "./entity/ComponentNode"
+import LightNode from "./entity/LightNode"
 
 interface Props {
   selectedEntity: Engine.EntityProps
@@ -92,6 +93,13 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     setGeometryType(newGeometry)
     if (selectedEntity) {
       selectedEntity.geometry = newGeometry
+      updateEntity({ ...selectedEntity })
+    }
+  }
+
+  const updateLightProps = (updatedProps: Engine.LightProps) => {
+    if (selectedEntity) {
+      selectedEntity.lightProps = updatedProps;
       updateEntity({ ...selectedEntity })
     }
   }
@@ -186,12 +194,11 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       )}
 
       {/* Light */}
-      {selectedEntity.type === "light" && (
-        <section>
-          <div className="bg-gray-800 text-white">
-            <h3>Light Inspector</h3>
-          </div>
-        </section>
+      {selectedEntity.type === "light" && selectedEntity.lightProps && (
+        <LightNode
+          lightProps={selectedEntity.lightProps}
+          updateLightProps={updateLightProps}
+        />
       )}
     </Panel>
   )

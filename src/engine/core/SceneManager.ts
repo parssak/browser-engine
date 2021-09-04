@@ -51,7 +51,6 @@ export default class SceneManager {
     this._scenePayload = payload
     if (shouldRecompileMaterials) {
       this._compileMaterials()
-      // console.debug("recompiling mats")
     }
   }
 
@@ -114,7 +113,6 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
-    // this._scene.background = new THREE.Color("rgb(0,2,60)")
     this._scene.add(this._axes)
     this._scene.add(this._gridHelper)
     if (this._selectionHelper) this._scene.add(this._selectionHelper)
@@ -139,7 +137,6 @@ export default class SceneManager {
     }
 
     if (object) {
-      console.debug('selecitng', object);
       this._selectedEntityID = object.uuid
       if (!this._selectionHelper) {
         this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
