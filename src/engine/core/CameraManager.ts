@@ -38,9 +38,6 @@ export default class CameraManager {
     const intersects = this.raycaster
       .intersectObjects(SceneManager.instance.getScene().children, true)
       .filter(e => e.object.type === "Mesh" || e.object.type === "PointLightHelper")
-    console.debug(
-      intersects
-    )
     if (intersects.length > 0) {
       const objectSelect = intersects[0].object;
       if (objectSelect.type === "Mesh") {

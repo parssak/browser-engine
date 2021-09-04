@@ -113,7 +113,6 @@ export default class Entity {
     
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any
-    console.debug(downcastedLight);
     if (downcastedLight.color) {
       downcastedLight.color = new Color(lightProps.color)
     }

@@ -61,7 +61,6 @@ export default class SceneManager {
   }
 
   updateEntityPayload(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
-    console.debug('updating entity payload', entityID, entityProps)
     const updateIndex = this._entities.findIndex((e) => e.id === entityID)
     if (updateIndex === -1) return
     this._entities[updateIndex].init(entityProps)
