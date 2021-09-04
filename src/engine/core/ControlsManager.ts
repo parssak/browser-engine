@@ -15,6 +15,10 @@ export default class ControlsManager {
     camera: THREE.Camera,
     domElement: HTMLElement
   ) {
+    
+    if (this.controls) {
+      return;
+    }
     switch (type) {
       case "fly":
         this._setFlyControls(camera, domElement)
@@ -26,6 +30,20 @@ export default class ControlsManager {
         console.warn(`Control type: ${type} not found`)
         break
     }
+  }
+
+  lookAt(target: THREE.Vector3) {
+    if (this.controls) {
+      this.controls.target.copy(target)
+    }
+  }
+
+  enableControls() {
+    if (this.controls) this.controls.enabled = true
+  }
+
+  disableControls() {
+    if (this.controls) this.controls.enabled = false
   }
 
   _setFlyControls(camera: THREE.Camera, domElement: HTMLElement) {

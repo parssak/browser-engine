@@ -53,6 +53,10 @@ export default class CameraManager {
     }
   }
 
+  public lookAt(position: THREE.Vector3) {
+    console.debug('looking at', position)
+  }
+
   private _setCamera() {
     if (!this.renderElement) {
       this.camera = new THREE.PerspectiveCamera(

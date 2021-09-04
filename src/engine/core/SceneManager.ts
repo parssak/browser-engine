@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
+import ControlsManager from "./ControlsManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
 export default class SceneManager {
@@ -93,8 +94,10 @@ export default class SceneManager {
     this._resetScene()
     this._hideHelpers()
     try {
+      ControlsManager.instance.disableControls()
       this._buildScene()
       this._startEntities()
+
     } catch (error) {
       console.error("Error whilst setting up play scene")
     }
@@ -109,13 +112,16 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
+    ControlsManager.instance.enableControls()
     this._showHelpers()
     this._buildScene()
   }
 
   /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
-    this.select(this._entities.find((e) => e.id === entityID)?.getObject() ?? undefined)
+    const object = this._entities.find((e) => e.id === entityID)?.getObject() ?? undefined
+    if (object) ControlsManager.instance.lookAt(object.position)
+    this.select(object)
   }
 
   /** Sets Entity with corresponding object as selected,
@@ -134,7 +140,7 @@ export default class SceneManager {
       this._selectedEntityID = object.uuid
       this._selectionHelper.setFromObject(object)
       if (object.type === "Mesh") {
-        this._selectionHelper.visible = true;
+        this._selectionHelper.visible = true
       }
     }
   }
@@ -149,10 +155,7 @@ export default class SceneManager {
     const entityObject = entity.getObject()
     if (entityObject) {
       this._scene.add(entityObject)
-      if (
-        entityObject.type === "PointLight" &&
-        !this.isPlaying
-        ) {
+      if (entityObject.type === "PointLight" && !this.isPlaying) {
         const previouslyMadeHelper = this._lightHelpers.some(
           (helper) => helper.uuid === props.id
         )
