@@ -3,13 +3,11 @@ import { deepClone } from "../../utils"
 import CameraManager from "./CameraManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
-import Light from "./Light"
 export default class SceneManager {
   public static instance: SceneManager
   private isPlaying: boolean = false // If true, in play mode, else in edit mode
   private _scene!: THREE.Scene
   private _entities: Entity[] = []
-  private _lights: Light[] = []
   private _scenePayload: Engine.ScenePayload | undefined
 
   // Selection
@@ -158,12 +156,6 @@ export default class SceneManager {
     return entity
   }
 
-  buildLight(props: Engine.LightProps): Light {
-    const light = new Light(props)
-    this._lights.push(light)
-    this._scene.add(light._light)
-    return light
-  }
 
   private _startEntities() {
     this._entities.forEach((entity) => {
@@ -180,11 +172,6 @@ export default class SceneManager {
       entity.destroy()
     })
     this._entities = []
-
-    this._lights.forEach((light) => {
-      this._scene.remove(light._light)
-    })
-    this._lights = []
   }
 
   private _buildScene() {
@@ -197,13 +184,6 @@ export default class SceneManager {
     console.debug("called build entities")
     entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
-    })
-  }
-
-  private _buildLights(lights: Engine.LightProps[]) {
-    console.debug("called build lights")
-    lights.forEach((lightProps) => {
-      this.buildLight(lightProps)
     })
   }
 

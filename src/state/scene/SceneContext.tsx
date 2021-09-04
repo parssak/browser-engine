@@ -37,10 +37,6 @@ const initialValue = {
   setCameraProps: (cameraProps: Engine.CameraProps) => {},
   materials: {},
   setMaterials: (materials: Record<string, Engine.MaterialProps>) => {},
-  lights: [],
-  setLights: (lights: Engine.LightProps[]) => { },
-  selectedLightID: null,
-  setSelectedLightID: (lightID: Engine.LightID | null) => { }
 }
 
 export const SceneContext = createContext<ISceneContext>(initialValue)
@@ -86,17 +82,16 @@ export const SceneProvider = ({
   )
 
   // lights
-  const [lights, setLights] = useState<Engine.LightProps[]>([]);
-  const [selectedLightID, setSelectedLightID] = useState<Engine.LightID | null>(null)
+  // const [lights, setLights] = useState<Engine.LightProps[]>([]);
+  // const [selectedLightID, setSelectedLightID] = useState<Engine.LightID | null>(null)
 
   const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({
       entities,
       camera: cameraProps,
       materials: Object.values(materials),
-      lights
     }),
-    [entities, cameraProps, materials, lights]
+    [entities, cameraProps, materials]
   )
 
   useEffect(() => {
@@ -118,10 +113,6 @@ export const SceneProvider = ({
     setSelectedMaterialID,
     materials,
     setMaterials,
-    lights,
-    setLights,
-    selectedLightID,
-    setSelectedLightID,
   }
   return <SceneContext.Provider value={contextValue}>{children}</SceneContext.Provider>
 }
