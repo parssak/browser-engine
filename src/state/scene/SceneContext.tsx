@@ -93,31 +93,13 @@ export const SceneProvider = ({
         intensity: 0.1,
       },
     },
-    // {
-    //   id: uuidv4(),
-    //   name: "Hemispheric Light",
-    //   type: "light",
-    //   children: [],
-    //   components: {
-    //     Transform: {
-    //       position: { x: 0, y: 0, z: 0 },
-    //       rotation: { x: 0, y: 0, z: 0 },
-    //       scale: { x: 1, y: 1, z: 1 },
-    //     },
-    //   },
-    //   lightProps: {
-    //     type: "hemisphere",
-    //     color: "#00ff00",
-    //     color2: "#ff0e22",
-    //     intensity: 4,
-    //   },
-    // },
+    
     {
       id: uuidv4(),
       name: "Plane",
+      type: "basic",
       material: "phong",
       geometry: "plane",
-      type: "basic",
       children: [],
       components: {
         Transform: {
