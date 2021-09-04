@@ -30,8 +30,9 @@ export default class SceneManager {
     this._scene.add(new THREE.DirectionalLight("rgb(100,100,100)", 0.6))
     this._scene.add(new THREE.AmbientLight("rgb(222,221,220)", 0.6))
     this._selectionHelper = new THREE.BoxHelper(this._gridHelper, 0xffff00)
-    this._selectionHelper.visible = false
+    
     this._scene.add(this._selectionHelper)
+    this._selectionHelper.visible = false
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -134,14 +135,10 @@ export default class SceneManager {
 
     if (object) {
       this._selectedEntityID = object.uuid
-      // if (!this._selectionHelper) {
-      //   this._selectionHelper = new THREE.BoxHelper(object, 0xffff00)
-      //   // this._scene.add(this._selectionHelper)
-      //   return
-      // }
-
       this._selectionHelper.setFromObject(object)
-      // this._scene.add(this._selectionHelper)
+      if (object.type === "Mesh") {
+        this._selectionHelper.visible = true;
+      }
     }
   }
 
