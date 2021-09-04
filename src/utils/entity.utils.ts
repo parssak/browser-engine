@@ -6,6 +6,7 @@ export const generateNewEntity = (): Engine.EntityProps => {
     name: "New Entity",
     geometry: 'box',
     material: 'normal',
+    type: "basic",
     children: [],
     components: {
       Transform: {

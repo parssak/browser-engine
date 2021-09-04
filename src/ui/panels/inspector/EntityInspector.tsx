@@ -30,8 +30,8 @@ export default function EntityInspector({
 
   useEffect(() => {
     if (!selectedEntity) return
-    setMaterialType(selectedEntity.material)
-    setGeometryType(selectedEntity.geometry)
+    setMaterialType(selectedEntity.material ?? '')
+    setGeometryType(selectedEntity.geometry ?? '')
   }, [selectedEntity])
 
   // * Handles populating all correct value fields when selecting entity */

@@ -15,10 +15,6 @@ interface ISceneContext {
   setCameraProps: (cameraProps: Engine.CameraProps) => void
   materials: Record<string, Engine.MaterialProps>
   setMaterials: (materials: Record<string, Engine.MaterialProps>) => void
-  selectedLightID: string | null
-  setSelectedLightID: (lightID: Engine.LightID | null) => void
-  lights: Engine.LightProps[]
-  setLights: (lights: Engine.LightProps[]) => void
 }
 
 const initialValue = {
@@ -32,7 +28,6 @@ const initialValue = {
       controls: "orbit" as Engine.ControlType,
     },
     materials: [],
-    lights: [] as Engine.LightProps[],
   },
   selectedEntityID: null,
   selectedMaterialID: null,
