@@ -2,9 +2,10 @@ import { ReactElement } from "react"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import useScripts from "../../../state/scripts/useScripts"
+import { generateNewEntity, generateNewLight } from "../../../utils/entity.utils"
 
 export default function Nav(): ReactElement {
-  const { createEntity, createMaterial } = useScene()
+  const { createEntity,  createMaterial } = useScene()
   const { toggleRun, isRunning } = useEditor()
   const { createScript, selectedScript, loadScript, saveScript, scriptBody } =
     useScripts()
@@ -31,6 +32,17 @@ export default function Nav(): ReactElement {
     createMaterial(materialName, vShader.id, fShader.id)
   }
 
+  const handleCreateEntity = () => {
+    const newEntity: Engine.EntityProps = generateNewEntity()
+    createEntity(newEntity);
+
+  }
+
+  const handleCreateLight = () => {
+    const newLight: Engine.EntityProps = generateNewLight()
+    createEntity(newLight)
+  }
+
 
   const handleSaveScript = () => {
     if (selectedScript) {
@@ -49,8 +61,11 @@ export default function Nav(): ReactElement {
           <button onClick={toggleRun} className="primary">
             {isRunning ? "Stop" : "Run"} Scene
           </button>
-          <button onClick={createEntity} className="secondary">
+          <button onClick={handleCreateEntity} className="secondary">
             Add Entity
+          </button>
+          <button onClick={handleCreateLight} className="secondary">
+            Add Light
           </button>
           <button onClick={handleCreateComponent} className="secondary">
             Add Component

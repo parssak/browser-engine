@@ -57,10 +57,9 @@ const useScene = () => {
     // TODO: Implement this
   }
 
-  const createEntity = () => {
-    const newEntity: Engine.EntityProps = generateNewEntity()
-    setEntities([...sceneConfig.entities, newEntity])
-    context.addNewEntity(newEntity)
+  const createEntity = (entity: Engine.EntityProps) => {
+    setEntities([...sceneConfig.entities, entity])
+    context.addNewEntity(entity)
   }
 
   const createMaterial = (
