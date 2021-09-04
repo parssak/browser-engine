@@ -105,6 +105,7 @@ export const SceneProvider = ({
       if (!entityProps) return
       context.updateSpecificEntity(selectedEntityID, entityProps)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sceneConfig])
 
   const contextValue = {
