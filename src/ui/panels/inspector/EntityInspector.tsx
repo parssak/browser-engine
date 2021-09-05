@@ -135,6 +135,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
           type="text"
           defaultValue={selectedEntity?.name}
+          key={selectedEntity?.id ?? ''}
           onBlur={(e) => handleChangeName(e.target.value)}
           // @ts-ignore
           onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
