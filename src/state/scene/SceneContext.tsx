@@ -59,10 +59,47 @@ export const SceneProvider = ({
   const [entities, setEntities] = useState<Engine.EntityProps[]>([
     {
       id: uuidv4(),
-      name: "Entity A",
-      material: "phong",
-      geometry: "box",
+      name: "Ambient Light",
+      type: "light",
+      children: [],
+      components: {
+        Transform: {
+          position: { x: 0, y: 0, z: 0 },
+          rotation: { x: 0, y: 0, z: 0 },
+          scale: { x: 6, y: 6, z: 6 },
+        },
+      },
+      lightProps: {
+        type: "ambient",
+        color: "#ffffff",
+        intensity: 0.4,
+      },
+    },
+    {
+      id: uuidv4(),
+      name: "Directional Light",
+      type: "light",
+      children: [],
+      components: {
+        Transform: {
+          position: { x: 0, y: 10, z: 0 },
+          rotation: { x: 0, y: 0, z: 0 },
+          scale: { x: 1, y: 1, z: 1 },
+        },
+      },
+      lightProps: {
+        type: "directional",
+        color: "#ffffff",
+        intensity: 0.1,
+      },
+    },
+    
+    {
+      id: uuidv4(),
+      name: "Plane",
       type: "basic",
+      material: "phong",
+      geometry: "plane",
       children: [],
       components: {
         Transform: {

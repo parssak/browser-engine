@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
 import GeometryManager from "../../../engine/core/GeometryManager"
 import MaterialManager from "../../../engine/core/MaterialManager"
@@ -6,6 +6,7 @@ import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import Panel from "../Panel"
 import ComponentNode from "./entity/ComponentNode"
+import LightNode from "./entity/LightNode"
 
 interface Props {
   selectedEntity: Engine.EntityProps
@@ -44,6 +45,10 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     if (selectedEntity) updateComponentFields(selectedEntity)
   }, [selectedEntity, sceneConfig, isRunning])
 
+  const handleChangeName = (newName: string) => {
+    if (!selectedEntity) return
+    updateEntity({ ...selectedEntity, name: newName })
+  }
   const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return
     const componentProps = ComponentManager.instance.getComponentProps(componentName)
@@ -80,6 +85,14 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
   const componentOptions = getComponentOptions()
 
+  const updateLightProps = (updatedProps: Engine.LightProps) => {
+    if (selectedEntity) {
+      selectedEntity.lightProps = updatedProps
+      updateEntity({ ...selectedEntity })
+    }
+  }
+
+  // #region -- mesh --
   const updateMaterial = (newMaterial: Engine.MaterialType) => {
     setMaterialType(newMaterial)
     if (selectedEntity) {
@@ -113,10 +126,20 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   }
 
   const geometryOptions: SelectOption[] = getGeometryOptions()
+  // #endregion
 
   return (
     <Panel label="Inspector">
-      <h1>{selectedEntity?.name}</h1>
+      <h1>
+        <input
+          className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
+          type="text"
+          defaultValue={selectedEntity?.name}
+          onBlur={(e) => handleChangeName(e.target.value)}
+          // @ts-ignore
+          onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
+        />
+      </h1>
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (
@@ -186,12 +209,11 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       )}
 
       {/* Light */}
-      {selectedEntity.type === "light" && (
-        <section>
-          <div className="bg-gray-800 text-white">
-            <h3>Light Inspector</h3>
-          </div>
-        </section>
+      {selectedEntity.type === "light" && selectedEntity.lightProps && (
+        <LightNode
+          lightProps={selectedEntity.lightProps}
+          updateLightProps={updateLightProps}
+        />
       )}
     </Panel>
   )

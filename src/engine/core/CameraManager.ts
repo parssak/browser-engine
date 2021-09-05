@@ -25,6 +25,10 @@ export default class CameraManager {
     this.renderer.setSize(renderElement.clientWidth, renderElement.clientHeight)
     this.renderElement = renderElement
     this.renderElement.appendChild(this.renderer.domElement)
+    this.renderer.toneMapping = THREE.ReinhardToneMapping
+    this.renderer.toneMappingExposure = 2
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     
     this.handleResize()
     this._setControls()
@@ -38,9 +42,6 @@ export default class CameraManager {
     const intersects = this.raycaster
       .intersectObjects(SceneManager.instance.getScene().children, true)
       .filter(e => e.object.type === "Mesh" || e.object.type === "PointLightHelper")
-    console.debug(
-      intersects
-    )
     if (intersects.length > 0) {
       const objectSelect = intersects[0].object;
       if (objectSelect.type === "Mesh") {
@@ -51,6 +52,10 @@ export default class CameraManager {
     } else {
       SceneManager.instance.select()
     }
+  }
+
+  public lookAt(position: THREE.Vector3) {
+    console.debug('looking at', position)
   }
 
   private _setCamera() {
@@ -97,6 +102,7 @@ export default class CameraManager {
 
   update(scene: THREE.Scene) {
     this.renderer.render(scene, this.camera)
+    // this.renderer.shadowMap.render([], SceneManager.instance.getScene(), this.camera)
     const deltaTime = this.clock.getDelta()
     const elapsedTime = this.clock.getElapsedTime()
     SceneManager.instance.updateScene(deltaTime, elapsedTime)

@@ -899,7 +899,6 @@ class OrbitControls extends EventDispatcher {
 
     function onKeyDown(event) {
       if (scope.enabled === false || scope.enablePan === false) return
-
       handleKeyDown(event)
     }
 

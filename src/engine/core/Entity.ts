@@ -1,9 +1,10 @@
-import * as THREE from 'three';
-import Component from './Component';
-import ComponentManager from './ComponentManager';
-import MaterialManager from './MaterialManager';
-import GeometryManager from './GeometryManager';
-import SceneManager from './SceneManager';
+import * as THREE from "three"
+import Component from "./Component"
+import ComponentManager from "./ComponentManager"
+import MaterialManager from "./MaterialManager"
+import GeometryManager from "./GeometryManager"
+import SceneManager from "./SceneManager"
+import { Color } from "three"
 
 export default class Entity {
   public name: string = ""
@@ -20,8 +21,8 @@ export default class Entity {
   }
 
   public init(props: Engine.EntityProps) {
-    this._initObject(props);
-    this._appendIdentifiers(props.id, props.name);
+    this._initObject(props)
+    this._appendIdentifiers(props.id, props.name)
     this._initComponents(props.components)
   }
 
@@ -72,10 +73,10 @@ export default class Entity {
     })
   }
 
-  private _initObject (props: Engine.EntityProps) {
+  private _initObject(props: Engine.EntityProps) {
     if (props.type === "basic" && props.geometry && props.material) {
       this._initMesh(props.material, props.geometry)
-    } else if (props.type === "light" && props.lightProps && !this.light) {
+    } else if (props.type === "light" && props.lightProps) {
       this._initLight(props.lightProps)
     }
   }
@@ -85,6 +86,8 @@ export default class Entity {
     const geometry = GeometryManager.instance.getGeometry(geometryType)
     if (!this.mesh) {
       this.mesh = new THREE.Mesh(geometry, mat)
+      this.mesh.castShadow = true
+      this.mesh.receiveShadow = true
     } else {
       this.mesh.geometry = geometry
       this.mesh.material = mat
@@ -106,13 +109,33 @@ export default class Entity {
           return new THREE.AmbientLight(props.color, props.intensity)
       }
     }
-    this.light = createLight(lightProps)
+    
+    if (!this.light) {
+      this.light = createLight(lightProps)
+    }
+
+    this.light.castShadow = true
+    
+    this.light.intensity = lightProps.intensity
+    const downcastedLight = this.light as any
+
+    if (downcastedLight.color) {
+      downcastedLight.color = new Color(lightProps.color)
+    }
+    
+    else if (downcastedLight.groundColor) {
+      downcastedLight.groundColor = new Color(lightProps.color)
+    }
+
+    if (downcastedLight.skyColor && lightProps.color2) {
+      downcastedLight.skyColor = new Color(lightProps.color2)
+    }
   }
 
-  private _appendIdentifiers (id: string, name: string) {
-    const object: THREE.Object3D | undefined = this.getObject();
-    if (!object) return;
-    object.uuid = id;
-    object.name = name;
+  private _appendIdentifiers(id: string, name: string) {
+    const object: THREE.Object3D | undefined = this.getObject()
+    if (!object) return
+    object.uuid = id
+    object.name = name
   }
 }
