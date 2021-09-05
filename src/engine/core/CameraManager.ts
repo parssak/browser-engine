@@ -25,10 +25,11 @@ export default class CameraManager {
     this.renderer.setSize(renderElement.clientWidth, renderElement.clientHeight)
     this.renderElement = renderElement
     this.renderElement.appendChild(this.renderer.domElement)
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-    this.renderer.toneMappingExposure = 1.2
+    this.renderer.toneMapping = THREE.ReinhardToneMapping
+    this.renderer.toneMappingExposure = 2
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    
     this.handleResize()
     this._setControls()
     this._setRaycaster()
@@ -101,6 +102,7 @@ export default class CameraManager {
 
   update(scene: THREE.Scene) {
     this.renderer.render(scene, this.camera)
+    // this.renderer.shadowMap.render([], SceneManager.instance.getScene(), this.camera)
     const deltaTime = this.clock.getDelta()
     const elapsedTime = this.clock.getElapsedTime()
     SceneManager.instance.updateScene(deltaTime, elapsedTime)

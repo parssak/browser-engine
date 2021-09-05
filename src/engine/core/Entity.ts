@@ -86,6 +86,8 @@ export default class Entity {
     const geometry = GeometryManager.instance.getGeometry(geometryType)
     if (!this.mesh) {
       this.mesh = new THREE.Mesh(geometry, mat)
+      this.mesh.castShadow = true
+      this.mesh.receiveShadow = true
     } else {
       this.mesh.geometry = geometry
       this.mesh.material = mat
@@ -111,6 +113,8 @@ export default class Entity {
     if (!this.light) {
       this.light = createLight(lightProps)
     }
+
+    this.light.castShadow = true
     
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any

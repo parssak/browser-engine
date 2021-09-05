@@ -34,7 +34,7 @@ export default class ControlsManager {
 
   lookAt(target: THREE.Vector3) {
     if (this.controls) {
-      this.controls.target.copy(target)
+      // this.controls.target.copy(target)
     }
   }
 

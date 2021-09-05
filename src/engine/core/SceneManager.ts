@@ -94,7 +94,7 @@ export default class SceneManager {
     this._resetScene()
     this._hideHelpers()
     try {
-      ControlsManager.instance.disableControls()
+      // ControlsManager.instance.disableControls()
       this._buildScene()
       this._startEntities()
 
@@ -112,7 +112,7 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
-    ControlsManager.instance.enableControls()
+    // ControlsManager.instance.enableControls()
     this._showHelpers()
     this._buildScene()
   }
@@ -159,7 +159,6 @@ export default class SceneManager {
         const previouslyMadeHelper = this._lightHelpers.some(
           (helper) => helper.uuid === props.id
         )
-        console.debug({ previouslyMadeHelper })
         if (!previouslyMadeHelper) {
           const sphereSize = 1
           const pointLightHelper = new THREE.PointLightHelper(
@@ -170,6 +169,9 @@ export default class SceneManager {
           this._scene.add(pointLightHelper)
           this._lightHelpers.push(pointLightHelper)
         }
+      } else if (entityObject.type === "DirectionalLight") {
+        const light = entityObject as any;
+        this._scene.add(light.target)
       }
     }
     return entity
