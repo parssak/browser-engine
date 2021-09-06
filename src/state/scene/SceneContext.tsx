@@ -62,8 +62,8 @@ export const SceneProvider = ({
       name: "Ambient Light",
       type: "light",
       visible: true,
-      castShadows: false,
-      receiveShadows: false,
+      castShadow: false,
+      receiveShadow: false,
       children: [],
       components: {
         Transform: {
@@ -83,8 +83,8 @@ export const SceneProvider = ({
       name: "Directional Light",
       type: "light",
       visible: true,
-      castShadows: true,
-      receiveShadows: true,
+      castShadow: true,
+      receiveShadow: true,
       children: [],
       components: {
         Transform: {
@@ -105,8 +105,8 @@ export const SceneProvider = ({
       name: "Plane",
       type: "basic",
       visible: true,
-      castShadows: true,
-      receiveShadows: true,
+      castShadow: true,
+      receiveShadow: true,
       material: "phong",
       geometry: "plane",
       children: [],

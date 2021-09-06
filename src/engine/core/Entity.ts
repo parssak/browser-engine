@@ -79,6 +79,13 @@ export default class Entity {
     } else if (props.type === "light" && props.lightProps) {
       this._initLight(props.lightProps)
     }
+    
+    const obj = this.getObject();
+    if (obj) {
+      obj.visible = props.visible;
+      obj.castShadow = props.castShadow;
+      obj.receiveShadow = props.receiveShadow;
+    }
   }
 
   private _initMesh(materialType: string, geometryType: string) {
@@ -86,8 +93,6 @@ export default class Entity {
     const geometry = GeometryManager.instance.getGeometry(geometryType)
     if (!this.mesh) {
       this.mesh = new THREE.Mesh(geometry, mat)
-      this.mesh.castShadow = true
-      this.mesh.receiveShadow = true
     } else {
       this.mesh.geometry = geometry
       this.mesh.material = mat
@@ -112,9 +117,6 @@ export default class Entity {
     
     if (!this.light) {
       this.light = createLight(lightProps)
-    }
-    if (this.light.shadow) {
-      this.light.castShadow = true
     }
     
     this.light.intensity = lightProps.intensity

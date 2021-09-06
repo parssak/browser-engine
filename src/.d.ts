@@ -64,8 +64,8 @@ declare namespace Engine {
     components: Record<ComponentType, ComponentProps>
     type: EntityType
     visible: boolean;
-    castShadows: boolean;
-    receiveShadows: boolean;
+    castShadow: boolean;
+    receiveShadow: boolean;
     geometry?: GeometryType
     material?: MaterialType
     lightProps?: LightProps

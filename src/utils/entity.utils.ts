@@ -6,8 +6,8 @@ export const generateNewEntity = (): Engine.EntityProps => {
     name: "New Entity",
     type: "basic",
     visible: true,
-    castShadows: false,
-    receiveShadows: false,
+    castShadow: true,
+    receiveShadow: true,
     geometry: "box",
     material: "phong",
     children: [],
@@ -28,8 +28,8 @@ export const generateNewLight = (): Engine.EntityProps => {
     name: "New Light",
     type: "light",
     visible: true,
-    castShadows: false,
-    receiveShadows: false,
+    castShadow: true,
+    receiveShadow: true,
     children: [],
     components: {
       Transform: {
