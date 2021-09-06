@@ -20,6 +20,7 @@ export default class MaterialManager {
   }
 
   addCustomMaterial(materialPayload: Engine.Material): void {
+    console.log('adding custom material', materialPayload)
     const mat = materialPayload.material
     this.materials[mat.name] = new THREE.ShaderMaterial({
       uniforms: { ...mat.uniforms, time: { value: 0.0 } },

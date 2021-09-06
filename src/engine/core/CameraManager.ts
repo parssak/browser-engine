@@ -67,7 +67,6 @@ export default class CameraManager {
   }
 
   private _setCamera(cam: THREE.PerspectiveCamera) {
-    console.debug('setting cam');
     this.camera = cam;
     this.camera.position.y = 10
     this.camera.rotation.x = -0.1

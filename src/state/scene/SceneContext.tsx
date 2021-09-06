@@ -141,18 +141,22 @@ export const SceneProvider = ({
   const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({
       entities,
-      // camera: cameraProps,
       materials: Object.values(materials),
     }),
     [entities, materials]
   )
+
+  // useEffect(() => {
+  //   context.updateSceneMaterials(Object.values(materials))
+  // }, [materials])
+    
 
   useEffect(() => {
     if (selectedEntityID) {
       const entityProps = entities.find((e) => e.id === selectedEntityID)
       if (!entityProps) return
       context.updateSpecificEntity(selectedEntityID, entityProps)
-    }
+    } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sceneConfig])
 

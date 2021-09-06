@@ -23,7 +23,6 @@ const useEditor = (rootHook?: boolean) => {
     _setScripts(scriptsPayload)
     ScriptCompiler.CompileScripts(localScenePayload.scripts)
 
-
     _setEntities(localScenePayload.sceneConfig.entities)
 
     const materialsPayload = Object.fromEntries(
@@ -48,9 +47,9 @@ const useEditor = (rootHook?: boolean) => {
       context.init(renderElement.current, scenePayload)
     }
     init()
-    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderElement, rootHook])
+
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) {

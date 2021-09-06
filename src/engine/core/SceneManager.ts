@@ -58,6 +58,12 @@ export default class SceneManager {
     }
   }
 
+  setSceneMaterials(payload: Engine.MaterialProps[]) {
+    if (!this._scenePayload) return
+    this._scenePayload.sceneConfig.materials = payload;
+    this._compileMaterials()
+  }
+
   getSelectedEntityPayload(): Engine.EntityProps | undefined {
     return this._scenePayload?.sceneConfig.entities.find(
       (e) => e.id === this._selectedEntityID
@@ -145,7 +151,7 @@ export default class SceneManager {
       } else if (object.type === "PerspectiveCamera") {
         this._cameraHelper.visible = true
       }
-      return;
+      return
     }
     this._cameraHelper.visible = false
   }
@@ -179,7 +185,7 @@ export default class SceneManager {
         this._scene.add(light.target)
       } else if (entityObject.type === "PerspectiveCamera") {
         this._cameraHelper = new THREE.CameraHelper(entityObject as THREE.Camera)
-        this._cameraHelper.uuid = entityObject.uuid;
+        this._cameraHelper.uuid = entityObject.uuid
         this._cameraHelper.visible = false
         this._scene.add(this._cameraHelper)
       }
@@ -218,6 +224,8 @@ export default class SceneManager {
 
   private _compileMaterials() {
     if (!this._scenePayload) return
+    console.log("Compiling materials", this._scenePayload.sceneConfig.materials)
+
     this._scenePayload.sceneConfig.materials.forEach((material) => {
       const associatedVertexShader = this._scenePayload?.scripts.find(
         (script) => script.id === material.vertexShaderID
@@ -226,7 +234,7 @@ export default class SceneManager {
       const associatedFragmentShader = this._scenePayload?.scripts.find(
         (script) => script.id === material.fragmentShaderID
       )
-
+      
       if (!associatedVertexShader || !associatedFragmentShader) return
       const materialPayload: Engine.Material = {
         material,

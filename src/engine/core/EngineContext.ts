@@ -38,7 +38,7 @@ class EngineContext {
     this.time.elapsedTime = 0
     this.time.start()
     this.sceneManager.runPlayScene()
-    const sceneCam = this.sceneManager.getScene().getObjectByName("Main Camera");
+    const sceneCam = this.sceneManager.getScene().getObjectByName("Main Camera")
     this.cameraManager.useSceneCamera(sceneCam as THREE.PerspectiveCamera)
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene())
   }
@@ -46,12 +46,16 @@ class EngineContext {
   runEditMode() {
     this.time.stop()
     this.sceneManager.runEditScene()
-    this.cameraManager.useEditCamera();
+    this.cameraManager.useEditCamera()
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene())
   }
 
   updateScenePayload(payload: Engine.ScenePayload, forInitialization = false) {
     this.sceneManager.setScenePayload(payload, forInitialization)
+  }
+
+  updateSceneMaterials(materials: Engine.MaterialProps[]) {
+    this.sceneManager.setSceneMaterials(materials)
   }
 
   updateSpecificEntity(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {
