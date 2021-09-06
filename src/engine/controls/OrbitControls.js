@@ -1062,7 +1062,6 @@ class OrbitControls extends EventDispatcher {
     //
 
     scope.domElement.addEventListener("contextmenu", onContextMenu)
-
     scope.domElement.addEventListener("pointerdown", onPointerDown)
     scope.domElement.addEventListener("pointercancel", onPointerCancel)
     scope.domElement.addEventListener("wheel", onMouseWheel, {

@@ -17,7 +17,7 @@ export default class SceneManager {
 
   // Helpers
   private _axes = new THREE.AxesHelper(2)
-  private _gridHelper = new THREE.GridHelper(60, 6)
+  private _gridHelper = new THREE.GridHelper(1000, 200)
   private _cameraHelper = new THREE.CameraHelper(new THREE.PerspectiveCamera())
   private _selectionHelper!: THREE.BoxHelper
   private _lightHelpers: THREE.PointLightHelper[] = []

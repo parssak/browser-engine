@@ -1,4 +1,3 @@
-import { Color } from "three"
 import { ReactElement } from "react"
 import ComponentFieldValue from "./ComponentFieldValue"
 
