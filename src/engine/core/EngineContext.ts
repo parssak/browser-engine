@@ -27,6 +27,7 @@ class EngineContext {
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
+    console.debug('Called initialize')
     if (this.isInitialized) return
     this._renderElement = renderElement
     if (payload) this.updateScenePayload(payload)

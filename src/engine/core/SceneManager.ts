@@ -49,12 +49,8 @@ export default class SceneManager {
 
   setScenePayload(payload: Engine.ScenePayload) {
     console.log('setting scene payload')
-    let shouldRecompileMaterials = true
-    // TODO: Optimize this so materials aren't over-compiled
     this._scenePayload = payload
-    if (shouldRecompileMaterials) {
-      this._compileMaterials()
-    }
+    this._compileMaterials()
   }
 
   getSelectedEntityPayload(): Engine.EntityProps | undefined {

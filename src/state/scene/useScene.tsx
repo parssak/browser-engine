@@ -1,7 +1,6 @@
 import { useContext, useMemo } from "react"
 import { SceneContext } from "./SceneContext"
 import context from "../../engine/core/EngineContext"
-import { generateNewEntity } from "../../utils/entity.utils"
 import {  generateNewMaterial } from "../../utils/script.utils"
 
 const useScene = () => {
@@ -14,6 +13,7 @@ const useScene = () => {
     setMaterials,
     selectedMaterialID,
     setSelectedMaterialID,
+    setCameraProps,
   } = useContext(SceneContext)
 
   const selectEntity = (id: Engine.EntityID) => {
@@ -35,12 +35,6 @@ const useScene = () => {
     return sceneConfig.materials.find((e) => e.id === selectedMaterialID) ?? null
   }, [sceneConfig, selectedMaterialID])
   
-  // const selectedLight: Engine.LightProps | null = useMemo(() => {
-  //   return sceneConfig.lights.find((e) => e.id === selectedLightID) ?? null
-  // }, [sceneConfig, selectedLightID])
-
-  
-
   const updateEntity = (entity: Engine.EntityProps) => {
     const index = sceneConfig.entities.findIndex((e) => e.id === entity.id)
     if (index === -1) {
@@ -96,6 +90,9 @@ const useScene = () => {
     updateEntityParent,
     createMaterial,
     selectMaterial,
+    _setEntities: setEntities,
+    _setMaterials: setMaterials,
+    _setCameraProps: setCameraProps,
   }
 }
 

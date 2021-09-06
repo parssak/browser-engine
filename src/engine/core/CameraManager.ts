@@ -94,9 +94,11 @@ export default class CameraManager {
   handleResize() {
     if (!this.renderElement) return
     const dimensions = this.renderElement.getBoundingClientRect()
-    this.camera.aspect = dimensions.width / dimensions.height
+    const w = this.renderElement?.offsetParent?.clientWidth ?? dimensions.width;
+    const h = this.renderElement?.offsetParent?.clientHeight ?? dimensions.height;
+    this.camera.aspect = w / h
     this.camera.updateProjectionMatrix()
-    this.renderer.setSize(dimensions.width, dimensions.height)
+    this.renderer.setSize(w, h)
     this.renderer.setPixelRatio(window.devicePixelRatio)
   }
 

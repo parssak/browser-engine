@@ -5,27 +5,52 @@ import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
 
-const useEditor = () => {
-  const { scripts } = useScripts()
-  const { sceneConfig, selectEntity } = useScene()
-  const { renderElement } = useContext(EditorContext)
+const useEditor = (rootHook?: boolean) => {
+  const { scripts, _setScripts } = useScripts()
+  const { sceneConfig, selectEntity, _setEntities, _setMaterials, _setCameraProps } =
+    useScene()
+  const { renderElement, localScenePayload } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
+
+  useEffect(() => {
+    if (!localScenePayload || !rootHook) return
+
+    console.debug("Loading localScenePayload")
+    const scriptsPayload = Object.fromEntries(
+      localScenePayload.scripts.map((s) => [s.id, s])
+    )
+    _setScripts(scriptsPayload)
+
+    console.debug("entities", localScenePayload.sceneConfig.entities)
+    _setEntities(localScenePayload.sceneConfig.entities)
+
+    const materialsPayload = Object.fromEntries(
+      localScenePayload.sceneConfig.materials.map((m) => [m.id, m])
+    )
+    _setMaterials(materialsPayload)
+
+    _setCameraProps(localScenePayload.sceneConfig.camera)
+
+    context.updateScenePayload(localScenePayload)
+  }, [_setCameraProps, _setEntities, _setMaterials, _setScripts, localScenePayload, rootHook])
+
 
   const scenePayload: Engine.ScenePayload = useMemo(
     () => ({ sceneConfig, scripts }),
     [sceneConfig, scripts]
   )
-
+  
   useEffect(() => {
     const init = () => {
-      if (!renderElement || !renderElement.current || !scenePayload) {
+      if (!renderElement || !renderElement.current || !scenePayload || !rootHook)  {
         return
       }
       context.init(renderElement.current, scenePayload)
     }
     init()
-  }, [renderElement])
-
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [renderElement, rootHook])
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) {
@@ -56,8 +81,6 @@ const useEditor = () => {
   const saveScene = () => {
     localStorage.setItem("scenePayload", JSON.stringify(scenePayload))
   }
-
-  
 
   return {
     renderElement,

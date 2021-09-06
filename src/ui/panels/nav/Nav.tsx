@@ -6,7 +6,7 @@ import { generateNewEntity, generateNewLight } from "../../../utils/entity.utils
 
 export default function Nav(): ReactElement {
   const { createEntity,  createMaterial } = useScene()
-  const { toggleRun, isRunning, saveScene } = useEditor()
+  const { toggleRun, isRunning, saveScene } = useEditor(true)
   const { createScript, selectedScript, loadScript, saveScript, scriptBody } =
     useScripts()
 

@@ -13,11 +13,12 @@ export default function BrowserEngine(): ReactElement {
       <Nav />
       <section
         className="w-full h-full grid"
-        style={{ gridTemplateColumns: "1fr 14rem 14rem" }}
+        style={{ gridTemplateColumns: "70vw 1fr 1fr" }}
       >
         <div className="h-full w-full grid relative">
           <ScenePanel />
           <EditorPanel />
+          {/* <div className="absolute inset-0 bg-red-200 border-2 border-green-500"></div> */}
         </div>
         <aside className="grid grid-rows-5">
           <div className="row-span-3">

@@ -59,7 +59,7 @@ const useScripts = () => {
 
   return {
     scripts: Object.values(scripts),
-    // setScripts,
+    _setScripts: setScripts,
     scriptBody,
     setScriptBody,
     selectedScript,
