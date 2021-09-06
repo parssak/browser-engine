@@ -5,6 +5,7 @@ import MaterialManager from "../../../engine/core/MaterialManager"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import Panel from "../Panel"
+import CameraNode from "./entity/CameraNode"
 import ComponentNode from "./entity/ComponentNode"
 import LightNode from "./entity/LightNode"
 
@@ -89,6 +90,13 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   const updateLightProps = (updatedProps: Engine.LightProps) => {
     if (selectedEntity) {
       selectedEntity.lightProps = updatedProps
+      updateEntity({ ...selectedEntity })
+    }
+  }
+
+  const updateCameraProps = (updatedProps: Engine.CameraProps) => {
+    if (selectedEntity) {
+      selectedEntity.cameraProps = updatedProps
       updateEntity({ ...selectedEntity })
     }
   }
@@ -263,6 +271,14 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
         <LightNode
           lightProps={selectedEntity.lightProps}
           updateLightProps={updateLightProps}
+        />
+      )}
+      
+      {/* Camera */}
+      {selectedEntity.type === "camera" && selectedEntity.cameraProps && (
+        <CameraNode
+          cameraProps={selectedEntity.cameraProps}
+          updateCameraProps={updateCameraProps}
         />
       )}
     </Panel>

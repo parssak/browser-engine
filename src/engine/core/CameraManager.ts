@@ -39,11 +39,14 @@ export default class CameraManager {
     this.handleResize()
   }
 
-  setEditCamera(camera: THREE.PerspectiveCamera) {
-    this.editCamera = camera
+  useSceneCamera(sceneCamera: THREE.PerspectiveCamera) {
+    this.sceneCamera = sceneCamera;
+    this._setCamera(this.sceneCamera)
+  }
+
+  useEditCamera() {
     this._setCamera(this.editCamera)
   }
-  
 
   handleClick(mouseX: number, mouseY: number) {
     const pointer = new THREE.Vector2(mouseX, mouseY)
@@ -64,6 +67,7 @@ export default class CameraManager {
   }
 
   private _setCamera(cam: THREE.PerspectiveCamera) {
+    console.debug('setting cam');
     this.camera = cam;
     this.camera.position.y = 10
     this.camera.rotation.x = -0.1

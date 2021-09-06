@@ -7,7 +7,7 @@ import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
 
 const useEditor = (rootHook?: boolean) => {
-  const { scripts, _setScripts, _compileScripts } = useScripts()
+  const { scripts, _setScripts } = useScripts()
   const { sceneConfig, selectEntity, _setEntities, _setMaterials } =
     useScene()
   const { renderElement, localScenePayload } = useContext(EditorContext)
