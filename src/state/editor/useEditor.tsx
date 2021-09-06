@@ -1,12 +1,13 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import context from "../../engine/core/EngineContext"
 import SceneManager from "../../engine/core/SceneManager"
+import ScriptCompiler from "../../utils/ScriptCompiler"
 import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
 
 const useEditor = (rootHook?: boolean) => {
-  const { scripts, _setScripts } = useScripts()
+  const { scripts, _setScripts, _compileScripts } = useScripts()
   const { sceneConfig, selectEntity, _setEntities, _setMaterials } =
     useScene()
   const { renderElement, localScenePayload } = useContext(EditorContext)
@@ -18,7 +19,10 @@ const useEditor = (rootHook?: boolean) => {
     const scriptsPayload = Object.fromEntries(
       localScenePayload.scripts.map((s) => [s.id, s])
     )
+
     _setScripts(scriptsPayload)
+    ScriptCompiler.CompileScripts(localScenePayload.scripts)
+
 
     _setEntities(localScenePayload.sceneConfig.entities)
 

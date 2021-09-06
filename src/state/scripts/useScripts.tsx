@@ -9,8 +9,6 @@ const useScripts = () => {
     selectedScript,
     setSelectedScript,
     compileScripts,
-    // scriptBody,
-    // setScriptBody,
   } = useContext(ScriptContext)
 
   const loadScript = (
@@ -67,6 +65,7 @@ const useScripts = () => {
     loadScript,
     saveScript,
     createScript,
+    _compileScripts :compileScripts,
   }
 }
 
