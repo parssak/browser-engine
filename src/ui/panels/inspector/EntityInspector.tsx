@@ -93,6 +93,14 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     }
   }
 
+  const showShadowOptions = (): boolean => {
+    return !(
+      selectedEntity.type === "light" &&
+      selectedEntity.lightProps &&
+      selectedEntity.lightProps.type === "ambient"
+    )
+  }
+
   // #region -- mesh --
   const updateMaterial = (newMaterial: Engine.MaterialType) => {
     setMaterialType(newMaterial)
@@ -148,34 +156,38 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           <input
             type="checkbox"
             checked={selectedEntity.visible}
-            onClick={() =>
-              updateEntity({ ...selectedEntity, visible: !selectedEntity.visible })
+            onChange={(e) =>
+              updateEntity({ ...selectedEntity, visible: e.target.checked })
             }
           />
         </div>
-        <div className="flex space-x-2">
-          <p className="inspector-field-label">Cast shadow</p>
-          <input
-            type="checkbox"
-            checked={selectedEntity.castShadow}
-            onClick={() =>
-              updateEntity({ ...selectedEntity, castShadow: !selectedEntity.castShadow })
-            }
-          />
-        </div>
-        <div className="flex space-x-2">
-          <p className="inspector-field-label">Receive shadow</p>
-          <input
-            type="checkbox"
-            checked={selectedEntity.receiveShadow}
-            onClick={() =>
-              updateEntity({
-                ...selectedEntity,
-                castShadow: !selectedEntity.receiveShadow,
-              })
-            }
-          />
-        </div>
+        {showShadowOptions() && (
+          <>
+            <div className="flex space-x-2">
+              <p className="inspector-field-label">Cast shadow</p>
+              <input
+                type="checkbox"
+                checked={selectedEntity.castShadow}
+                onChange={(e) =>
+                  updateEntity({ ...selectedEntity, castShadow: e.target.checked })
+                }
+              />
+            </div>
+            <div className="flex space-x-2">
+              <p className="inspector-field-label">Receive shadow</p>
+              <input
+                type="checkbox"
+                checked={selectedEntity.receiveShadow}
+                onChange={(e) =>
+                  updateEntity({
+                    ...selectedEntity,
+                    castShadow: e.target.checked,
+                  })
+                }
+              />
+            </div>
+          </>
+        )}
       </section>
 
       {/* Components */}

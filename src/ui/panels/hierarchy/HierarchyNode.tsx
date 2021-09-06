@@ -18,6 +18,8 @@ function HierarchyNode({ entity }: Props): ReactElement {
     selectEntity(entity.id)
   }
 
+  const isHidden = useMemo(() => !entity.visible, [entity])
+
   return (
     <div
       className={`
@@ -30,6 +32,8 @@ function HierarchyNode({ entity }: Props): ReactElement {
           text-sm
           ${isSelected && "bg-gray-500"}
           ${isSelected ? "hover:bg-gray-600" : "hover:bg-gray-500"}
+          ${isHidden && "opacity-50"}
+
     `}
       onClick={handleClick}
     >
