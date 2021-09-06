@@ -6,7 +6,7 @@ import { generateNewEntity, generateNewLight } from "../../../utils/entity.utils
 
 export default function Nav(): ReactElement {
   const { createEntity,  createMaterial } = useScene()
-  const { toggleRun, isRunning, saveScene } = useEditor(true)
+  const { toggleRun, isRunning, saveScene, exportScene } = useEditor(true)
   const { createScript, selectedScript, loadScript, saveScript, scriptBody } =
     useScripts()
 
@@ -55,6 +55,10 @@ export default function Nav(): ReactElement {
   const handleCloseScript = () => {
     loadScript("")
   }
+
+  const handleExportScene = () => {
+    exportScene();
+  }
   
   return (
     <div>
@@ -79,6 +83,9 @@ export default function Nav(): ReactElement {
           {/* save scene button */}
           <button onClick={handleSaveScene} className="secondary">
             Save Scene
+          </button>
+          <button onClick={handleExportScene} className="secondary">
+            Export Scene
           </button>
         </div>
         {selectedScript && (

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import context from "../../engine/core/EngineContext"
 import SceneManager from "../../engine/core/SceneManager"
+import ProjectExporter from "../../utils/ProjectExporter"
 import ScriptCompiler from "../../utils/ScriptCompiler"
 import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
@@ -77,6 +78,10 @@ const useEditor = (rootHook?: boolean) => {
     selectEntity(context.getSelectedEntity() ?? "")
   }
 
+  const exportScene = () => {
+    ProjectExporter.Export(scenePayload)
+  }
+
   const saveScene = () => {
     localStorage.setItem("scenePayload", JSON.stringify(scenePayload))
   }
@@ -87,6 +92,7 @@ const useEditor = (rootHook?: boolean) => {
     toggleRun,
     handleClickScene,
     saveScene,
+    exportScene,
   }
 }
 
