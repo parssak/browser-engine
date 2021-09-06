@@ -55,5 +55,5 @@ input[type="number"] {
 
 .inspector-field-label {
   @apply text-xs font-mono text-gray-200;
-  min-width: 10ch;
+  min-width: 15ch;
 }

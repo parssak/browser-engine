@@ -7,7 +7,7 @@ import { EditorContext } from "./EditorContext"
 
 const useEditor = (rootHook?: boolean) => {
   const { scripts, _setScripts } = useScripts()
-  const { sceneConfig, selectEntity, _setEntities, _setMaterials, _setCameraProps } =
+  const { sceneConfig, selectEntity, _setEntities, _setMaterials } =
     useScene()
   const { renderElement, localScenePayload } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
@@ -27,10 +27,8 @@ const useEditor = (rootHook?: boolean) => {
     )
     _setMaterials(materialsPayload)
 
-    _setCameraProps(localScenePayload.sceneConfig.camera)
-
     context.updateScenePayload(localScenePayload, true)
-  }, [_setCameraProps, _setEntities, _setMaterials, _setScripts, localScenePayload, rootHook])
+  }, [_setEntities, _setMaterials, _setScripts, localScenePayload, rootHook])
 
 
   const scenePayload: Engine.ScenePayload = useMemo(

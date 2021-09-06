@@ -49,6 +49,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     if (!selectedEntity) return
     updateEntity({ ...selectedEntity, name: newName })
   }
+
   const addComponent = (componentName: Engine.ComponentType) => {
     if (!selectedEntity) return
     const componentProps = ComponentManager.instance.getComponentProps(componentName)
@@ -135,13 +136,48 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
           type="text"
           defaultValue={selectedEntity?.name}
-          key={selectedEntity?.id ?? ''}
+          key={selectedEntity?.id ?? ""}
           onBlur={(e) => handleChangeName(e.target.value)}
           // @ts-ignore
           onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
         />
       </h1>
-      
+      <section className="space-y-2 py-2">
+        <div className="flex space-x-2">
+          <p className="inspector-field-label">Visible</p>
+          <input
+            type="checkbox"
+            checked={selectedEntity.visible}
+            onClick={() =>
+              updateEntity({ ...selectedEntity, visible: !selectedEntity.visible })
+            }
+          />
+        </div>
+        <div className="flex space-x-2">
+          <p className="inspector-field-label">Cast shadow</p>
+          <input
+            type="checkbox"
+            checked={selectedEntity.castShadow}
+            onClick={() =>
+              updateEntity({ ...selectedEntity, castShadow: !selectedEntity.castShadow })
+            }
+          />
+        </div>
+        <div className="flex space-x-2">
+          <p className="inspector-field-label">Receive shadow</p>
+          <input
+            type="checkbox"
+            checked={selectedEntity.receiveShadow}
+            onClick={() =>
+              updateEntity({
+                ...selectedEntity,
+                castShadow: !selectedEntity.receiveShadow,
+              })
+            }
+          />
+        </div>
+      </section>
+
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (

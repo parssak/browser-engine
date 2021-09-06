@@ -88,6 +88,10 @@ export default class CameraManager {
     )
   }
 
+  getAspect() {
+    return this.camera.aspect
+  }
+
   handleResize() {
     if (!this.renderElement) return
     const dimensions = this.renderElement.getBoundingClientRect()

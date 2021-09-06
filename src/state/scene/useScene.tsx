@@ -13,7 +13,6 @@ const useScene = () => {
     setMaterials,
     selectedMaterialID,
     setSelectedMaterialID,
-    setCameraProps,
   } = useContext(SceneContext)
 
   const selectEntity = (id: Engine.EntityID) => {
@@ -92,7 +91,6 @@ const useScene = () => {
     selectMaterial,
     _setEntities: setEntities,
     _setMaterials: setMaterials,
-    _setCameraProps: setCameraProps,
   }
 }
 

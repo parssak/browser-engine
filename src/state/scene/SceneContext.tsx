@@ -12,7 +12,6 @@ interface ISceneContext {
   setSelectedEntityID: (entityID: Engine.EntityID | null) => void
   selectedMaterialID: string | null
   setSelectedMaterialID: (materialID: Engine.MaterialID | null) => void
-  setCameraProps: (cameraProps: Engine.CameraProps) => void
   materials: Record<string, Engine.MaterialProps>
   setMaterials: (materials: Record<string, Engine.MaterialProps>) => void
 }
@@ -46,17 +45,29 @@ export const SceneProvider = ({
 }: {
   children: ReactElement | ReactElement[]
 }) => {
-  // camera
-  const [cameraProps, setCameraProps] = useState<Engine.CameraProps>({
-    position: new THREE.Vector3(),
-    fov: 70,
-    near: 0.1,
-    far: 1000,
-    controls: "orbit" as Engine.ControlType,
-  })
-
   // entities
   const [entities, setEntities] = useState<Engine.EntityProps[]>([
+    {
+      id: uuidv4(),
+      name: "Main Camera",
+      type: "camera",
+      visible: true,
+      castShadow: false,
+      receiveShadow: false,
+      children: [],
+      components: {
+        Transform: {
+          position: { x: 0, y: 5, z: -5 },
+          rotation: { x: 0, y: 0, z: 0 },
+          scale: { x: 1, y: 1, z: 1 },
+        },
+      },
+      cameraProps: {
+        fov: 70,
+        near: 0.1,
+        far: 1000,
+      },
+    },
     {
       id: uuidv4(),
       name: "Ambient Light",
@@ -130,10 +141,10 @@ export const SceneProvider = ({
   const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({
       entities,
-      camera: cameraProps,
+      // camera: cameraProps,
       materials: Object.values(materials),
     }),
-    [entities, cameraProps, materials]
+    [entities, materials]
   )
 
   useEffect(() => {
@@ -150,7 +161,6 @@ export const SceneProvider = ({
     selectedEntityID,
     selectedMaterialID,
     setEntities,
-    setCameraProps,
     setSelectedEntityID,
     setSelectedMaterialID,
     materials,

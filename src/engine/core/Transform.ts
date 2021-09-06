@@ -20,6 +20,7 @@ export default class Transform extends Component {
   constructor(entity: Entity) {
     super(entity)
     this.entity = entity
+    console.debug(entity)
     this._object = this.entity.getObject() as THREE.Object3D
   }
 

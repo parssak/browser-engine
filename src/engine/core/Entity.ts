@@ -5,18 +5,23 @@ import MaterialManager from "./MaterialManager"
 import GeometryManager from "./GeometryManager"
 import SceneManager from "./SceneManager"
 import { Color } from "three"
+import CameraManager from "./CameraManager"
 
 export default class Entity {
+  public readonly id: Engine.EntityID
   public name: string = ""
   public type: Engine.EntityType | undefined
-  public mesh: THREE.Mesh | undefined
-  public light: THREE.Light | undefined
-  public readonly id: Engine.EntityID
   public components: Record<Engine.ComponentType, Component> = {}
+  
+  // Based on "type", an entity either has a mesh, light, or camera.
+  private mesh: THREE.Mesh | undefined
+  private light: THREE.Light | undefined
+  private camera: THREE.Camera | undefined
 
   constructor(props: Engine.EntityProps) {
     this.id = props.id
     this.name = props.name
+    this.type = props.type
     this.init(props)
   }
 
@@ -43,17 +48,16 @@ export default class Entity {
     }
   }
 
-  // TODO: Implement
-  public destroy() {}
+  public destroy() {
+    // TODO: Implement
+  }
 
   public getComponent(componentName: string): Component | undefined {
     return this.components[componentName]
   }
 
   public getObject(): THREE.Object3D | undefined {
-    if (this.mesh) return this.mesh
-    else if (this.light) return this.light
-    return undefined
+    return this.mesh || this.light || this.camera
   }
 
   private _startComponents() {
@@ -78,6 +82,8 @@ export default class Entity {
       this._initMesh(props.material, props.geometry)
     } else if (props.type === "light" && props.lightProps) {
       this._initLight(props.lightProps)
+    } else if (props.type === "camera" && props.cameraProps) {
+      this._initCamera(props.cameraProps)
     }
     
     const obj = this.getObject();
@@ -96,6 +102,23 @@ export default class Entity {
     } else {
       this.mesh.geometry = geometry
       this.mesh.material = mat
+    }
+  }
+
+  private _initCamera(cameraProps: Engine.CameraProps) {
+    if (!this.camera) {
+      this.camera = new THREE.PerspectiveCamera(
+        cameraProps.fov,
+        CameraManager.instance.getAspect(),
+        cameraProps.near,
+        cameraProps.far
+      )
+    } else {
+      const cam = this.camera as THREE.PerspectiveCamera;
+      cam.fov = cameraProps.fov
+      cam.aspect = CameraManager.instance.getAspect()
+      cam.near = cameraProps.near
+      cam.far = cameraProps.far
     }
   }
 

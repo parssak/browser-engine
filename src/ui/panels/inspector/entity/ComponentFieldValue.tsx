@@ -32,7 +32,7 @@ const ComponentFieldValue = ({ field, updateField }: Props): React.ReactElement 
   return (
     <div className="bg-gray-700 text-white px-2 grid grid-cols-3 gap-1">
       <pre className="text-xs p-0 m-0">
-        <span className="pr-2 text-xs text-gray-400">x:</span>
+        <span className="pr-0.5 text-xs text-gray-400">x:</span>
         <input
           type={typeof field === "string" ? "string" : "number"}
           value={field.x}
@@ -43,7 +43,7 @@ const ComponentFieldValue = ({ field, updateField }: Props): React.ReactElement 
               z: field?.z ?? 0,
             })
           }
-          className="bg-gray-700 w-12 font-mono text-xs"
+          className="bg-gray-700 font-mono text-xs"
         />
       </pre>
       <pre className="text-xs p-0 m-0">

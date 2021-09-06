@@ -51,9 +51,20 @@ declare namespace Engine {
 
   // #endregion
 
+  // #region -- Camera --
+  type ControlType = "orbit" | "fly" | "firstPerson" | "fixed"
+
+  interface CameraProps {
+    fov: number
+    near: number
+    far: number
+  }
+
+  // #endregion
+
   // #region -- Entity --
   type EntityID = string
-  type EntityType = "basic" | "light" | "singleton" // TODO: Come up with a better name for this
+  type EntityType = "basic" | "light" | "camera" | "singleton" // TODO: Come up with a better name for this
   type GeometryType = "box" | "sphere" | "torus" | string
   type MaterialType = "basic" | "normal" | "lambert" | "phong" | string
 
@@ -63,27 +74,14 @@ declare namespace Engine {
     children: EntityID[]
     components: Record<ComponentType, ComponentProps>
     type: EntityType
-    visible: boolean;
-    castShadow: boolean;
-    receiveShadow: boolean;
+    visible: boolean
+    castShadow: boolean
+    receiveShadow: boolean
     geometry?: GeometryType
     material?: MaterialType
     lightProps?: LightProps
-
+    cameraProps?: CameraProps
   }
-  // #endregion
-
-  // #region -- Camera --
-  type ControlType = "orbit" | "fly" | "firstPerson" | "fixed"
-
-  interface CameraProps {
-    position: THREE.Vector3
-    fov: number
-    near: number
-    far: number
-    controls: ControlType
-  }
-
   // #endregion
 
   // #region -- Component --
@@ -102,10 +100,8 @@ declare namespace Engine {
 
   // #region -- Scene --
   interface SceneConfig {
-    camera: CameraProps
     entities: EntityProps[]
     materials: MaterialProps[]
-    // lights: LightProps[]
   }
 
   interface ScenePayload {

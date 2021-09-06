@@ -44,7 +44,6 @@ const ComponentNode = ({
           </div>
         ))}
       </div>
-      <hr className="mt-4" />
     </div>
   )
 }
