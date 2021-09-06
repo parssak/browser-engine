@@ -3,11 +3,11 @@ import { createContext } from "react"
 import ScriptCompiler from "../../utils/ScriptCompiler"
 
 interface IScriptContext {
-  scripts: Record<string, Engine.Script>
+  scripts: Record<Engine.ScriptID, Engine.Script>
   selectedScript: Engine.Script | undefined
   scriptBody: string
   setScriptBody: (scriptBody: string) => void
-  setScripts: (scripts: Record<string, Engine.Script>) => void
+  setScripts: (scripts: Record<Engine.ScriptID, Engine.Script>) => void
   setSelectedScript: (script: Engine.Script | undefined) => void
   compileScripts: () => void
 }
@@ -17,7 +17,7 @@ const initialValue: IScriptContext = {
   selectedScript: undefined,
   scriptBody: "",
   setScriptBody: (scriptBody: string) => {},
-  setScripts: (scripts: Record<string, Engine.Script>) => {},
+  setScripts: (scripts: Record<Engine.ScriptID, Engine.Script>) => {},
   setSelectedScript: (script: Engine.Script | undefined) => {},
   compileScripts: () => {},
 }
@@ -33,7 +33,7 @@ export const ScriptProvider = ({
 }: {
   children: ReactElement | ReactElement[]
 }) => {
-  const [scripts, setScripts] = useState<Record<string, Engine.Script>>({})
+  const [scripts, setScripts] = useState<Record<Engine.ScriptID, Engine.Script>>({})
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {

@@ -12,14 +12,15 @@ const useScripts = () => {
   } = useContext(ScriptContext)
 
   const loadScript = (
-    scriptName: string | Engine.ScriptID,
-    method: "name" | "id" = "name"
+    scriptName: Engine.ScriptID | string,
+    method: "name" | "id" = "id"
   ) => {
+    console.debug('loading script', scriptName, method, scripts)
     let foundScript
-    if (method === "name") {
+    if (method === "id") {
       foundScript = scripts[scriptName]
-    } else if (method === "id") {
-      foundScript = Object.values(scripts).find((script) => script.id === scriptName)
+    } else if (method === "name") {
+      foundScript = Object.values(scripts).find((script) => script.name === scriptName)
     }
     setSelectedScript(foundScript)
     setScriptBody(foundScript?.content ?? "")
@@ -48,7 +49,7 @@ const useScripts = () => {
         scriptPayload.type
       )
       newScripts.push(newScript)
-      updatedScriptsObject[newScript.name] = newScript
+      updatedScriptsObject[newScript.id] = newScript
     })
 
     setScripts({ ...updatedScriptsObject })

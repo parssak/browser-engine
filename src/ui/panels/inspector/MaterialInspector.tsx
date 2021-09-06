@@ -16,7 +16,7 @@ export default function MaterialInspector({ selectedMaterial }: Props): ReactEle
         <small
           className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
           onClick={() => {
-            loadScript(selectedMaterial.fragmentShaderID, "id")
+            loadScript(selectedMaterial.fragmentShaderID)
           }}
         >
           Open in editor
@@ -27,7 +27,7 @@ export default function MaterialInspector({ selectedMaterial }: Props): ReactEle
         <small
           className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
           onClick={() => {
-            loadScript(selectedMaterial.vertexShaderID, "id")
+            loadScript(selectedMaterial.vertexShaderID)
           }}
         >
           Open in editor

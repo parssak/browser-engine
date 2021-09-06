@@ -26,7 +26,7 @@ const ComponentNode = ({
           <small
             className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
             onClick={() => {
-              loadScript(componentType)
+              loadScript(componentType, "name")
             }}
           >
             Open in editor

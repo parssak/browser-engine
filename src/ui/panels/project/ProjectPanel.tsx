@@ -17,7 +17,7 @@ export default function ProjectPanel(): ReactElement {
           ${
             selectedScript?.id === s.id ? "hover:bg-gray-600" : "hover:bg-gray-500"
           }`}
-            onClick={() => loadScript(s.name)}
+            onClick={() => loadScript(s.id)}
             key={s.id}
           >
             {s.name}.{s.language}
