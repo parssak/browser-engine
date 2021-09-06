@@ -47,7 +47,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   }, [selectedEntity, sceneConfig, isRunning])
 
   const handleChangeName = (newName: string) => {
-    if (!selectedEntity) return
+    if (!selectedEntity || selectedEntity.type === "camera") return
     updateEntity({ ...selectedEntity, name: newName })
   }
 
@@ -154,6 +154,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           defaultValue={selectedEntity?.name}
           key={selectedEntity?.id ?? ""}
           onBlur={(e) => handleChangeName(e.target.value)}
+          disabled={selectedEntity?.type === "camera"}
           // @ts-ignore
           onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
         />
@@ -273,7 +274,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           updateLightProps={updateLightProps}
         />
       )}
-      
+
       {/* Camera */}
       {selectedEntity.type === "camera" && selectedEntity.cameraProps && (
         <CameraNode

@@ -39,7 +39,6 @@ class EngineContext {
     this.time.start()
     this.sceneManager.runPlayScene()
     const sceneCam = this.sceneManager.getScene().getObjectByName("Main Camera");
-    console.log(sceneCam)
     this.cameraManager.useSceneCamera(sceneCam as THREE.PerspectiveCamera)
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene())
   }
