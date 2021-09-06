@@ -10,7 +10,7 @@ export default class SceneManager {
   private _scene!: THREE.Scene
   private _entities: Entity[] = []
   private _scenePayload: Engine.ScenePayload | undefined
-  private _scenePayloadInitialized = false;
+  private _scenePayloadInitialized = false
 
   // Selection
   private _selectedEntityID: Engine.EntityID | undefined
@@ -18,6 +18,7 @@ export default class SceneManager {
   // Helpers
   private _axes = new THREE.AxesHelper(2)
   private _gridHelper = new THREE.GridHelper(60, 6)
+  private _cameraHelper = new THREE.CameraHelper(new THREE.PerspectiveCamera())
   private _selectionHelper!: THREE.BoxHelper
   private _lightHelpers: THREE.PointLightHelper[] = []
 
@@ -98,7 +99,6 @@ export default class SceneManager {
       // ControlsManager.instance.disableControls()
       this._buildScene()
       this._startEntities()
-
     } catch (error) {
       console.error("Error whilst setting up play scene")
     }
@@ -142,8 +142,12 @@ export default class SceneManager {
       this._selectionHelper.setFromObject(object)
       if (object.type === "Mesh") {
         this._selectionHelper.visible = true
+      } else if (object.type === "PerspectiveCamera") {
+        this._cameraHelper.visible = true
       }
+      return;
     }
+    this._cameraHelper.visible = false
   }
 
   getSelectedEntity(): Engine.EntityID | undefined {
@@ -171,8 +175,13 @@ export default class SceneManager {
           this._lightHelpers.push(pointLightHelper)
         }
       } else if (entityObject.type === "DirectionalLight") {
-        const light = entityObject as any;
+        const light = entityObject as any
         this._scene.add(light.target)
+      } else if (entityObject.type === "PerspectiveCamera") {
+        this._cameraHelper = new THREE.CameraHelper(entityObject as THREE.Camera)
+        this._cameraHelper.uuid = entityObject.uuid;
+        this._cameraHelper.visible = false
+        this._scene.add(this._cameraHelper)
       }
     }
     return entity
@@ -231,6 +240,7 @@ export default class SceneManager {
   private _hideHelpers() {
     this._axes.visible = false
     this._gridHelper.visible = false
+    this._cameraHelper.visible = false
 
     if (this._selectionHelper) {
       this._selectionHelper.visible = false

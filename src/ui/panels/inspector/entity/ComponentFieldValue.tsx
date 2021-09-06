@@ -43,7 +43,7 @@ const ComponentFieldValue = ({ field, updateField }: Props): React.ReactElement 
               z: field?.z ?? 0,
             })
           }
-          className="bg-gray-700 font-mono text-xs"
+          className="bg-gray-700 font-mono text-xs w-min"
         />
       </pre>
       <pre className="text-xs p-0 m-0">
