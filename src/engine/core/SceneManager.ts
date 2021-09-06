@@ -48,6 +48,7 @@ export default class SceneManager {
   }
 
   setScenePayload(payload: Engine.ScenePayload) {
+    console.log('setting scene payload')
     let shouldRecompileMaterials = true
     // TODO: Optimize this so materials aren't over-compiled
     this._scenePayload = payload

@@ -5,12 +5,11 @@ import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
 
-const useEditor = (rootHook?: boolean) => {
+const useEditor = () => {
   const { scripts } = useScripts()
   const { sceneConfig, selectEntity } = useScene()
   const { renderElement } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
-  
 
   const scenePayload: Engine.ScenePayload = useMemo(
     () => ({ sceneConfig, scripts }),
@@ -27,11 +26,6 @@ const useEditor = (rootHook?: boolean) => {
     init()
   }, [renderElement])
 
-  useEffect(() => {
-    if (rootHook) {
-      context.updateScenePayload(scenePayload)
-    }
-  }, [scenePayload])
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) {
@@ -42,6 +36,7 @@ const useEditor = (rootHook?: boolean) => {
       context.runEditMode()
       return
     }
+    context.updateScenePayload(scenePayload)
     context.runPlayMode()
     setIsRunning(true)
   }
