@@ -102,7 +102,6 @@ export default class CameraManager {
 
   update(scene: THREE.Scene) {
     this.renderer.render(scene, this.camera)
-    // this.renderer.shadowMap.render([], SceneManager.instance.getScene(), this.camera)
     const deltaTime = this.clock.getDelta()
     const elapsedTime = this.clock.getElapsedTime()
     SceneManager.instance.updateScene(deltaTime, elapsedTime)

@@ -113,8 +113,9 @@ export default class Entity {
     if (!this.light) {
       this.light = createLight(lightProps)
     }
-
-    this.light.castShadow = true
+    if (this.light.shadow) {
+      this.light.castShadow = true
+    }
     
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any

@@ -1,17 +1,16 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import context from "../../engine/core/EngineContext"
 import SceneManager from "../../engine/core/SceneManager"
-import { generateNewMaterial } from "../../utils/script.utils"
 import useScene from "../scene/useScene"
 import useScripts from "../scripts/useScripts"
 import { EditorContext } from "./EditorContext"
 
-const useEditor = () => {
+const useEditor = (rootHook?: boolean) => {
   const { scripts } = useScripts()
   const { sceneConfig, selectEntity } = useScene()
   const { renderElement } = useContext(EditorContext)
   const [isRunning, setIsRunning] = useState(context.isPlaying())
-
+  
 
   const scenePayload: Engine.ScenePayload = useMemo(
     () => ({ sceneConfig, scripts }),
@@ -29,7 +28,9 @@ const useEditor = () => {
   }, [renderElement])
 
   useEffect(() => {
-    context.updateScenePayload(scenePayload)
+    if (rootHook) {
+      context.updateScenePayload(scenePayload)
+    }
   }, [scenePayload])
 
   const toggleRun = () => {
@@ -57,11 +58,18 @@ const useEditor = () => {
     selectEntity(context.getSelectedEntity() ?? "")
   }
 
+  const saveScene = () => {
+    localStorage.setItem("scenePayload", JSON.stringify(scenePayload))
+  }
+
+  
+
   return {
     renderElement,
     isRunning,
     toggleRun,
     handleClickScene,
+    saveScene,
   }
 }
 
