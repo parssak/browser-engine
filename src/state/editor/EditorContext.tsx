@@ -20,7 +20,6 @@ export const EditorProvider = ({
   const renderElement = useRef<HTMLDivElement>(null)
   
   const localScenePayload: Engine.ScenePayload | null = useMemo(() => {
-    console.debug("Checking for saves... ")
     const fromLocalStorage = localStorage.getItem("scenePayload")
     if (!fromLocalStorage) return null
     return JSON.parse(fromLocalStorage)

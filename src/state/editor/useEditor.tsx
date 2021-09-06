@@ -15,13 +15,11 @@ const useEditor = (rootHook?: boolean) => {
   useEffect(() => {
     if (!localScenePayload || !rootHook) return
 
-    console.debug("Loading localScenePayload")
     const scriptsPayload = Object.fromEntries(
       localScenePayload.scripts.map((s) => [s.id, s])
     )
     _setScripts(scriptsPayload)
 
-    console.debug("entities", localScenePayload.sceneConfig.entities)
     _setEntities(localScenePayload.sceneConfig.entities)
 
     const materialsPayload = Object.fromEntries(
@@ -31,7 +29,7 @@ const useEditor = (rootHook?: boolean) => {
 
     _setCameraProps(localScenePayload.sceneConfig.camera)
 
-    context.updateScenePayload(localScenePayload)
+    context.updateScenePayload(localScenePayload, true)
   }, [_setCameraProps, _setEntities, _setMaterials, _setScripts, localScenePayload, rootHook])
 
 

@@ -27,10 +27,9 @@ class EngineContext {
   }
 
   init(renderElement: HTMLElement, payload?: Engine.ScenePayload) {
-    console.debug('Called initialize')
     if (this.isInitialized) return
     this._renderElement = renderElement
-    if (payload) this.updateScenePayload(payload)
+    if (payload) this.updateScenePayload(payload, true)
     this.runEditMode()
     this.isInitialized = true
   }
@@ -48,8 +47,8 @@ class EngineContext {
     this.cameraManager.setup(this._renderElement, this.sceneManager.getScene())
   }
 
-  updateScenePayload(payload: Engine.ScenePayload) {
-    this.sceneManager.setScenePayload(payload)
+  updateScenePayload(payload: Engine.ScenePayload, forInitialization = false) {
+    this.sceneManager.setScenePayload(payload, forInitialization)
   }
 
   updateSpecificEntity(entityID: Engine.EntityID, entityProps: Engine.EntityProps) {

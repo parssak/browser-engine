@@ -10,6 +10,7 @@ export default class SceneManager {
   private _scene!: THREE.Scene
   private _entities: Entity[] = []
   private _scenePayload: Engine.ScenePayload | undefined
+  private _scenePayloadInitialized = false;
 
   // Selection
   private _selectedEntityID: Engine.EntityID | undefined
@@ -47,10 +48,13 @@ export default class SceneManager {
     return this._scene
   }
 
-  setScenePayload(payload: Engine.ScenePayload) {
-    console.log('setting scene payload')
+  setScenePayload(payload: Engine.ScenePayload, forInit?: boolean) {
+    if (forInit && this._scenePayloadInitialized) return
     this._scenePayload = payload
     this._compileMaterials()
+    if (forInit) {
+      this._scenePayloadInitialized = true
+    }
   }
 
   getSelectedEntityPayload(): Engine.EntityProps | undefined {
