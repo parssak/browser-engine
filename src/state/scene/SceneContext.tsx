@@ -61,6 +61,9 @@ export const SceneProvider = ({
       id: uuidv4(),
       name: "Ambient Light",
       type: "light",
+      visible: true,
+      castShadows: false,
+      receiveShadows: false,
       children: [],
       components: {
         Transform: {
@@ -79,6 +82,9 @@ export const SceneProvider = ({
       id: uuidv4(),
       name: "Directional Light",
       type: "light",
+      visible: true,
+      castShadows: true,
+      receiveShadows: true,
       children: [],
       components: {
         Transform: {
@@ -93,11 +99,14 @@ export const SceneProvider = ({
         intensity: 0.1,
       },
     },
-    
+
     {
       id: uuidv4(),
       name: "Plane",
       type: "basic",
+      visible: true,
+      castShadows: true,
+      receiveShadows: true,
       material: "phong",
       geometry: "plane",
       children: [],
@@ -117,10 +126,6 @@ export const SceneProvider = ({
   const [materials, setMaterials] = useState<Record<string, Engine.MaterialProps>>(
     {} as Record<string, Engine.MaterialProps>
   )
-
-  // lights
-  // const [lights, setLights] = useState<Engine.LightProps[]>([]);
-  // const [selectedLightID, setSelectedLightID] = useState<Engine.LightID | null>(null)
 
   const sceneConfig: Engine.SceneConfig = useMemo(
     () => ({

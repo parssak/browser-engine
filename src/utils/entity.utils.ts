@@ -4,18 +4,21 @@ export const generateNewEntity = (): Engine.EntityProps => {
   return {
     id,
     name: "New Entity",
-    geometry: 'box',
-    material: 'phong',
     type: "basic",
+    visible: true,
+    castShadows: false,
+    receiveShadows: false,
+    geometry: "box",
+    material: "phong",
     children: [],
     components: {
       Transform: {
         position: { x: 0, y: 0.5, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
-      }
+      },
     },
-  };
+  }
 }
 
 export const generateNewLight = (): Engine.EntityProps => {
@@ -24,11 +27,9 @@ export const generateNewLight = (): Engine.EntityProps => {
     id,
     name: "New Light",
     type: "light",
-    lightProps: {
-      intensity: 0.7,
-      type: "point",
-      color: "rgb(255,255,0)",
-    },
+    visible: true,
+    castShadows: false,
+    receiveShadows: false,
     children: [],
     components: {
       Transform: {
@@ -36,6 +37,11 @@ export const generateNewLight = (): Engine.EntityProps => {
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 0.5, y: 0.5, z: 0.5 },
       },
+    },
+    lightProps: {
+      intensity: 0.7,
+      type: "point",
+      color: "rgb(255,255,0)",
     },
   }
 }

@@ -141,6 +141,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
         />
       </h1>
+      
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (

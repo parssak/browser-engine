@@ -63,9 +63,13 @@ declare namespace Engine {
     children: EntityID[]
     components: Record<ComponentType, ComponentProps>
     type: EntityType
+    visible: boolean;
+    castShadows: boolean;
+    receiveShadows: boolean;
     geometry?: GeometryType
     material?: MaterialType
     lightProps?: LightProps
+
   }
   // #endregion
 
