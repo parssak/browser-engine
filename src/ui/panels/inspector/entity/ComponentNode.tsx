@@ -1,4 +1,3 @@
-import useScripts from "../../../../state/scripts/useScripts"
 import { Leva, useControls, folder } from "leva"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect } from "react"
@@ -27,7 +26,6 @@ const ComponentNode = ({
   }, [])
 
   useControls(() => {
-    console.log('rebuilding', componentProps)
     const asEntries = Object.entries(componentProps).map(([fieldName, fieldValue]) => {
       const key = uuidv4()
       return [
@@ -53,11 +51,9 @@ const ComponentNode = ({
     return { [componentType]: folder(actualControls) }
   }, [componentProps])
 
-  const { loadScript } = useScripts()
-
   return (
     <div className="bg-gray-800 text-white pb-4">
-      <div className="flex w-full justify-between items-center mb-2">
+      {/* <div className="flex w-full justify-between items-center mb-2">
         <h3>{componentType}</h3>
         {componentType !== "Transform" && (
           <small
@@ -69,7 +65,7 @@ const ComponentNode = ({
             Open in editor
           </small>
         )}
-      </div>
+      </div> */}
       <Leva fill flat titleBar={false} />
       <div className="space-y-2">
         {/* {Object.entries(componentProps).map(([fieldName, fieldValue]) => (

@@ -1,3 +1,4 @@
+import { Leva } from "leva"
 import { ReactElement, useEffect, useState } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
 import GeometryManager from "../../../engine/core/GeometryManager"
@@ -210,6 +211,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
             updateComponent={updateComponent}
           />
         ))}
+        <Leva fill flat titleBar={false} />
       </section>
 
       {/* Add components */}

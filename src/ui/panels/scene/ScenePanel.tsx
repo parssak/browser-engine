@@ -11,7 +11,7 @@ export default function ScenePanel(): ReactElement {
           id="scene"
           ref={renderElement}
           tabIndex={-1}
-          onClick={(e) => handleClickScene(e)}
+          onMouseDown={(e) => handleClickScene(e)}
         />
       )}
     </>

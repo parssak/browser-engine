@@ -26,11 +26,11 @@ export default function LightNode({ lightProps, updateLightProps }: Props): Reac
       <div className="space-y-2 pt-2">
         <section className="flex space-x-2">
           <p className="inspector-field-label">Intensity</p>
-          <ComponentFieldValue
+          {/* <ComponentFieldValue
             field={lightProps.intensity}
             fieldName={'intensity'}
             updateField={(e) => setLightProps(e, "intensity")}
-          />
+          /> */}
         </section>
         <section className="flex space-x-2">
           <p className="inspector-field-label">Color</p>

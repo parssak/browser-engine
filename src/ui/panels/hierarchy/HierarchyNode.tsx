@@ -35,7 +35,7 @@ function HierarchyNode({ entity }: Props): ReactElement {
           ${isHidden && "opacity-50"}
 
     `}
-      onClick={handleClick}
+      onMouseDown={handleClick}
     >
       {entity?.name ?? "__ENTITY__"}
     </div>
