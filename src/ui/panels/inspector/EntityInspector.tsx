@@ -205,7 +205,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           <ComponentNode
             componentType={type}
             componentProps={props}
-            key={type}
+            key={`${type}--${selectedEntity.id}`}
             componentScriptID={""}
             updateComponent={updateComponent}
           />

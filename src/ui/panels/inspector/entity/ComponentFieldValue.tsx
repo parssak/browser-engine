@@ -1,9 +1,28 @@
+import { useControls } from "leva"
+import { useEffect, useMemo } from "react"
+import { v4 as uuidv4 } from "uuid"
 interface Props {
   field: Engine.ComponentPropType
+  fieldName: string
   updateField: (field: Engine.ComponentPropType) => void
 }
 
-const ComponentFieldValue = ({ field, updateField }: Props): React.ReactElement => {
+const ComponentFieldValue = ({
+  field,
+  fieldName,
+  updateField,
+}: Props): React.ReactElement => {
+  const suffixID = useMemo(() => uuidv4(), [])
+  // @ts-ignore
+  const [value] = useControls(() => ({ [suffixID]: { value: field, label: fieldName } }), [field])
+
+  useEffect(() => {
+    const changedValue = Object.values(value)[0]
+    if (changedValue !== field) {
+      console.log("changed to", changedValue)
+      updateField(changedValue as any);
+    }
+  }, [value])
   const handleUpdateField = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (typeof field === "number") {
       updateField(Number(e.target.value))
@@ -30,53 +49,55 @@ const ComponentFieldValue = ({ field, updateField }: Props): React.ReactElement 
   if (Array.isArray(field)) return <div>array field</div>
 
   return (
-    <div className="bg-gray-700 text-white px-2 grid grid-cols-3 gap-1">
-      <pre className="text-xs p-0 m-0">
-        <span className="pr-0.5 text-xs text-gray-400">x:</span>
-        <input
-          type={typeof field === "string" ? "string" : "number"}
-          value={field.x}
-          onChange={(e) =>
-            updateField({
-              x: Number(e.target.value),
-              y: field?.y ?? 0,
-              z: field?.z ?? 0,
-            })
-          }
-          className="bg-gray-700 font-mono text-xs w-min"
-        />
-      </pre>
-      <pre className="text-xs p-0 m-0">
-        <span className="pr-2 text-xs text-gray-400">y:</span>
-        <input
-          type={typeof field === "string" ? "string" : "number"}
-          value={field.y}
-          onChange={(e) =>
-            updateField({
-              x: field?.x ?? 0,
-              y: Number(e.target.value),
-              z: field?.z ?? 0,
-            })
-          }
-          className="bg-gray-700 w-12 font-mono text-xs"
-        />
-      </pre>
-      <pre className="text-xs p-0 m-0">
-        <span className="pr-2 text-xs text-gray-400">z:</span>
-        <input
-          type={typeof field === "string" ? "string" : "number"}
-          value={field.z}
-          onChange={(e) =>
-            updateField({
-              x: field?.x ?? 0,
-              y: field?.y ?? 0,
-              z: Number(e.target.value),
-            })
-          }
-          className="bg-gray-700 w-12 font-mono text-xs"
-        />
-      </pre>
-    </div>
+    <>
+      </>
+    // <div className="bg-gray-700 text-white px-2 grid grid-cols-3 gap-1">
+    //   <pre className="text-xs p-0 m-0">
+    //     <span className="pr-0.5 text-xs text-gray-400">x:</span>
+    //     <input
+    //       type={typeof field === "string" ? "string" : "number"}
+    //       value={field.x}
+    //       onChange={(e) =>
+    //         updateField({
+    //           x: Number(e.target.value),
+    //           y: field?.y ?? 0,
+    //           z: field?.z ?? 0,
+    //         })
+    //       }
+    //       className="bg-gray-700 font-mono text-xs w-min"
+    //     />
+    //   </pre>
+    //   <pre className="text-xs p-0 m-0">
+    //     <span className="pr-2 text-xs text-gray-400">y:</span>
+    //     <input
+    //       type={typeof field === "string" ? "string" : "number"}
+    //       value={field.y}
+    //       onChange={(e) =>
+    //         updateField({
+    //           x: field?.x ?? 0,
+    //           y: Number(e.target.value),
+    //           z: field?.z ?? 0,
+    //         })
+    //       }
+    //       className="bg-gray-700 w-12 font-mono text-xs"
+    //     />
+    //   </pre>
+    //   <pre className="text-xs p-0 m-0">
+    //     <span className="pr-2 text-xs text-gray-400">z:</span>
+    //     <input
+    //       type={typeof field === "string" ? "string" : "number"}
+    //       value={field.z}
+    //       onChange={(e) =>
+    //         updateField({
+    //           x: field?.x ?? 0,
+    //           y: field?.y ?? 0,
+    //           z: Number(e.target.value),
+    //         })
+    //       }
+    //       className="bg-gray-700 w-12 font-mono text-xs"
+    //     />
+    //   </pre>
+    // </div>
   )
 }
 

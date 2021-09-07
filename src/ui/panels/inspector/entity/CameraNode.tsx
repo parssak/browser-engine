@@ -22,6 +22,7 @@ export default function CameraNode({ cameraProps, updateCameraProps }: Props): R
         <section className="flex space-x-2">
           <p className="inspector-field-label">Far</p>
           <ComponentFieldValue
+            fieldName={"far"}
             field={cameraProps.far}
             updateField={(e) => setCameraProps(e, "far")}
           />
@@ -29,6 +30,7 @@ export default function CameraNode({ cameraProps, updateCameraProps }: Props): R
         <section className="flex space-x-2">
           <p className="inspector-field-label">Near</p>
           <ComponentFieldValue
+            fieldName={"near"}
             field={cameraProps.near}
             updateField={(e) => setCameraProps(e, "near")}
           />
@@ -36,11 +38,11 @@ export default function CameraNode({ cameraProps, updateCameraProps }: Props): R
         <section className="flex space-x-2">
           <p className="inspector-field-label">Fov</p>
           <ComponentFieldValue
+            fieldName={"fov"}
             field={cameraProps.fov}
             updateField={(e) => setCameraProps(e, "fov")}
           />
         </section>
-        
       </div>
     </>
   )

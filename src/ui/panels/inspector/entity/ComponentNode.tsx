@@ -39,6 +39,7 @@ const ComponentNode = ({
             <p className="inspector-field-label">{fieldName}</p>
             <ComponentFieldValue
               field={fieldValue}
+              fieldName={fieldName}
               updateField={(e) => updateComponent(componentType, fieldName, e)}
             />
           </div>
