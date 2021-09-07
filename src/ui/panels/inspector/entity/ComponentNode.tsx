@@ -1,6 +1,7 @@
 import useScripts from "../../../../state/scripts/useScripts"
 import { Leva, useControls, folder } from "leva"
 import { v4 as uuidv4 } from "uuid"
+import { useEffect } from "react"
 
 interface Props {
   componentType: Engine.ComponentType
@@ -13,42 +14,45 @@ interface Props {
   ) => void
 }
 
-
-let changingField = "";
+let changingField = ""
 
 const ComponentNode = ({
   componentType,
   componentProps,
   updateComponent,
 }: Props): React.ReactElement => {
-    
+  useEffect(() => {
+    changingField = ""
+    console.log("mounted")
+  }, [])
+
   useControls(() => {
-    console.log('setting controls>>')
+    console.log('rebuilding', componentProps)
     const asEntries = Object.entries(componentProps).map(([fieldName, fieldValue]) => {
-      const key = uuidv4();
+      const key = uuidv4()
       return [
         key,
         {
           value: fieldValue,
           label: fieldName,
           onEditStart: () => {
-            changingField = key;
+            changingField = key
           },
           onChange: (value: any) => {
             if (changingField === key) {
-              updateComponent(componentType, fieldName, value);
+              updateComponent(componentType, fieldName, value)
             }
           },
           onEditEnd: () => {
-            changingField = "";
+            changingField = ""
           },
         },
       ]
     })
-    const actualControls = Object.fromEntries(asEntries);
-    return {[componentType]: folder(actualControls)}
-  })
-  
+    const actualControls = Object.fromEntries(asEntries)
+    return { [componentType]: folder(actualControls) }
+  }, [componentProps])
+
   const { loadScript } = useScripts()
 
   return (
