@@ -16,7 +16,7 @@ const ComponentNode = ({
   componentProps,
   updateComponent,
 }: Props): React.ReactElement => {
-  
+
   const setComponentProps = (value: any, fieldName: string) => {
     updateComponent(componentType, fieldName, value)
   }
