@@ -1,6 +1,4 @@
-import { useControls, folder } from "leva"
-import { v4 as uuidv4 } from "uuid"
-import { useEffect } from "react"
+import useControlPanel from "./useControlPanel"
 
 interface Props {
   componentType: Engine.ComponentType
@@ -13,44 +11,18 @@ interface Props {
   ) => void
 }
 
-let changingField = ""
-
 const ComponentNode = ({
   componentType,
   componentProps,
   updateComponent,
 }: Props): React.ReactElement => {
   
-  useEffect(() => {
-    changingField = ""
-  }, [])
+  const setComponentProps = (value: any, fieldName: string) => {
+    updateComponent(componentType, fieldName, value)
+  }
 
-  useControls(() => {
-    const asEntries = Object.entries(componentProps).map(([fieldName, fieldValue]) => {
-      const key = uuidv4()
-      return [
-        key,
-        {
-          value: fieldValue,
-          label: fieldName,
-          onEditStart: () => {
-            changingField = key
-          },
-          onChange: (value: any) => {
-            if (changingField === key) {
-              updateComponent(componentType, fieldName, value)
-            }
-          },
-          onEditEnd: () => {
-            changingField = ""
-          },
-        },
-      ]
-    })
-    const actualControls = Object.fromEntries(asEntries)
-    return { [componentType]: folder(actualControls) }
-  }, [componentProps])
-
+  useControlPanel(componentType, componentProps as any, setComponentProps)
+  
   return <></>
 }
 

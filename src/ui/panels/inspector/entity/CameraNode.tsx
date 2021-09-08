@@ -1,6 +1,4 @@
 import { ReactElement } from "react"
-import { useControls, folder } from "leva"
-import { v4 as uuidv4 } from "uuid"
 import useControlPanel from "./useControlPanel"
 interface Props {
   cameraProps: Engine.CameraProps
