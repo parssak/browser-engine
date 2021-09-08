@@ -102,7 +102,7 @@ export default class ControlsManager {
           tControls.setMode("scale")
           break
         case "shift":
-          tControls.setTranslationSnap(100)
+          tControls.setTranslationSnap(2)
           tControls.setRotationSnap(THREE.MathUtils.degToRad(15))
           tControls.setScaleSnap(0.25)
           break

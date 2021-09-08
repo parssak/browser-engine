@@ -156,10 +156,7 @@ class OrbitControls extends EventDispatcher {
       const offset = new Vector3()
 
       // so camera.up is the orbit axis
-      const quat = new Quaternion().setFromUnitVectors(
-        object.up,
-        new Vector3(0, 1, 0)
-      )
+      const quat = new Quaternion().setFromUnitVectors(object.up, new Vector3(0, 1, 0))
       const quatInverse = quat.clone().invert()
 
       const lastPosition = new Vector3()
@@ -406,10 +403,7 @@ class OrbitControls extends EventDispatcher {
             (2 * deltaX * targetDistance) / element.clientHeight,
             scope.object.matrix
           )
-          panUp(
-            (2 * deltaY * targetDistance) / element.clientHeight,
-            scope.object.matrix
-          )
+          panUp((2 * deltaY * targetDistance) / element.clientHeight, scope.object.matrix)
         } else if (scope.object.isOrthographicCamera) {
           // orthographic
           panLeft(
@@ -489,9 +483,7 @@ class OrbitControls extends EventDispatcher {
     function handleMouseMoveRotate(event) {
       rotateEnd.set(event.clientX, event.clientY)
 
-      rotateDelta
-        .subVectors(rotateEnd, rotateStart)
-        .multiplyScalar(scope.rotateSpeed)
+      rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed)
 
       const element = scope.domElement
 
@@ -549,39 +541,39 @@ class OrbitControls extends EventDispatcher {
     function handleKeyDown(event) {
       let needsUpdate = false
       if (document.activeElement.id !== "scene") return
-        switch (event.code) {
-          case "KeyW":
-            dollyIn(0.3)
-            needsUpdate = true
-            break
-            case "KeyS":
-            dollyOut(0.3)
-            needsUpdate = true
-            break
-          case scope.keys.UP:
-          case "Space":
-            pan(0, scope.keyPanSpeed)
-            needsUpdate = true
-            break
-          case scope.keys.BOTTOM:
-            pan(0, -scope.keyPanSpeed)
-            needsUpdate = true
-            break
+      switch (event.code) {
+        // case "KeyW":
+        //   dollyIn(0.3)
+        //   needsUpdate = true
+        //   break
+        case "KeyS":
+          dollyOut(0.3)
+          needsUpdate = true
+          break
+        case scope.keys.UP:
+        case "Space":
+          pan(0, scope.keyPanSpeed)
+          needsUpdate = true
+          break
+        case scope.keys.BOTTOM:
+          pan(0, -scope.keyPanSpeed)
+          needsUpdate = true
+          break
 
-          case scope.keys.LEFT:
-          case "KeyA":
-            pan(scope.keyPanSpeed, 0)
-            needsUpdate = true
-            break
+        case scope.keys.LEFT:
+        case "KeyA":
+          pan(scope.keyPanSpeed, 0)
+          needsUpdate = true
+          break
 
-          case scope.keys.RIGHT || "d":
-          case "KeyD":
-            pan(-scope.keyPanSpeed, 0)
-            needsUpdate = true
-            break
-          default:
-            break
-        }
+        case scope.keys.RIGHT || "d":
+        case "KeyD":
+          pan(-scope.keyPanSpeed, 0)
+          needsUpdate = true
+          break
+        default:
+          break
+      }
 
       if (needsUpdate) {
         // prevent the browser from scrolling on cursor keys
@@ -646,9 +638,7 @@ class OrbitControls extends EventDispatcher {
         rotateEnd.set(x, y)
       }
 
-      rotateDelta
-        .subVectors(rotateEnd, rotateStart)
-        .multiplyScalar(scope.rotateSpeed)
+      rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed)
 
       const element = scope.domElement
 

@@ -29,13 +29,13 @@ export default class SceneManager {
     }
     SceneManager.instance = this
     this._scene = new THREE.Scene()
-    
+
     recursiveSetHelper(this._axes)
     this._scene.add(this._axes)
 
     recursiveSetHelper(this._gridHelper)
     this._scene.add(this._gridHelper)
-    
+
     recursiveSetHelper(this._selectionHelper)
     this._selectionHelper = new THREE.BoxHelper(this._gridHelper, 0xffff00)
     this._selectionHelper.visible = false
@@ -55,7 +55,7 @@ export default class SceneManager {
 
   // ! Only to be used for adding transform controls from ControlsManager
   addTransformControlsToScene(transformControls: any) {
-    this._scene.add(transformControls);
+    this._scene.add(transformControls)
   }
 
   getScene(): THREE.Scene {
@@ -73,7 +73,7 @@ export default class SceneManager {
 
   setSceneMaterials(payload: Engine.MaterialProps[]) {
     if (!this._scenePayload) return
-    this._scenePayload.sceneConfig.materials = payload;
+    this._scenePayload.sceneConfig.materials = payload
     this._compileMaterials()
   }
 
@@ -141,7 +141,7 @@ export default class SceneManager {
     if (object) {
       ControlsManager.instance.lookAt(object.position)
       this.select(object)
-    } 
+    }
   }
 
   /** Sets Entity with corresponding object as selected
@@ -149,9 +149,9 @@ export default class SceneManager {
    */
   select(object: THREE.Object3D) {
     if (this.isPlaying) return
-    
+
     if (object) {
-      ControlsManager.instance.addObjectControls(object);
+      ControlsManager.instance.addObjectControls(object)
       this._selectedEntityID = object.uuid
       this._selectionHelper.setFromObject(object)
       if (object.type === "Mesh") {
@@ -165,9 +165,10 @@ export default class SceneManager {
   }
 
   deselect() {
-     this._selectionHelper.visible = false
-     this._selectedEntityID = undefined
-     ControlsManager.instance.removeObjectControls()
+    this._selectionHelper.visible = false
+    this._selectedEntityID = undefined
+    this._cameraHelper.visible = false
+    ControlsManager.instance.removeObjectControls()
   }
 
   getSelectedEntity(): Engine.EntityID | undefined {
@@ -249,7 +250,7 @@ export default class SceneManager {
       const associatedFragmentShader = this._scenePayload?.scripts.find(
         (script) => script.id === material.fragmentShaderID
       )
-      
+
       if (!associatedVertexShader || !associatedFragmentShader) return
       const materialPayload: Engine.Material = {
         material,
@@ -264,7 +265,7 @@ export default class SceneManager {
     this._axes.visible = false
     this._gridHelper.visible = false
     this._cameraHelper.visible = false
-    ControlsManager.instance.removeObjectControls();
+    ControlsManager.instance.removeObjectControls()
 
     if (this._selectionHelper) {
       this._selectionHelper.visible = false
