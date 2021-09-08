@@ -45,6 +45,11 @@ export default class SceneManager {
     return SceneManager.instance.isPlaying
   }
 
+  // ! Only to be used for adding transform controls from ControlsManager
+  addTransformControlsToScene(transformControls: any) {
+    this._scene.add(transformControls);
+  }
+
   getScene(): THREE.Scene {
     return this._scene
   }
@@ -143,7 +148,9 @@ export default class SceneManager {
       return
     }
 
+    
     if (object) {
+      ControlsManager.instance.addObjectControls(object);
       this._selectedEntityID = object.uuid
       this._selectionHelper.setFromObject(object)
       if (object.type === "Mesh") {
