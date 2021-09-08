@@ -563,7 +563,6 @@ class OrbitControls extends EventDispatcher {
             pan(0, scope.keyPanSpeed)
             needsUpdate = true
             break
-
           case scope.keys.BOTTOM:
             pan(0, -scope.keyPanSpeed)
             needsUpdate = true

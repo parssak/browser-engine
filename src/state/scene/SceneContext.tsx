@@ -146,10 +146,20 @@ export const SceneProvider = ({
     [entities, materials]
   )
 
-  // useEffect(() => {
-  //   context.updateSceneMaterials(Object.values(materials))
-  // }, [materials])
-    
+  // use effect on mount that listens for escape key press
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedEntityID(null)
+        setSelectedMaterialID(null)
+        context.deselectEntity();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown)
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
 
   useEffect(() => {
     if (selectedEntityID) {

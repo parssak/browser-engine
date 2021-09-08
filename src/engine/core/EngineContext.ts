@@ -78,6 +78,10 @@ class EngineContext {
     this.sceneManager.selectByID(entityID)
   }
 
+  deselectEntity() {
+    this.sceneManager.deselect()
+  }
+
   getSelectedEntity(): Engine.EntityID | undefined {
     return this.sceneManager.getSelectedEntity()
   }

@@ -1,4 +1,4 @@
-import { Object3D } from "three"
+import * as THREE from "three"
 import { FlyControls } from "../controls/FlyControls"
 import { OrbitControls } from "../controls/OrbitControls"
 import { TransformControls } from "../controls/TransformControls"
@@ -91,7 +91,7 @@ export default class ControlsManager {
     // Key controls
     window.addEventListener("keydown", (event) => {
       const tControls = this.transformControls as any
-      switch (event.key) {
+      switch (event.key.toLowerCase()) {
         case "w":
           tControls.setMode("translate")
           break
@@ -101,7 +101,24 @@ export default class ControlsManager {
         case "r":
           tControls.setMode("scale")
           break
+        case "shift":
+          tControls.setTranslationSnap(100)
+          tControls.setRotationSnap(THREE.MathUtils.degToRad(15))
+          tControls.setScaleSnap(0.25)
+          break
+        default:
+          break
+      }
+    })
 
+    window.addEventListener("keyup", (event) => {
+      const tControls = this.transformControls as any
+      switch (event.key.toLowerCase()) {
+        case "shift":
+          tControls.setTranslationSnap(null)
+          tControls.setRotationSnap(null)
+          tControls.setScaleSnap(null)
+          break
         default:
           break
       }
