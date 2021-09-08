@@ -149,13 +149,6 @@ export default class SceneManager {
    */
   select(object: THREE.Object3D) {
     if (this.isPlaying) return
-    // if (!object && this._selectionHelper?.visible && this._selectedEntityID) {
-    //   this._selectionHelper.visible = false
-    //   this._selectedEntityID = undefined
-    //   ControlsManager.instance.removeObjectControls();
-    //   return
-    // }
-
     
     if (object) {
       ControlsManager.instance.addObjectControls(object);
@@ -271,6 +264,7 @@ export default class SceneManager {
     this._axes.visible = false
     this._gridHelper.visible = false
     this._cameraHelper.visible = false
+    ControlsManager.instance.removeObjectControls();
 
     if (this._selectionHelper) {
       this._selectionHelper.visible = false
@@ -286,9 +280,17 @@ export default class SceneManager {
   private _showHelpers() {
     this._axes.visible = true
     this._gridHelper.visible = true
-
     if (this._selectionHelper) {
       this._selectionHelper.visible = true
+      if (this._selectedEntityID) {
+        const object =
+          this._entities.find((e) => e.id === this._selectedEntityID)?.getObject() ??
+          undefined
+        console.log("adding", object)
+        if (object) {
+          ControlsManager.instance.addObjectControls(object)
+        }
+      }
     }
   }
 }

@@ -43,13 +43,13 @@ export default class ControlsManager {
     if (this.controls) this.controls.enabled = false
   }
 
-  _setFlyControls(camera: THREE.Camera, domElement: HTMLElement) {
+  private _setFlyControls(camera: THREE.Camera, domElement: HTMLElement) {
     if (this.controls) this.controls.enabled = false
     this.controls = new FlyControls(camera, domElement)
     this.controls.movementSpeed = 33
   }
 
-  _setOrbitControls(camera: THREE.Camera, domElement: HTMLElement) {
+  private _setOrbitControls(camera: THREE.Camera, domElement: HTMLElement) {
     if (this.controls) {
       // this.controls.enabled = false;
       return
@@ -58,7 +58,7 @@ export default class ControlsManager {
     this.controls.listenToKeyEvents(window)
   }
 
-  _initTransformControls(camera: THREE.Camera, domElement: HTMLElement) {
+  private _initTransformControls(camera: THREE.Camera, domElement: HTMLElement) {
     this.transformControls = new TransformControls(camera, domElement) as THREE.Object3D
     recursiveSetHelper(this.transformControls, "helper-block")
 

@@ -84,9 +84,9 @@ export default function Nav(): ReactElement {
           <button onClick={handleSaveScene} className="secondary">
             Save Scene
           </button>
-          <button onClick={handleExportScene} className="secondary">
+          {/* <button onClick={handleExportScene} className="secondary">
             Export Scene
-          </button>
+          </button> */}
         </div>
         {selectedScript && (
           <div className="space-x-2 ml-auto">
