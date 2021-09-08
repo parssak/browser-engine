@@ -1,3 +1,4 @@
+import { Object3D } from "three"
 import { FlyControls } from "../controls/FlyControls"
 import { OrbitControls } from "../controls/OrbitControls"
 import { TransformControls } from "../controls/TransformControls"
@@ -6,7 +7,7 @@ import SceneManager from "./SceneManager"
 export default class ControlsManager {
   public static instance: ControlsManager
   private controls: any
-  private transformControls: any
+  private transformControls!: THREE.Object3D
 
   constructor() {
     if (ControlsManager.instance) return
@@ -57,15 +58,20 @@ export default class ControlsManager {
   }
 
   _initTransformControls(camera: THREE.Camera, domElement: HTMLElement) {
-    this.transformControls = new TransformControls(camera, domElement)
-
+    this.transformControls = new TransformControls(camera, domElement) as THREE.Object3D
+    const recursiveSetHelper = (object: Object3D) =>  {
+      object.type = "helper"
+      object.children.forEach(recursiveSetHelper)
+    }
+    recursiveSetHelper(this.transformControls)
+  
 
     console.log("new transform controls", this.transformControls)
     SceneManager.instance.addTransformControlsToScene(this.transformControls)
-    
+
     //  - Event listeners -
 
-    // Updates position transform of object 
+    // Updates position transform of object
     this.transformControls.addEventListener("change", (e: any) => {
       const object = e.target.object
       const objectID = object.uuid
@@ -75,7 +81,7 @@ export default class ControlsManager {
         scale: { x: object.scale.x, y: object.scale.y, z: object.scale.z },
       }
       const entityProps = SceneManager.instance.getSelectedEntityPayload()
-      if (entityProps) {
+      if (entityProps && entityProps.id === object.uuid) {
         console.log("change", entityProps, updatedTransformComponent)
         entityProps.components.Transform = updatedTransformComponent
         SceneManager.instance.updateEntityPayload(objectID, entityProps)
