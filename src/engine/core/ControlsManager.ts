@@ -28,13 +28,10 @@ export default class ControlsManager {
         console.warn(`Control type: ${type} not found`)
         break
     }
+    this._initTransformControls(camera, domElement)
   }
 
-  lookAt(target: THREE.Vector3) {
-    if (this.controls) {
-      // this.controls.target.copy(target)
-    }
-  }
+  lookAt(target: THREE.Vector3) {}
 
   enableControls() {
     if (this.controls) this.controls.enabled = true
@@ -57,11 +54,35 @@ export default class ControlsManager {
     }
     this.controls = new OrbitControls(camera, domElement)
     this.controls.listenToKeyEvents(window)
+  }
+
+  _initTransformControls(camera: THREE.Camera, domElement: HTMLElement) {
     this.transformControls = new TransformControls(camera, domElement)
+
+
+    console.log("new transform controls", this.transformControls)
     SceneManager.instance.addTransformControlsToScene(this.transformControls)
-    this.transformControls.addEventListener("change", (e: any) =>
-      console.log("change", e.target.object.position)
-    )
+    
+    //  - Event listeners -
+
+    // Updates position transform of object 
+    this.transformControls.addEventListener("change", (e: any) => {
+      const object = e.target.object
+      const objectID = object.uuid
+      const updatedTransformComponent: Engine.ComponentProps = {
+        position: { x: object.position.x, y: object.position.y, z: object.position.z },
+        rotation: { x: object.rotation.x, y: object.rotation.y, z: object.rotation.z },
+        scale: { x: object.scale.x, y: object.scale.y, z: object.scale.z },
+      }
+      const entityProps = SceneManager.instance.getSelectedEntityPayload()
+      if (entityProps) {
+        console.log("change", entityProps, updatedTransformComponent)
+        entityProps.components.Transform = updatedTransformComponent
+        SceneManager.instance.updateEntityPayload(objectID, entityProps)
+      }
+    })
+
+    // Disabled external controls when using transform controls
     this.transformControls.addEventListener("dragging-changed", (e: any) => {
       console.log("dragging-changed", e.value)
       this.controls.enabled = !e.value
@@ -70,7 +91,7 @@ export default class ControlsManager {
 
   addObjectControls(object: THREE.Object3D) {
     if (this.transformControls) {
-      console.log("attaching transform controls to object")
+      console.log("attaching transform controls to object", object)
       this.transformControls.attach(object)
     }
   }
