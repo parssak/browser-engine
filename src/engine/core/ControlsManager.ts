@@ -60,7 +60,7 @@ export default class ControlsManager {
 
   _initTransformControls(camera: THREE.Camera, domElement: HTMLElement) {
     this.transformControls = new TransformControls(camera, domElement) as THREE.Object3D
-    recursiveSetHelper(this.transformControls)
+    recursiveSetHelper(this.transformControls, "helper-block")
 
     SceneManager.instance.addTransformControlsToScene(this.transformControls)
 

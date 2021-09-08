@@ -57,20 +57,31 @@ export default class CameraManager {
     )
 
     const withoutHelpers = intersects.filter((e) => e.object.type !== "helper")
-    console.log(withoutHelpers)
     if (withoutHelpers.length > 0) {
+      if (withoutHelpers[0].object.type === "helper-block") {
+        if (withoutHelpers.length === 1) {
+          SceneManager.instance.deselect()
+          return;
+        } else if (SceneManager.instance.getSelectedEntity()) {
+          return;
+        }
+      }
+
       const objectSelect = intersects.find(
         (e) => e.object.type === "Mesh" || e.object.type === "PointLightHelper"
       )
+
       if (!objectSelect) {
         return
       }
+
       if (objectSelect.object.type === "Mesh") {
         SceneManager.instance.select(objectSelect.object)
       } else if (objectSelect.object.type === "PointLightHelper") {
         SceneManager.instance.selectByID(objectSelect.object.uuid)
       }
     }
+
     if (intersects.length === 0) {
       SceneManager.instance.deselect()
     }

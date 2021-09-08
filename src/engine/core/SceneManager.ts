@@ -206,6 +206,7 @@ export default class SceneManager {
         this._scene.add(light.target)
       } else if (entityObject.type === "PerspectiveCamera") {
         this._cameraHelper = new THREE.CameraHelper(entityObject as THREE.Camera)
+        recursiveSetHelper(this._cameraHelper)
         this._cameraHelper.uuid = entityObject.uuid
         this._cameraHelper.visible = false
         this._scene.add(this._cameraHelper)
