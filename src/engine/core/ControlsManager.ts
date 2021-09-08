@@ -69,7 +69,7 @@ export default class ControlsManager {
     // Updates position transform of object
     this.transformControls.addEventListener("change", (e: any) => {
       const object = e.target.object
-      if (!object) return;
+      if (!object) return
       const objectID = object.uuid
       const updatedTransformComponent: Engine.ComponentProps = {
         position: { x: object.position.x, y: object.position.y, z: object.position.z },
@@ -86,6 +86,25 @@ export default class ControlsManager {
     // Disabled external controls when using transform controls
     this.transformControls.addEventListener("dragging-changed", (e: any) => {
       this.controls.enabled = !e.value
+    })
+
+    // Key controls
+    window.addEventListener("keydown", (event) => {
+      const tControls = this.transformControls as any
+      switch (event.key) {
+        case "w":
+          tControls.setMode("translate")
+          break
+        case "e":
+          tControls.setMode("rotate")
+          break
+        case "r":
+          tControls.setMode("scale")
+          break
+
+        default:
+          break
+      }
     })
   }
 
