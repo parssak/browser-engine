@@ -1,4 +1,4 @@
-import { Leva, useControls, folder } from "leva"
+import { useControls, folder } from "leva"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect } from "react"
 
@@ -51,35 +51,7 @@ const ComponentNode = ({
     return { [componentType]: folder(actualControls) }
   }, [componentProps])
 
-  return (
-    <div className="bg-gray-800 text-white pb-4">
-      {/* <div className="flex w-full justify-between items-center mb-2">
-        <h3>{componentType}</h3>
-        {componentType !== "Transform" && (
-          <small
-            className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
-            onClick={() => {
-              loadScript(componentType, "name")
-            }}
-          >
-            Open in editor
-          </small>
-        )}
-      </div> */}
-      <Leva fill flat titleBar={false} />
-      <div className="space-y-2">
-        {/* {Object.entries(componentProps).map(([fieldName, fieldValue]) => (
-          <div key={fieldName} className="flex space-x-2">
-            <ComponentFieldValue
-              field={fieldValue}
-              fieldName={fieldName}
-              updateField={(e) => updateComponent(componentType, fieldName, e)}
-            />
-          </div>
-        ))} */}
-      </div>
-    </div>
-  )
+  return <></>
 }
 
 export default ComponentNode
