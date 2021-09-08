@@ -205,6 +205,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
         <LightNode
           lightProps={selectedEntity.lightProps}
           updateLightProps={updateLightProps}
+          key={selectedEntity.id}
         />
       )}
 
