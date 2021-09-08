@@ -1,12 +1,43 @@
 import { ReactElement } from "react"
-import ComponentFieldValue from "./ComponentFieldValue"
-
+import { useControls, folder } from "leva"
+import { v4 as uuidv4 } from "uuid"
 interface Props {
   cameraProps: Engine.CameraProps
   updateCameraProps: (updated: Engine.CameraProps) => void
 }
 
-export default function CameraNode({ cameraProps, updateCameraProps }: Props): ReactElement {
+let changingField = ""
+
+export default function CameraNode({
+  cameraProps,
+  updateCameraProps,
+}: Props): ReactElement {
+  useControls(() => {
+    const asEntries = Object.entries(cameraProps).map(([fieldName, fieldValue]) => {
+      const key = uuidv4()
+      return [
+        key,
+        {
+          value: fieldValue,
+          label: fieldName,
+          onEditStart: () => {
+            changingField = key
+          },
+          onChange: (value: any) => {
+            if (changingField === key) {
+              setCameraProps(value, fieldName)
+            }
+          },
+          onEditEnd: () => {
+            changingField = ""
+          },
+        },
+      ]
+    })
+    const actualControls = Object.fromEntries(asEntries)
+    return { Camera: folder(actualControls) }
+  })
+
   const setCameraProps = (value: any, fieldName: string) => {
     const updatedCameraProps = {
       ...cameraProps,
@@ -15,35 +46,5 @@ export default function CameraNode({ cameraProps, updateCameraProps }: Props): R
     updateCameraProps(updatedCameraProps)
   }
 
-  return (
-    <>
-      <h3>Light</h3>
-      <div className="space-y-2 pt-2">
-        <section className="flex space-x-2">
-          <p className="inspector-field-label">Far</p>
-          <ComponentFieldValue
-            fieldName={"far"}
-            field={cameraProps.far}
-            updateField={(e) => setCameraProps(e, "far")}
-          />
-        </section>
-        <section className="flex space-x-2">
-          <p className="inspector-field-label">Near</p>
-          <ComponentFieldValue
-            fieldName={"near"}
-            field={cameraProps.near}
-            updateField={(e) => setCameraProps(e, "near")}
-          />
-        </section>
-        <section className="flex space-x-2">
-          <p className="inspector-field-label">Fov</p>
-          <ComponentFieldValue
-            fieldName={"fov"}
-            field={cameraProps.fov}
-            updateField={(e) => setCameraProps(e, "fov")}
-          />
-        </section>
-      </div>
-    </>
-  )
+  return <></>
 }

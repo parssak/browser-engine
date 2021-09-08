@@ -200,6 +200,22 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
         )}
       </section>
 
+      {/* Light */}
+      {selectedEntity.type === "light" && selectedEntity.lightProps && (
+        <LightNode
+          lightProps={selectedEntity.lightProps}
+          updateLightProps={updateLightProps}
+        />
+      )}
+
+      {/* Camera */}
+      {selectedEntity.type === "camera" && selectedEntity.cameraProps && (
+        <CameraNode
+          cameraProps={selectedEntity.cameraProps}
+          updateCameraProps={updateCameraProps}
+        />
+      )}
+
       {/* Components */}
       <section className="space-y-2">
         {Object.entries(controls).map(([type, props]) => (
@@ -267,22 +283,6 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
             </div>
           </div>
         </section>
-      )}
-
-      {/* Light */}
-      {selectedEntity.type === "light" && selectedEntity.lightProps && (
-        <LightNode
-          lightProps={selectedEntity.lightProps}
-          updateLightProps={updateLightProps}
-        />
-      )}
-
-      {/* Camera */}
-      {selectedEntity.type === "camera" && selectedEntity.cameraProps && (
-        <CameraNode
-          cameraProps={selectedEntity.cameraProps}
-          updateCameraProps={updateCameraProps}
-        />
       )}
     </Panel>
   )

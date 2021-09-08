@@ -20,9 +20,9 @@ const ComponentNode = ({
   componentProps,
   updateComponent,
 }: Props): React.ReactElement => {
+  
   useEffect(() => {
     changingField = ""
-    console.log("mounted")
   }, [])
 
   useControls(() => {
