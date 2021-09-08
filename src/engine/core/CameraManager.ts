@@ -40,7 +40,7 @@ export default class CameraManager {
   }
 
   useSceneCamera(sceneCamera: THREE.PerspectiveCamera) {
-    this.sceneCamera = sceneCamera;
+    this.sceneCamera = sceneCamera
     this._setCamera(this.sceneCamera)
   }
 
@@ -51,23 +51,33 @@ export default class CameraManager {
   handleClick(mouseX: number, mouseY: number) {
     const pointer = new THREE.Vector2(mouseX, mouseY)
     this.raycaster.setFromCamera(pointer, this.camera)
-    const intersects = this.raycaster
-      .intersectObjects(SceneManager.instance.getScene().children, true)
-      .filter((e) => e.object.type === "Mesh" || e.object.type === "PointLightHelper")
-    if (intersects.length > 0) {
-      const objectSelect = intersects[0].object
-      if (objectSelect.type === "Mesh") {
-        SceneManager.instance.select(objectSelect)
-      } else if (objectSelect.type === "PointLightHelper") {
-        SceneManager.instance.selectByID(objectSelect.uuid)
+    const intersects = this.raycaster.intersectObjects(
+      SceneManager.instance.getScene().children,
+      true
+    )
+
+    const withoutHelpers = intersects.filter((e) => e.object.type !== "helper")
+    console.log(withoutHelpers)
+    if (withoutHelpers.length > 0) {
+      const objectSelect = intersects.find(
+        (e) => e.object.type === "Mesh" || e.object.type === "PointLightHelper"
+      )
+      if (!objectSelect) {
+        return
       }
-    } else {
-      SceneManager.instance.select()
+      if (objectSelect.object.type === "Mesh") {
+        SceneManager.instance.select(objectSelect.object)
+      } else if (objectSelect.object.type === "PointLightHelper") {
+        SceneManager.instance.selectByID(objectSelect.object.uuid)
+      }
+    }
+    if (intersects.length === 0) {
+      SceneManager.instance.deselect()
     }
   }
 
   private _setCamera(cam: THREE.PerspectiveCamera) {
-    this.camera = cam;
+    this.camera = cam
     this.camera.position.y = 10
     this.camera.rotation.x = -0.1
     this.camera.position.z = 50

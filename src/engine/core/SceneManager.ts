@@ -4,6 +4,7 @@ import CameraManager from "./CameraManager"
 import ControlsManager from "./ControlsManager"
 import Entity from "./Entity"
 import MaterialManager from "./MaterialManager"
+import { recursiveSetHelper } from "./utils"
 export default class SceneManager {
   public static instance: SceneManager
   private isPlaying: boolean = false // If true, in play mode, else in edit mode
@@ -28,11 +29,18 @@ export default class SceneManager {
     }
     SceneManager.instance = this
     this._scene = new THREE.Scene()
+    
+    recursiveSetHelper(this._axes)
     this._scene.add(this._axes)
+
+    recursiveSetHelper(this._gridHelper)
     this._scene.add(this._gridHelper)
+    
+    recursiveSetHelper(this._selectionHelper)
     this._selectionHelper = new THREE.BoxHelper(this._gridHelper, 0xffff00)
-    this._scene.add(this._selectionHelper)
     this._selectionHelper.visible = false
+    this._scene.add(this._selectionHelper)
+
     const loader = new THREE.TextureLoader()
     loader.load("/browser-engine/resources/skybox.png", (texture) => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height)
@@ -107,7 +115,6 @@ export default class SceneManager {
     this._resetScene()
     this._hideHelpers()
     try {
-      // ControlsManager.instance.disableControls()
       this._buildScene()
       this._startEntities()
     } catch (error) {
@@ -124,7 +131,6 @@ export default class SceneManager {
   runEditScene() {
     this.isPlaying = false
     this._resetScene()
-    // ControlsManager.instance.enableControls()
     this._showHelpers()
     this._buildScene()
   }
@@ -132,21 +138,23 @@ export default class SceneManager {
   /** Select an entity by ID */
   selectByID(entityID: Engine.EntityID) {
     const object = this._entities.find((e) => e.id === entityID)?.getObject() ?? undefined
-    if (object) ControlsManager.instance.lookAt(object.position)
-    this.select(object)
+    if (object) {
+      ControlsManager.instance.lookAt(object.position)
+      this.select(object)
+    } 
   }
 
-  /** Sets Entity with corresponding object as selected,
-   *  if no object is passed, deselects any selected entity
+  /** Sets Entity with corresponding object as selected
    * @param object THREE.Object3D
    */
-  select(object?: THREE.Object3D) {
+  select(object: THREE.Object3D) {
     if (this.isPlaying) return
-    if (!object && this._selectionHelper?.visible && this._selectedEntityID) {
-      this._selectionHelper.visible = false
-      this._selectedEntityID = undefined
-      return
-    }
+    // if (!object && this._selectionHelper?.visible && this._selectedEntityID) {
+    //   this._selectionHelper.visible = false
+    //   this._selectedEntityID = undefined
+    //   ControlsManager.instance.removeObjectControls();
+    //   return
+    // }
 
     
     if (object) {
@@ -161,6 +169,12 @@ export default class SceneManager {
       return
     }
     this._cameraHelper.visible = false
+  }
+
+  deselect() {
+     this._selectionHelper.visible = false
+     this._selectedEntityID = undefined
+     ControlsManager.instance.removeObjectControls()
   }
 
   getSelectedEntity(): Engine.EntityID | undefined {
