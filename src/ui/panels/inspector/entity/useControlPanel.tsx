@@ -1,9 +1,14 @@
-import { folder, useControls } from "leva";
+import { folder, useControls } from "leva"
 import { v4 as uuidv4 } from "uuid"
 
-let changingField = "";
+let changingField = ""
 
-const useControlPanel = (folderName: string, props: Record<string, unknown>, changeProps: (value: any, fieldName: string) => void) => {
+const useControlPanel = (
+  folderName: string,
+  props: Record<string, unknown>,
+  changeProps: (value: any, fieldName: string) => void,
+  customActions: Record<string, any> = {},
+) => {
   useControls(() => {
     const asEntries = Object.entries(props).map(([fieldName, fieldValue]) => {
       const key = uuidv4()
@@ -27,8 +32,8 @@ const useControlPanel = (folderName: string, props: Record<string, unknown>, cha
       ]
     })
     const actualControls = Object.fromEntries(asEntries)
-    return { [folderName]: folder(actualControls) }
-  });
+    return { [folderName]: folder({...actualControls, ...customActions}) }
+  })
 }
 
-export default useControlPanel;
+export default useControlPanel

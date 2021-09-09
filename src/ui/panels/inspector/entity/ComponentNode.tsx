@@ -1,3 +1,4 @@
+import { button } from "leva"
 import useControlPanel from "./useControlPanel"
 
 interface Props {
@@ -9,20 +10,23 @@ interface Props {
     field: string,
     value: Engine.ComponentPropType
   ) => void
+  removeComponent: () => void
 }
 
 const ComponentNode = ({
   componentType,
   componentProps,
   updateComponent,
+  removeComponent,
 }: Props): React.ReactElement => {
-
   const setComponentProps = (value: any, fieldName: string) => {
     updateComponent(componentType, fieldName, value)
   }
 
-  useControlPanel(componentType, componentProps as any, setComponentProps)
-  
+  useControlPanel(componentType, componentProps as any, setComponentProps, {
+    "Remove Component": button(removeComponent),
+  })
+
   return <></>
 }
 

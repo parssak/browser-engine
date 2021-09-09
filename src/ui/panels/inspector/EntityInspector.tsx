@@ -62,6 +62,14 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     }
   }
 
+  const removeComponent = (
+    type: Engine.ComponentType
+  ) => {
+    if (!selectedEntity) return
+    delete selectedEntity.components[type]
+    updateEntity(selectedEntity)
+  }
+
   const getComponentOptions = (): SelectOption[] => {
     const components = ComponentManager.instance.getComponents()
     if (!selectedEntity) return []
@@ -178,6 +186,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
             key={`${type}--${selectedEntity.id}`}
             componentScriptID={""}
             updateComponent={updateComponent}
+            removeComponent={() => removeComponent(type)}
           />
         ))}
         <Leva fill flat titleBar={false} />
