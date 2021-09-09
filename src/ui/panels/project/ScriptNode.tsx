@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement, useRef } from "react"
 import useScripts from "../../../state/scripts/useScripts"
 
 interface Props {
@@ -7,13 +7,19 @@ interface Props {
 
 export default function ScriptNode({ script }: Props): ReactElement {
   const { loadScript, selectedScript, updateScriptName } = useScripts()
+  const ref = useRef<HTMLInputElement>(null)
 
-  const handleClick = () => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation()
     loadScript(script.id)
   }
 
-  const handleRightClick = () => {
-    
+  const handleRightClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    ref?.current?.focus();
+
   }
 
   return (
@@ -24,11 +30,12 @@ export default function ScriptNode({ script }: Props): ReactElement {
             selectedScript?.id === script.id ? "hover:bg-gray-600" : "hover:bg-gray-500"
           }`}
       onClick={handleClick}
-      onContextMenu={(e) => e.preventDefault()}
+      onContextMenu={handleRightClick}
       key={script.id}
     >
       <input
-        className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
+        ref={ref}
+        className="bg-transparent"
         type="text"
         defaultValue={script.name}
         key={script.id ?? ""}
