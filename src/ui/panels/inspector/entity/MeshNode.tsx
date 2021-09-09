@@ -1,53 +1,57 @@
-import React, { ReactElement, useState } from 'react'
-import GeometryManager from '../../../../engine/core/GeometryManager'
-import MaterialManager from '../../../../engine/core/MaterialManager'
-import useScene from '../../../../state/scene/useScene'
-import { SelectOption } from '../../../interfaces'
+import React, { ReactElement, useState } from "react"
+import GeometryManager from "../../../../engine/core/GeometryManager"
+import MaterialManager from "../../../../engine/core/MaterialManager"
+import useScene from "../../../../state/scene/useScene"
+import { SelectOption } from "../../../interfaces"
 
 interface Props {
-  selectedEntity: Engine.EntityProps;
+  selectedEntity: Engine.EntityProps
 }
 
 export default function MeshNode({ selectedEntity }: Props): ReactElement {
   const { updateEntity } = useScene()
 
-  const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
-  const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")
+  const [materialType, setMaterialType] = useState<Engine.MaterialType>(
+    selectedEntity.material ?? "phong"
+  )
+  const [geometryType, setGeometryType] = useState<Engine.GeometryType>(
+    selectedEntity.geometry ?? "box"
+  )
 
-   const updateMaterial = (newMaterial: Engine.MaterialType) => {
-     setMaterialType(newMaterial)
-     if (selectedEntity) {
-       selectedEntity.material = newMaterial
-       updateEntity({ ...selectedEntity })
-     }
-   }
+  const updateMaterial = (newMaterial: Engine.MaterialType) => {
+    setMaterialType(newMaterial)
+    if (selectedEntity) {
+      selectedEntity.material = newMaterial
+      updateEntity({ ...selectedEntity })
+    }
+  }
 
-   const updateGeometry = (newGeometry: Engine.GeometryType) => {
-     setGeometryType(newGeometry)
-     if (selectedEntity) {
-       selectedEntity.geometry = newGeometry
-       updateEntity({ ...selectedEntity })
-     }
-   }
+  const updateGeometry = (newGeometry: Engine.GeometryType) => {
+    setGeometryType(newGeometry)
+    if (selectedEntity) {
+      selectedEntity.geometry = newGeometry
+      updateEntity({ ...selectedEntity })
+    }
+  }
 
-   const getMaterialOptions = (): SelectOption[] => {
-     return Object.keys(MaterialManager.instance.materials).map((material) => ({
-       label: material,
-       value: material,
-     }))
-   }
+  const getMaterialOptions = (): SelectOption[] => {
+    return Object.keys(MaterialManager.instance.materials).map((material) => ({
+      label: material,
+      value: material,
+    }))
+  }
 
-   const materialOptions: SelectOption[] = getMaterialOptions()
+  const materialOptions: SelectOption[] = getMaterialOptions()
 
-   const getGeometryOptions = (): SelectOption[] => {
-     return Object.keys(GeometryManager.instance.geometries).map((geometry) => ({
-       label: geometry,
-       value: geometry,
-     }))
-   }
+  const getGeometryOptions = (): SelectOption[] => {
+    return Object.keys(GeometryManager.instance.geometries).map((geometry) => ({
+      label: geometry,
+      value: geometry,
+    }))
+  }
 
   const geometryOptions: SelectOption[] = getGeometryOptions()
-  
+
   return (
     <section>
       <div className="bg-gray-800 text-white">

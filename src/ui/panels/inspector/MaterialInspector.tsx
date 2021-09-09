@@ -14,7 +14,7 @@ export default function MaterialInspector({ selectedMaterial }: Props): ReactEle
       <section>
         Fragment shader{" "}
         <small
-          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
+          className="text-xs font-light underline text-gray-400 cursor-pointer transition hover:text-gray-300"
           onClick={() => {
             loadScript(selectedMaterial.fragmentShaderID)
           }}
@@ -25,7 +25,7 @@ export default function MaterialInspector({ selectedMaterial }: Props): ReactEle
       <section>
         Vertex shader{" "}
         <small
-          className="text-xs font-light underline text-gray-400 cursor-pointer hover:text-gray-300"
+          className="text-xs font-light underline text-gray-400 cursor-pointer transition hover:text-gray-300"
           onClick={() => {
             loadScript(selectedMaterial.vertexShaderID)
           }}

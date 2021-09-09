@@ -7,11 +7,11 @@ import ScriptNode from "./ScriptNode"
 
 export default function ProjectPanel(): ReactElement {
   const { sceneConfig, selectedMaterial, selectMaterial } = useScene()
-  const { scripts, loadScript, selectedScript } = useScripts()
+  const { scripts } = useScripts()
   return (
     <Panel label="Project" bodyClass="space-y-2">
       <ProjectNodeWrapper title="Scripts">
-        {scripts.map((s) => (
+        {scripts.filter(s => s.type === "component").map((s) => (
           <ScriptNode key={s.id} script={s} />
         ))}
       </ProjectNodeWrapper>

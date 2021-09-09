@@ -124,7 +124,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
           />
         </h1>
         <div
-          className="text-sm underline text-gray-500 cursor-pointer"
+          className="text-xs font-light underline cursor-pointer text-red-400 transition hover:text-red-300"
           onClick={handleRemoveEntity}
         >
           Remove
@@ -161,7 +161,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
                 onChange={(e) =>
                   updateEntity({
                     ...selectedEntity,
-                    castShadow: e.target.checked,
+                    receiveShadow: e.target.checked,
                   })
                 }
               />
