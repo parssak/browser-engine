@@ -26,7 +26,7 @@ export default class ComponentManager {
   };
 
   public getComponentProps(name: Engine.ComponentType): Engine.ComponentProps | null {
-    const componentProps = this.components[name].props ?? null;
+    const componentProps = this.components[name]?.props ?? null;
     if (!componentProps) {
       return null;
     }
@@ -34,7 +34,7 @@ export default class ComponentManager {
   }
 
   private getComponent(name: Engine.ComponentType): BaseComponentType | null {
-    return this.components[name].constructor ?? null;
+    return this.components[name]?.constructor ?? null;
   }
 
   public setComponent(entity: Entity, componentType: Engine.ComponentType, componentProps: Engine.ComponentProps): void {
@@ -63,5 +63,15 @@ export default class ComponentManager {
     } catch (e) {
       console.error('Error whilst initializing component', e);
     }
+  }
+
+  public renameComponent(newComponentName: string, oldComponentName: string) {
+    const component = this.components[oldComponentName];
+    if (!component) {
+      console.error(`Component ${oldComponentName} not found`);
+      return;
+    }
+    this.components[newComponentName] = component;
+    delete this.components[oldComponentName];
   }
 }

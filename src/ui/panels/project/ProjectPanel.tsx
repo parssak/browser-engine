@@ -2,32 +2,23 @@ import { ReactElement } from "react"
 import useScene from "../../../state/scene/useScene"
 import useScripts from "../../../state/scripts/useScripts"
 import Panel from "../Panel"
-import ProjectNode from "./ProjectNode"
+import ProjectNodeWrapper from "./ProjectNodeWrapper"
+import ScriptNode from "./ScriptNode"
 
 export default function ProjectPanel(): ReactElement {
   const { sceneConfig, selectedMaterial, selectMaterial } = useScene()
   const { scripts, loadScript, selectedScript } = useScripts()
   return (
     <Panel label="Project" bodyClass="space-y-2">
-      <ProjectNode title="Scripts">
+      <ProjectNodeWrapper title="Scripts">
         {scripts.map((s) => (
-          <div
-            className={`project-node
-          ${selectedScript?.id === s.id && "bg-gray-500"}
-          ${
-            selectedScript?.id === s.id ? "hover:bg-gray-600" : "hover:bg-gray-500"
-          }`}
-            onClick={() => loadScript(s.id)}
-            key={s.id}
-          >
-            {s.name}.{s.language}
-          </div>
+          <ScriptNode key={s.id} script={s} />
         ))}
-      </ProjectNode>
+      </ProjectNodeWrapper>
 
-      <ProjectNode title="Prefabs"></ProjectNode>
+      <ProjectNodeWrapper title="Prefabs"></ProjectNodeWrapper>
 
-      <ProjectNode title="Materials">
+      <ProjectNodeWrapper title="Materials">
         {sceneConfig.materials.map((material) => (
           <div
             key={material.id}
@@ -38,13 +29,13 @@ export default function ProjectPanel(): ReactElement {
             selectedMaterial?.id === material.id
               ? "hover:bg-gray-600"
               : "hover:bg-gray-500"
-              }`}
+          }`}
             onClick={() => selectMaterial(material.id)}
           >
             {material.name}
           </div>
         ))}
-      </ProjectNode>
+      </ProjectNodeWrapper>
     </Panel>
   )
 }

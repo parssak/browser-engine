@@ -5,7 +5,7 @@ interface Props {
   children?: ReactElement | ReactElement[] | any
 }
 
-export default function ProjectNode({title, children}: Props): ReactElement {
+export default function ProjectNodeWrapper({title, children}: Props): ReactElement {
   return (
     <details>
       <summary>{title}</summary>

@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import ScriptCompiler from "../../utils/ScriptCompiler"
 import CameraManager from "./CameraManager"
 import ComponentManager from "./ComponentManager"
 import ControlsManager from "./ControlsManager"
@@ -88,6 +89,16 @@ class EngineContext {
 
   getSelectedEntityProps(): Engine.EntityProps | undefined {
     return this.sceneManager.getSelectedEntityPayload()
+  }
+  
+  renameComponent(newComponentName: string, oldComponentName: string) {
+    this.componentManager.renameComponent(newComponentName, oldComponentName)
+    this.sceneManager.renameComponentInEntities(newComponentName, oldComponentName)
+  }
+
+  compileScripts(scripts: Engine.Script[]) {
+    // 1. Compile all scripts
+    ScriptCompiler.CompileScripts(Object.values(scripts));
   }
 }
 

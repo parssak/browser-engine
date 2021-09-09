@@ -209,6 +209,41 @@ export default class SceneManager {
     return entity
   }
 
+  renameComponentInEntities(newComponentName: string, oldComponentName: string) {
+    this._scenePayload?.sceneConfig.entities.forEach((entity) => {
+      const component = entity.components[oldComponentName]
+      if (component) {
+        entity.components[newComponentName] = component
+        delete entity.components[oldComponentName]
+      }
+    })
+  }
+
+  /** Adds any missing prop fields to all entities component props, 
+   *  and removes any present props that are not defined in componentProps */
+  updateEntitiesComponentProps(
+    componentName: string,
+    componentProps: Engine.ComponentProps
+  ) {
+    this._scenePayload?.sceneConfig.entities.forEach((entity) => {
+      const entityComponentProps = entity.components[componentName]
+      if (entityComponentProps) {
+        
+        Object.keys(componentProps).forEach((propName) => {
+          if (!entityComponentProps[propName]) {
+            entityComponentProps[propName] = componentProps[propName]
+          }
+        })
+
+        Object.keys(entityComponentProps).forEach((propName) => {
+          if (!componentProps[propName]) {
+            delete entityComponentProps[propName]
+          }
+        })
+      }
+    })
+  }
+
   private _startEntities() {
     this._entities.forEach((entity) => {
       entity.start()
@@ -240,7 +275,6 @@ export default class SceneManager {
 
   private _compileMaterials() {
     if (!this._scenePayload) return
-    console.log("Compiling materials", this._scenePayload.sceneConfig.materials)
 
     this._scenePayload.sceneConfig.materials.forEach((material) => {
       const associatedVertexShader = this._scenePayload?.scripts.find(

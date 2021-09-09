@@ -1,4 +1,6 @@
 import { useContext } from "react"
+import context from "../../engine/core/EngineContext"
+import SceneManager from "../../engine/core/SceneManager"
 import { generateNewScript } from "../../utils/script.utils"
 import { scriptBody, ScriptContext, setScriptBody } from "./ScriptContext"
 
@@ -56,6 +58,19 @@ const useScripts = () => {
     return newScripts
   }
 
+  const updateScriptName = (name: string, id: Engine.ScriptID) => {
+    const updatedScriptsObject = scripts
+    const otherComponentNames = Object.values(scripts).map((script) => script.name)
+    if (otherComponentNames.includes(name)) {
+      return
+    }
+    const oldName = updatedScriptsObject[id].name;
+
+    updatedScriptsObject[id].name = name
+    context.renameComponent(name, oldName);
+    setScripts({ ...updatedScriptsObject })
+  }
+
   return {
     scripts: Object.values(scripts),
     _setScripts: setScripts,
@@ -66,6 +81,7 @@ const useScripts = () => {
     loadScript,
     saveScript,
     createScript,
+    updateScriptName,
     _compileScripts :compileScripts,
   }
 }

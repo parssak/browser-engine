@@ -23,9 +23,14 @@ const ComponentNode = ({
     updateComponent(componentType, fieldName, value)
   }
 
-  useControlPanel(componentType, componentProps as any, setComponentProps, {
-    "Remove Component": button(removeComponent),
-  })
+  useControlPanel(
+    componentType,
+    componentProps as any,
+    setComponentProps,
+    componentType !== "Transform" ? {
+      "Remove Component": button(removeComponent),
+    } : undefined
+  )
 
   return <></>
 }

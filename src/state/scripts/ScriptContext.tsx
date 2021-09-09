@@ -1,5 +1,6 @@
 import {  ReactElement, useEffect, useState } from "react"
 import { createContext } from "react"
+import context from "../../engine/core/EngineContext"
 import ScriptCompiler from "../../utils/ScriptCompiler"
 
 interface IScriptContext {
@@ -37,7 +38,7 @@ export const ScriptProvider = ({
   const [selectedScript, setSelectedScript] = useState<Engine.Script | undefined>()
 
   const compileScripts = () => {
-    ScriptCompiler.CompileScripts(Object.values(scripts));
+    context.compileScripts(Object.values(scripts))
   }
 
   useEffect(() => {

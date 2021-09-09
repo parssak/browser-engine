@@ -22,7 +22,6 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     Record<Engine.ComponentType, Engine.ComponentProps>
   >({})
 
-
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
     const updateComponentFields = (entity: Engine.EntityProps) => {
@@ -62,9 +61,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     }
   }
 
-  const removeComponent = (
-    type: Engine.ComponentType
-  ) => {
+  const removeComponent = (type: Engine.ComponentType) => {
     if (!selectedEntity) return
     delete selectedEntity.components[type]
     updateEntity(selectedEntity)
@@ -179,16 +176,17 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
       {/* Components */}
       <section className="space-y-2">
-        {Object.entries(controls).map(([type, props]) => (
-          <ComponentNode
-            componentType={type}
-            componentProps={props}
-            key={`${type}--${selectedEntity.id}`}
-            componentScriptID={""}
-            updateComponent={updateComponent}
-            removeComponent={() => removeComponent(type)}
-          />
-        ))}
+        {Object.entries(controls)
+          .map(([type, props]) => (
+            <ComponentNode
+              componentType={type}
+              componentProps={props}
+              key={`${type}--${selectedEntity.id}`}
+              componentScriptID={""}
+              updateComponent={updateComponent}
+              removeComponent={() => removeComponent(type)}
+            />
+          ))}
         <Leva fill flat titleBar={false} />
       </section>
 

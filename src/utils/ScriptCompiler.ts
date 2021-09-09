@@ -7,11 +7,11 @@ import context from "../engine/core/EngineContext"
 import SceneManager from "../engine/core/SceneManager"
 import { generateNewEntity } from "./entity.utils"
 import { formatScriptString, injectInitSection } from "./script.utils"
-// Helper for script compilation
 
 export default class ScriptCompiler {
+
+  // Converts all scripts to components
   public static CompileScripts(scripts: Engine.Script[]) {
-    
     Object.values(scripts).forEach((script) => {
       try {
         if (script.type === "component") {
@@ -44,6 +44,8 @@ export default class ScriptCompiler {
     formattedScript = injectInitSection(formattedScript, props)
     const NewComponent: any = eval(`(${formattedScript})`) // ! <-- Eval
     Object.setPrototypeOf(NewComponent, Component)
+
     ComponentManager.instance.registerComponent(script.name, NewComponent, props)
+    SceneManager.instance.updateEntitiesComponentProps(script.name, props)
   }
 }
