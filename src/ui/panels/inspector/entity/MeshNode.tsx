@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MeshNode({ selectedEntity }: Props): ReactElement {
-  const { updateEntity, sceneConfig } = useScene()
+  const { updateEntity } = useScene()
 
   const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
   const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")

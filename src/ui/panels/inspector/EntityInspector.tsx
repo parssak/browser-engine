@@ -1,8 +1,6 @@
 import { Leva } from "leva"
 import { ReactElement, useEffect, useState } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
-import GeometryManager from "../../../engine/core/GeometryManager"
-import MaterialManager from "../../../engine/core/MaterialManager"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
 import { SelectOption } from "../../interfaces"
@@ -16,7 +14,6 @@ interface Props {
   selectedEntity: Engine.EntityProps
 }
 
-
 export default function EntityInspector({ selectedEntity }: Props): ReactElement {
   const { updateEntity, sceneConfig } = useScene()
   const { isRunning } = useEditor()
@@ -24,15 +21,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
   const [controls, setControls] = useState<
     Record<Engine.ComponentType, Engine.ComponentProps>
   >({})
-  
-  // const [materialType, setMaterialType] = useState<Engine.MaterialType>("normal")
-  // const [geometryType, setGeometryType] = useState<Engine.GeometryType>("box")
 
-  // useEffect(() => {
-  //   if (!selectedEntity) return
-  //   setMaterialType(selectedEntity.material ?? "")
-  //   setGeometryType(selectedEntity.geometry ?? "")
-  // }, [selectedEntity])
 
   // * Handles populating all correct value fields when selecting entity */
   useEffect(() => {
@@ -108,42 +97,6 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       selectedEntity.lightProps.type === "ambient"
     )
   }
-
-  // #region -- mesh --
-  // const updateMaterial = (newMaterial: Engine.MaterialType) => {
-  //   setMaterialType(newMaterial)
-  //   if (selectedEntity) {
-  //     selectedEntity.material = newMaterial
-  //     updateEntity({ ...selectedEntity })
-  //   }
-  // }
-
-  // const updateGeometry = (newGeometry: Engine.GeometryType) => {
-  //   setGeometryType(newGeometry)
-  //   if (selectedEntity) {
-  //     selectedEntity.geometry = newGeometry
-  //     updateEntity({ ...selectedEntity })
-  //   }
-  // }
-
-  // const getMaterialOptions = (): SelectOption[] => {
-  //   return Object.keys(MaterialManager.instance.materials).map((material) => ({
-  //     label: material,
-  //     value: material,
-  //   }))
-  // }
-
-  // const materialOptions: SelectOption[] = getMaterialOptions()
-
-  // const getGeometryOptions = (): SelectOption[] => {
-  //   return Object.keys(GeometryManager.instance.geometries).map((geometry) => ({
-  //     label: geometry,
-  //     value: geometry,
-  //   }))
-  // }
-
-  // const geometryOptions: SelectOption[] = getGeometryOptions()
-  // #endregion
 
   return (
     <Panel label="Inspector">
@@ -249,10 +202,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       )}
 
       {/* Mesh */}
-      {selectedEntity.type === "basic" && (
-        <MeshNode selectedEntity={selectedEntity} />
-      
-      )}
+      {selectedEntity.type === "basic" && <MeshNode selectedEntity={selectedEntity} />}
     </Panel>
   )
 }
