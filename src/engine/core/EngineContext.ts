@@ -67,6 +67,11 @@ class EngineContext {
     this.sceneManager.buildEntity(entity)
   }
 
+  removeEntity(entityID: Engine.EntityID) {
+    console.log('remove entity')
+    this.sceneManager.destroyEntity(entityID)
+  }
+
   isPlaying(): boolean {
     return SceneManager.isPlaying() ?? false
   }
@@ -90,7 +95,7 @@ class EngineContext {
   getSelectedEntityProps(): Engine.EntityProps | undefined {
     return this.sceneManager.getSelectedEntityPayload()
   }
-  
+
   renameComponent(newComponentName: string, oldComponentName: string) {
     this.componentManager.renameComponent(newComponentName, oldComponentName)
     this.sceneManager.renameComponentInEntities(newComponentName, oldComponentName)
@@ -98,7 +103,7 @@ class EngineContext {
 
   compileScripts(scripts: Engine.Script[]) {
     // 1. Compile all scripts
-    ScriptCompiler.CompileScripts(Object.values(scripts));
+    ScriptCompiler.CompileScripts(Object.values(scripts))
   }
 }
 

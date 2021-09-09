@@ -25,6 +25,7 @@ export default function ScriptNode({ script }: Props): ReactElement {
   return (
     <div
       className={`project-node
+          cursor-pointer
           ${selectedScript?.id === script.id && "bg-gray-500"}
           ${
             selectedScript?.id === script.id ? "hover:bg-gray-600" : "hover:bg-gray-500"
@@ -35,7 +36,7 @@ export default function ScriptNode({ script }: Props): ReactElement {
     >
       <input
         ref={ref}
-        className="bg-transparent"
+        className="bg-transparent cursor-pointer"
         type="text"
         defaultValue={script.name}
         key={script.id ?? ""}
@@ -43,7 +44,6 @@ export default function ScriptNode({ script }: Props): ReactElement {
         // @ts-ignore
         onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
       />
-      {/* {script.name}.{script.language} */}
     </div>
   )
 }

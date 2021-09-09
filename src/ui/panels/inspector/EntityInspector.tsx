@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function EntityInspector({ selectedEntity }: Props): ReactElement {
-  const { updateEntity, sceneConfig } = useScene()
+  const { updateEntity, removeEntity, sceneConfig } = useScene()
   const { isRunning } = useEditor()
 
   const [controls, setControls] = useState<
@@ -61,10 +61,15 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
     }
   }
 
-  const removeComponent = (type: Engine.ComponentType) => {
+  const handleRemoveComponent = (type: Engine.ComponentType) => {
     if (!selectedEntity) return
     delete selectedEntity.components[type]
     updateEntity(selectedEntity)
+  }
+
+  const handleRemoveEntity = () => {
+    if (!selectedEntity) return
+    removeEntity(selectedEntity.id)
   }
 
   const getComponentOptions = (): SelectOption[] => {
@@ -105,18 +110,26 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
   return (
     <Panel label="Inspector">
-      <h1>
-        <input
-          className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
-          type="text"
-          defaultValue={selectedEntity?.name}
-          key={selectedEntity?.id ?? ""}
-          onBlur={(e) => handleChangeName(e.target.value)}
-          disabled={selectedEntity?.type === "camera"}
-          // @ts-ignore
-          onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
-        />
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1>
+          <input
+            className="transition bg-gray-800 hover:bg-gray-700 focus:bg-gray-900"
+            type="text"
+            defaultValue={selectedEntity?.name}
+            key={selectedEntity?.id ?? ""}
+            onBlur={(e) => handleChangeName(e.target.value)}
+            disabled={selectedEntity?.type === "camera"}
+            // @ts-ignore
+            onKeyDown={(e) => e.key === "Enter" && e.target.blur()}
+          />
+        </h1>
+        <div
+          className="text-sm underline text-gray-500 cursor-pointer"
+          onClick={handleRemoveEntity}
+        >
+          Remove
+        </div>
+      </div>
       <section className="space-y-2 py-2">
         <div className="flex space-x-2">
           <p className="inspector-field-label">Visible</p>
@@ -176,17 +189,16 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
 
       {/* Components */}
       <section className="space-y-2">
-        {Object.entries(controls)
-          .map(([type, props]) => (
-            <ComponentNode
-              componentType={type}
-              componentProps={props}
-              key={`${type}--${selectedEntity.id}`}
-              componentScriptID={""}
-              updateComponent={updateComponent}
-              removeComponent={() => removeComponent(type)}
-            />
-          ))}
+        {Object.entries(controls).map(([type, props]) => (
+          <ComponentNode
+            componentType={type}
+            componentProps={props}
+            key={`${type}--${selectedEntity.id}`}
+            componentScriptID={""}
+            updateComponent={updateComponent}
+            removeComponent={() => handleRemoveComponent(type)}
+          />
+        ))}
         <Leva fill flat titleBar={false} />
       </section>
 

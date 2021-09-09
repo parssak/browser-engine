@@ -28,7 +28,7 @@ export default class ScriptCompiler {
     const THREE = three
     const Instantiate = SceneManager.instance.buildEntity.bind(SceneManager.instance)
     const CreateEntity = generateNewEntity
-    const Time = context.time;
+    const Time = context.time
 
     const scriptCopy = `${script.content}`
     const removePrefix = scriptCopy.substring(scriptCopy.indexOf("// <public>") + 11)
@@ -38,11 +38,11 @@ export default class ScriptCompiler {
     let props: Record<string, Engine.ComponentType> = {}
     if (`${pureProps}`.replace(/\s/g, "").length) {
       pureProps = `{${pureProps}}`
-      props = eval(`(${pureProps})`) // ! <-- Eval
+      props = eval(`(${pureProps})`) // ! <-- Eval: For generating props object
     }
     let formattedScript = formatScriptString(script)
     formattedScript = injectInitSection(formattedScript, props)
-    const NewComponent: any = eval(`(${formattedScript})`) // ! <-- Eval
+    const NewComponent: any = eval(`(${formattedScript})`) // ! <-- Eval: Compile script into component class
     Object.setPrototypeOf(NewComponent, Component)
 
     ComponentManager.instance.registerComponent(script.name, NewComponent, props)

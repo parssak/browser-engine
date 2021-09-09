@@ -43,6 +43,16 @@ const useScene = () => {
     setEntities([...sceneConfig.entities])
   }
 
+  const removeEntity = (entityID: Engine.EntityID) => {
+    const index = sceneConfig.entities.findIndex((e) => e.id === entityID)
+    if (index === -1) {
+      console.error(`Couldn't find ${entityID} in sceneConfig.entities`)
+    }
+    sceneConfig.entities.splice(index, 1)
+    setEntities([...sceneConfig.entities])
+    context.removeEntity(entityID);
+  }
+
   const updateEntityParent = (
     child: Engine.EntityID,
     newParent: Engine.EntityID | null
@@ -86,6 +96,7 @@ const useScene = () => {
     createEntity,
     selectEntity,
     updateEntity,
+    removeEntity,
     updateEntityParent,
     createMaterial,
     selectMaterial,

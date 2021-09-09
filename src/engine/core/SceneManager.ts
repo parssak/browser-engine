@@ -209,6 +209,20 @@ export default class SceneManager {
     return entity
   }
 
+  destroyEntity(entityID: Engine.EntityID) {
+    if (entityID === this._selectedEntityID) {
+      this.deselect()
+    }
+    const entity = this._entities.find((e) => e.id === entityID)
+    if (entity) {
+      const object = entity.getObject()
+      if (object) {
+        this._scene.remove(object)
+      }
+      entity.destroy()
+    }
+  }
+
   renameComponentInEntities(newComponentName: string, oldComponentName: string) {
     this._scenePayload?.sceneConfig.entities.forEach((entity) => {
       const component = entity.components[oldComponentName]
@@ -219,7 +233,7 @@ export default class SceneManager {
     })
   }
 
-  /** Adds any missing prop fields to all entities component props, 
+  /** Adds any missing prop fields to all entities component props,
    *  and removes any present props that are not defined in componentProps */
   updateEntitiesComponentProps(
     componentName: string,
@@ -228,7 +242,6 @@ export default class SceneManager {
     this._scenePayload?.sceneConfig.entities.forEach((entity) => {
       const entityComponentProps = entity.components[componentName]
       if (entityComponentProps) {
-        
         Object.keys(componentProps).forEach((propName) => {
           if (!entityComponentProps[propName]) {
             entityComponentProps[propName] = componentProps[propName]
