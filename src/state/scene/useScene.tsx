@@ -77,7 +77,8 @@ const useScene = () => {
       fragmentShaderID
     )
     updatedMaterialsObject[materialName] = newMaterial;
-    setMaterials({...updatedMaterialsObject})
+    setMaterials({ ...updatedMaterialsObject })
+    context.updateSceneMaterials(Object.values(updatedMaterialsObject))
   }
 
   const selectMaterial = (materialID: Engine.MaterialID) => {

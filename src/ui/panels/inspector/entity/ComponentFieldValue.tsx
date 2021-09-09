@@ -19,7 +19,6 @@ const ComponentFieldValue = ({
   useEffect(() => {
     const changedValue = Object.values(value)[0]
     if (changedValue !== field) {
-      console.log("changed to", changedValue)
       updateField(changedValue as any);
     }
   }, [value])

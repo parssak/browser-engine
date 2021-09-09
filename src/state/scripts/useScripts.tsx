@@ -1,23 +1,20 @@
-import { useContext } from "react"
+import { useContext, useMemo } from "react"
 import context from "../../engine/core/EngineContext"
-import SceneManager from "../../engine/core/SceneManager"
 import { generateNewScript } from "../../utils/script.utils"
+import useEditor from "../editor/useEditor"
 import { scriptBody, ScriptContext, setScriptBody } from "./ScriptContext"
 
 const useScripts = () => {
-  const {
-    scripts,
-    setScripts,
-    selectedScript,
-    setSelectedScript,
-    compileScripts,
-  } = useContext(ScriptContext)
+  // const { forceUpdateScenePayload } = useEditor();
+
+  const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } =
+    useContext(ScriptContext)
 
   const loadScript = (
     scriptName: Engine.ScriptID | string,
     method: "name" | "id" = "id"
   ) => {
-    console.debug('loading script', scriptName, method, scripts)
+    console.debug("loading script", scriptName, method, scripts)
     let foundScript
     if (method === "id") {
       foundScript = scripts[scriptName]
@@ -29,10 +26,14 @@ const useScripts = () => {
   }
 
   const saveScript = (script: Engine.Script) => {
-    const foundScript = Object.values(scripts).find((s) => s.id === script.id)
+    const foundScript = scripts[script.id]
     if (!foundScript) return
     foundScript.content = scriptBody
-    compileScripts()
+    if (script.type === "component") {
+      compileScripts()
+    } else {
+      setScripts({ ...scripts })
+    }
   }
 
   interface CreateScriptPayload {
@@ -64,15 +65,17 @@ const useScripts = () => {
     if (otherComponentNames.includes(name)) {
       return
     }
-    const oldName = updatedScriptsObject[id].name;
+    const oldName = updatedScriptsObject[id].name
 
     updatedScriptsObject[id].name = name
-    context.renameComponent(name, oldName);
+    context.renameComponent(name, oldName)
     setScripts({ ...updatedScriptsObject })
   }
 
+  const scriptsOutput: Engine.Script[] = useMemo(() => Object.values(scripts), [scripts])
+
   return {
-    scripts: Object.values(scripts),
+    scripts: scriptsOutput,
     _setScripts: setScripts,
     scriptBody,
     setScriptBody,
@@ -82,7 +85,7 @@ const useScripts = () => {
     saveScript,
     createScript,
     updateScriptName,
-    _compileScripts :compileScripts,
+    _compileScripts: compileScripts,
   }
 }
 

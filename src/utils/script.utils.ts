@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from "three"
 import { v4 as uuidv4 } from "uuid"
 
 const COMPONENT_DEF = `// @defineComponent`
@@ -19,25 +19,30 @@ const BASE_COMPONENT_SCRIPT_CONTENT = `class Component {
   }
 }`
 
-const BASE_VERTEX_SHADER_CONTENT = `uniform float time;
-uniform mat4 modelMatrix; // object.matrixWorld
-uniform mat4 modelViewMatrix; // camera.matrixWorld * object.matrixWorld
-uniform mat4 projectionMatrix; // camera.projectionMatrix
-uniform mat4 viewMatrix; // camera.matrixWorld
-uniform mat3 normalMatrix; // camera.matrixWorldInverse.transpose()
-uniform vec3 cameraPosition; // camera.position
+const BASE_VERTEX_SHADER_CONTENT = `// -- Injected uniforms / attributes --
+// uniform mat4 modelMatrix; // object.matrixWorld
+// uniform mat4 modelViewMatrix; // camera.matrixWorld * object.matrixWorld
+// uniform mat4 projectionMatrix; // camera.projectionMatrix
+// uniform mat4 viewMatrix; // camera.matrixWorld
+// uniform mat3 normalMatrix; // camera.matrixWorldInverse.transpose()
+// uniform vec3 cameraPosition; // camera.position
 
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 uv;
+// attribute vec3 position;
+// attribute vec3 normal;
+// attribute vec2 uv;
+// -- Able to delete above, but do not uncomment --
+
+uniform float time;
 
 void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }`
 
-const BASE_FRAGMENT_SHADER_CONTENT = `uniform float time;
-uniform mat4 viewMatrix;
-uniform vec3 cameraPosition;
+const BASE_FRAGMENT_SHADER_CONTENT = `// -- Injected uniforms / attributes --
+// uniform mat4 viewMatrix;
+// uniform vec3 cameraPosition;
+// -- Able to delete above, but do not uncomment --
+uniform float time;
 
 void main() {
   gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);

@@ -74,7 +74,7 @@ export default class SceneManager {
   setSceneMaterials(payload: Engine.MaterialProps[]) {
     if (!this._scenePayload) return
     this._scenePayload.sceneConfig.materials = payload
-    this._compileMaterials()
+    // this._compileMaterials()
   }
 
   getSelectedEntityPayload(): Engine.EntityProps | undefined {
@@ -233,6 +233,15 @@ export default class SceneManager {
     })
   }
 
+  refreshEntitiesMaterial(newMaterial: THREE.Material) {
+    this._entities.forEach((entity) => {
+      const object = entity.getObject() as any
+      if (object && object.material && object.material.uuid === newMaterial.uuid) {
+        object.material = newMaterial
+      }
+    })
+  }
+
   /** Adds any missing prop fields to all entities component props,
    *  and removes any present props that are not defined in componentProps */
   updateEntitiesComponentProps(
@@ -288,7 +297,6 @@ export default class SceneManager {
 
   private _compileMaterials() {
     if (!this._scenePayload) return
-
     this._scenePayload.sceneConfig.materials.forEach((material) => {
       const associatedVertexShader = this._scenePayload?.scripts.find(
         (script) => script.id === material.vertexShaderID
@@ -300,6 +308,7 @@ export default class SceneManager {
 
       if (!associatedVertexShader || !associatedFragmentShader) return
       const materialPayload: Engine.Material = {
+        id: material.id,
         material,
         vertexShader: associatedVertexShader.content,
         fragmentShader: associatedFragmentShader.content,
@@ -334,7 +343,6 @@ export default class SceneManager {
         const object =
           this._entities.find((e) => e.id === this._selectedEntityID)?.getObject() ??
           undefined
-        console.log("adding", object)
         if (object) {
           ControlsManager.instance.addObjectControls(object)
         }

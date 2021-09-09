@@ -51,6 +51,12 @@ const useEditor = (rootHook?: boolean) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderElement, rootHook])
 
+  useEffect(() => {
+    if (rootHook && scenePayload) {
+      context.updateScenePayload(scenePayload)
+    }
+  }, [scripts])
+
 
   const toggleRun = () => {
     if (!renderElement || !renderElement.current) {
@@ -64,6 +70,11 @@ const useEditor = (rootHook?: boolean) => {
     context.updateScenePayload(scenePayload)
     context.runPlayMode()
     setIsRunning(true)
+  }
+
+  /** ! Use this sparingly */
+  const forceUpdateScenePayload = () => {
+    context.updateScenePayload(scenePayload)
   }
 
   const handleClickScene = (e: React.MouseEvent) => {
@@ -93,6 +104,7 @@ const useEditor = (rootHook?: boolean) => {
     handleClickScene,
     saveScene,
     exportScene,
+    forceUpdateScenePayload,
   }
 }
 

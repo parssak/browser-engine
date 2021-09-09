@@ -68,7 +68,6 @@ class EngineContext {
   }
 
   removeEntity(entityID: Engine.EntityID) {
-    console.log('remove entity')
     this.sceneManager.destroyEntity(entityID)
   }
 
@@ -102,7 +101,6 @@ class EngineContext {
   }
 
   compileScripts(scripts: Engine.Script[]) {
-    // 1. Compile all scripts
     ScriptCompiler.CompileScripts(Object.values(scripts))
   }
 }

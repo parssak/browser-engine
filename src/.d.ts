@@ -31,6 +31,7 @@ declare namespace Engine {
   }
 
   interface Material {
+    id: MaterialID
     material: MaterialProps
     fragmentShader: ScriptContent
     vertexShader: ScriptContent

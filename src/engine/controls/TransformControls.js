@@ -39,7 +39,6 @@ const _objectChangeEvent = { type: "objectChange" }
 class TransformControls extends Object3D {
   constructor(camera, domElement) {
     super()
-    console.log('made transform controls')
     if (domElement === undefined) {
       console.warn(
         'THREE.TransformControls: The second parameter "domElement" is now mandatory.'
