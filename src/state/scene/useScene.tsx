@@ -49,6 +49,8 @@ const useScene = () => {
       console.error(`Couldn't find ${entityID} in sceneConfig.entities`)
     }
     sceneConfig.entities.splice(index, 1)
+    // TODO; recursively remove all children
+
     setEntities([...sceneConfig.entities])
     context.removeEntity(entityID);
   }

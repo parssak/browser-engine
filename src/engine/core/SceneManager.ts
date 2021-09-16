@@ -176,6 +176,7 @@ export default class SceneManager {
   }
 
   buildEntity(props: Engine.EntityProps): Entity {
+    console.debug('build entity')
     const entity = new Entity(props)
     this._entities.push(entity)
     const entityObject = entity.getObject()
@@ -220,6 +221,9 @@ export default class SceneManager {
         this._scene.remove(object)
       }
       entity.destroy()
+      if (entity.children.length > 0) {
+        entity.children.forEach(c => this.destroyEntity(c.id));
+      }
     }
   }
 
@@ -266,6 +270,10 @@ export default class SceneManager {
     })
   }
 
+  removeFromScene(object: THREE.Object3D) {
+    this._scene.remove(object)
+  }
+
   private _startEntities() {
     this._entities.forEach((entity) => {
       entity.start()
@@ -274,11 +282,7 @@ export default class SceneManager {
 
   private _resetScene() {
     this._entities.forEach((entity) => {
-      const object = entity.getObject()
       entity.destroy()
-      if (object) {
-        this._scene.remove(object)
-      }
     })
     this._entities = []
   }

@@ -35,7 +35,6 @@ export default class Transform extends Component {
   }
 
   lookAt(location: THREE.Vector3) {
-    console.debug('look at');
     const rotation = new THREE.Euler(location.x, location.y, location.z);
     this.rotation = rotation;
   }

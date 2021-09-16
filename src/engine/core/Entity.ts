@@ -13,6 +13,7 @@ export default class Entity {
   public type: Engine.EntityType | undefined
   public components: Record<Engine.ComponentType, Component> = {}
   public children: Entity[] = [];
+  
 
   // Based on "type", an entity either has a mesh, light, or camera.
   private mesh: THREE.Mesh | undefined
@@ -52,11 +53,21 @@ export default class Entity {
   public addChild(entity: Entity) {
     this.children.push(entity)
     const obj = this.getObject()
+    const childObj = entity.getObject()
     // todo left off here
+    if (obj && childObj) {
+      console.debug('added child')
+      obj.children.push(childObj)
+      childObj.parent = obj
+    }
   }
  
   public destroy() {
-    // TODO: Implement
+    console.debug('destroy!');
+    const obj = this.getObject();
+    if (obj) {
+      obj.removeFromParent()
+    }
     if (this.mesh) {
       this.mesh.geometry.dispose()
       if (this.mesh.material instanceof THREE.Material) {
