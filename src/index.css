@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* #region -- Core Styles  */
 * :not(.monaco-editor) {
   /* font-family: 'Inter', sans-serif; */
 }
@@ -44,6 +45,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* #endregion */
+
+.main-wrapper {
+  grid-template-columns: 80vw 1fr;
+}
+
 .project-node {
   @apply p-1
           rounded-sm
@@ -57,3 +64,5 @@ input[type="number"] {
   @apply text-xs font-mono text-gray-200;
   min-width: 15ch;
 }
+
+

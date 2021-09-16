@@ -275,10 +275,10 @@ export default class SceneManager {
   private _resetScene() {
     this._entities.forEach((entity) => {
       const object = entity.getObject()
+      entity.destroy()
       if (object) {
         this._scene.remove(object)
       }
-      entity.destroy()
     })
     this._entities = []
   }

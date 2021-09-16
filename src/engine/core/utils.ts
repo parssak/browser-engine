@@ -3,3 +3,4 @@ export const recursiveSetHelper = (object: THREE.Object3D, type: 'helper' | 'hel
   object.type = type
   object.children.forEach(child => recursiveSetHelper(child, type))
 }
+

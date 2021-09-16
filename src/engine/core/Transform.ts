@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import { Vector3 } from "three"
 import Component from "./Component"
 import Entity from "./Entity"
 interface ITransformProps {
@@ -24,14 +25,24 @@ export default class Transform extends Component {
   }
 
   init(props?: ITransformProps) {
-    this.position = props?.position ?? this.position
-    this.rotation = props?.rotation ?? this.rotation
-    this.scale = props?.scale ?? this.scale
+    this.position = props?.position ? new THREE.Vector3(props.position.x, props.position.y, props.position.z) : this.position
+    this.rotation = props?.rotation ? new THREE.Euler(props.rotation.x, props.rotation.y, props.rotation.z, 'XYZ'): this.rotation
+    this.scale = props?.scale ? new THREE.Vector3(props.scale.x, props.scale.y, props.scale.z) : this.scale
     this.applyMatrix()
   }
 
   start() {
     this.applyMatrix()
+  }
+
+  lookAt(location: THREE.Vector3) {
+    console.debug('look at');
+    const rotation = new THREE.Euler(location.x, location.y, location.z);
+    this.rotation = rotation;
+  }
+
+  moveForward(distance: number) {
+    this.position.addScaledVector(this.rotation.toVector3(), distance)
   }
 
   private applyPosition() {

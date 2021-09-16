@@ -202,9 +202,12 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
         <Leva fill flat titleBar={false} />
       </section>
 
+      {/* Mesh */}
+      {selectedEntity.type === "basic" && <MeshNode selectedEntity={selectedEntity} />}
+
       {/* Add components */}
       {componentOptions.length > 0 && (
-        <section>
+        <section className="pt-4 flex items-center space-x-4 ">
           <select onChange={(e) => console.log(e.target.value)}>
             {componentOptions.map(({ label, value }) => (
               <option key={value} value={value}>
@@ -212,7 +215,7 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
               </option>
             ))}
           </select>
-          <div className="grid place-items-center mt-2">
+          <div className="grid place-items-center whitespace-nowrap">
             <button onClick={() => addComponent(componentOptions[0].value)}>
               Add Component
             </button>
@@ -220,8 +223,9 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
         </section>
       )}
 
-      {/* Mesh */}
-      {selectedEntity.type === "basic" && <MeshNode selectedEntity={selectedEntity} />}
+      <div className="pt-2">
+        <button className="block mx-auto">Add Child</button>
+      </div>
     </Panel>
   )
 }

@@ -12,7 +12,7 @@ export default class Entity {
   public name: string = ""
   public type: Engine.EntityType | undefined
   public components: Record<Engine.ComponentType, Component> = {}
-  
+
   // Based on "type", an entity either has a mesh, light, or camera.
   private mesh: THREE.Mesh | undefined
   private light: THREE.Light | undefined
@@ -50,6 +50,12 @@ export default class Entity {
 
   public destroy() {
     // TODO: Implement
+    if (this.mesh) {
+      this.mesh.geometry.dispose()
+      if (this.mesh.material instanceof THREE.Material) {
+        this.mesh.material.dispose()
+      }
+    }
   }
 
   public getComponent(componentName: string): Component | undefined {
@@ -85,12 +91,12 @@ export default class Entity {
     } else if (props.type === "camera" && props.cameraProps) {
       this._initCamera(props.cameraProps)
     }
-    
-    const obj = this.getObject();
+
+    const obj = this.getObject()
     if (obj) {
-      obj.visible = props.visible;
-      obj.castShadow = props.castShadow;
-      obj.receiveShadow = props.receiveShadow;
+      obj.visible = props.visible
+      obj.castShadow = props.castShadow
+      obj.receiveShadow = props.receiveShadow
     }
   }
 
@@ -114,7 +120,7 @@ export default class Entity {
         cameraProps.far
       )
     } else {
-      const cam = this.camera as THREE.PerspectiveCamera;
+      const cam = this.camera as THREE.PerspectiveCamera
       cam.fov = cameraProps.fov
       cam.aspect = CameraManager.instance.getAspect()
       cam.near = cameraProps.near
@@ -137,19 +143,17 @@ export default class Entity {
           return new THREE.AmbientLight(props.color, props.intensity)
       }
     }
-    
+
     if (!this.light) {
       this.light = createLight(lightProps)
     }
-    
+
     this.light.intensity = lightProps.intensity
     const downcastedLight = this.light as any
 
     if (downcastedLight.color) {
       downcastedLight.color = new Color(lightProps.color)
-    }
-    
-    else if (downcastedLight.groundColor) {
+    } else if (downcastedLight.groundColor) {
       downcastedLight.groundColor = new Color(lightProps.color)
     }
 

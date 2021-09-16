@@ -20,11 +20,9 @@ const initialValue = {
   sceneConfig: {
     entities: [] as Engine.EntityProps[],
     camera: {
-      position: new THREE.Vector3(),
       fov: 70,
       near: 0.1,
       far: 1000,
-      controls: "orbit" as Engine.ControlType,
     },
     materials: [],
   },
@@ -57,7 +55,7 @@ export const SceneProvider = ({
       children: [],
       components: {
         Transform: {
-          position: { x: 0, y: 5, z: -5 },
+          position: { x: 0, y: 8.8, z: 38 },
           rotation: { x: 0, y: 0, z: 0 },
           scale: { x: 1, y: 1, z: 1 },
         },

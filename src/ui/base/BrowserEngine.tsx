@@ -18,8 +18,7 @@ export default function BrowserEngine(): ReactElement {
     <div className="w-screen h-screen overflow-hidden">
       <Nav />
       <section
-        className="w-full h-full grid"
-        style={{ gridTemplateColumns: "80vw 1fr" }}
+        className="w-full h-full grid main-wrapper"
       >
         <div className="h-full w-full grid relative">
           <ScenePanel />

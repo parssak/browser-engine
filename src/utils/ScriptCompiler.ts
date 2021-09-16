@@ -44,7 +44,7 @@ export default class ScriptCompiler {
     formattedScript = injectInitSection(formattedScript, props)
     const NewComponent: any = eval(`(${formattedScript})`) // ! <-- Eval: Compile script into component class
     Object.setPrototypeOf(NewComponent, Component)
-
+    console.debug('COMPILED SCRIPT')
     ComponentManager.instance.registerComponent(script.name, NewComponent, props)
     SceneManager.instance.updateEntitiesComponentProps(script.name, props)
   }

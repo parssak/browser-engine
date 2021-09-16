@@ -1,4 +1,5 @@
 import { button } from "leva"
+import useScripts from "../../../../state/scripts/useScripts"
 import useControlPanel from "./useControlPanel"
 
 interface Props {
@@ -16,9 +17,12 @@ interface Props {
 const ComponentNode = ({
   componentType,
   componentProps,
+  componentScriptID,
   updateComponent,
   removeComponent,
 }: Props): React.ReactElement => {
+
+  const { loadScript } = useScripts()
   const setComponentProps = (value: any, fieldName: string) => {
     updateComponent(componentType, fieldName, value)
   }
@@ -27,9 +31,12 @@ const ComponentNode = ({
     componentType,
     componentProps as any,
     setComponentProps,
-    componentType !== "Transform" ? {
-      "Remove Component": button(removeComponent),
-    } : undefined
+    componentType !== "Transform"
+      ? {
+        "Open File": button(() => loadScript(componentType, 'name')),
+          "Remove Component": button(removeComponent),
+        }
+      : undefined
   )
 
   return <></>

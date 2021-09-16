@@ -1,12 +1,9 @@
 import { useContext, useMemo } from "react"
 import context from "../../engine/core/EngineContext"
 import { generateNewScript } from "../../utils/script.utils"
-import useEditor from "../editor/useEditor"
 import { scriptBody, ScriptContext, setScriptBody } from "./ScriptContext"
 
 const useScripts = () => {
-  // const { forceUpdateScenePayload } = useEditor();
-
   const { scripts, setScripts, selectedScript, setSelectedScript, compileScripts } =
     useContext(ScriptContext)
 
