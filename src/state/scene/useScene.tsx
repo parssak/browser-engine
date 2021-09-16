@@ -60,8 +60,22 @@ const useScene = () => {
     // TODO: Implement this
   }
 
-  const createEntity = (entity: Engine.EntityProps) => {
-    setEntities([...sceneConfig.entities, entity])
+  const createEntity = (entity: Engine.EntityProps, parent?: Engine.EntityProps) => {
+    console.debug('adding new entity')
+    
+    const currEntities = sceneConfig.entities;
+    
+    if (parent) {
+      entity.parent = parent.id;
+      parent.children.push(entity.id);
+      const parentIndex = currEntities.findIndex((e) => e.id === parent.id)
+      if (parentIndex === -1) {
+        console.error(`Couldn't find ${entity.id} in currEntities`)
+      }
+      currEntities[parentIndex] = parent
+    }
+
+    setEntities([...currEntities, entity])
     context.addNewEntity(entity)
   }
 

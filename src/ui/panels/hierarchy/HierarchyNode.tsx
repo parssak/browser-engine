@@ -3,22 +3,32 @@ import useScene from "../../../state/scene/useScene"
 
 interface Props {
   entity: Engine.EntityProps
+  parent: Engine.EntityID | null
 }
 
-function HierarchyNode({ entity }: Props): ReactElement {
-  const { selectedEntity, selectEntity } = useScene()
+function HierarchyNode({ entity, parent }: Props): ReactElement {
+  const { selectedEntity, selectEntity, sceneConfig } = useScene()
 
   const isSelected = useMemo(
     () => selectedEntity?.id === entity.id,
     [selectedEntity, entity.id]
   )
 
+  const isHidden = useMemo(() => !entity.visible, [entity])
+
+  const childrenProps = useMemo(() => {
+    if (entity.children.length <= 0) return []
+    const getEntityByID = (id: Engine.EntityID) =>
+      sceneConfig.entities.find((e) => e.id === id)
+    return entity.children.map((childID) => getEntityByID(childID))
+  }, [entity, sceneConfig])
+
+  if (entity.parent !== parent) return <></>
+
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     selectEntity(entity.id)
   }
-
-  const isHidden = useMemo(() => !entity.visible, [entity])
 
   return (
     <div
@@ -37,7 +47,11 @@ function HierarchyNode({ entity }: Props): ReactElement {
     `}
       onMouseDown={handleClick}
     >
-      {entity?.name ?? "__ENTITY__"}
+      {entity.name ?? "__ENTITY__"}
+      {childrenProps.map(
+        (child) =>
+          child && <HierarchyNode key={child.id} entity={child} parent={entity.id} />
+      )}
     </div>
   )
 }

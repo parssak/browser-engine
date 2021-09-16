@@ -3,6 +3,7 @@ import { ReactElement, useEffect, useState } from "react"
 import ComponentManager from "../../../engine/core/ComponentManager"
 import useEditor from "../../../state/editor/useEditor"
 import useScene from "../../../state/scene/useScene"
+import { generateNewEntity } from "../../../utils/entity.utils"
 import { SelectOption } from "../../interfaces"
 import Panel from "../Panel"
 import CameraNode from "./entity/CameraNode"
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export default function EntityInspector({ selectedEntity }: Props): ReactElement {
-  const { updateEntity, removeEntity, sceneConfig } = useScene()
+  const { updateEntity, createEntity, removeEntity, sceneConfig } = useScene()
   const { isRunning } = useEditor()
 
   const [controls, setControls] = useState<
@@ -106,6 +107,11 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       selectedEntity.lightProps &&
       selectedEntity.lightProps.type === "ambient"
     )
+  }
+
+  const handleCreateChild = () => {
+    const newEntity: Engine.EntityProps = generateNewEntity()
+    createEntity(newEntity, selectedEntity)
   }
 
   return (
@@ -224,7 +230,9 @@ export default function EntityInspector({ selectedEntity }: Props): ReactElement
       )}
 
       <div className="pt-2">
-        <button className="block mx-auto">Add Child</button>
+        <button
+          onClick={handleCreateChild}
+          className="block mx-auto">Add Child</button>
       </div>
     </Panel>
   )
