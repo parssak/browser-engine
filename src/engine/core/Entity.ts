@@ -12,6 +12,7 @@ export default class Entity {
   public name: string = ""
   public type: Engine.EntityType | undefined
   public components: Record<Engine.ComponentType, Component> = {}
+  public children: Entity[] = [];
 
   // Based on "type", an entity either has a mesh, light, or camera.
   private mesh: THREE.Mesh | undefined
@@ -48,6 +49,12 @@ export default class Entity {
     }
   }
 
+  public addChild(entity: Entity) {
+    this.children.push(entity)
+    const obj = this.getObject()
+    // todo left off here
+  }
+ 
   public destroy() {
     // TODO: Implement
     if (this.mesh) {
@@ -163,9 +170,9 @@ export default class Entity {
   }
 
   private _appendIdentifiers(id: string, name: string) {
-    const object: THREE.Object3D | undefined = this.getObject()
-    if (!object) return
-    object.uuid = id
-    object.name = name
+    const obj: THREE.Object3D | undefined = this.getObject()
+    if (!obj) return
+    obj.uuid = id
+    obj.name = name
   }
 }

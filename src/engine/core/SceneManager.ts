@@ -293,6 +293,26 @@ export default class SceneManager {
     entities.forEach((entityProps) => {
       this.buildEntity(entityProps)
     })
+    this._entities.forEach((entity) => {
+      this._bindHierarchy(entity)
+    })
+  }
+
+  private _bindHierarchy(entity: Entity) {
+    if (!this._scenePayload) return;
+    const entityProps = this._scenePayload.sceneConfig.entities.find(
+      (e) => e.id === entity.id
+    );
+    if (!entityProps) return;
+    const parentID = entityProps.parent;
+    if (parentID) {
+      const parentEntity = this._entities.find((e) => e.id === parentID);
+      if (parentEntity) {
+        parentEntity.addChild(entity);
+      }
+    }
+
+
   }
 
   private _compileMaterials() {
