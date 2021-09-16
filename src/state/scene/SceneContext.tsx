@@ -52,6 +52,7 @@ export const SceneProvider = ({
       visible: true,
       castShadow: false,
       receiveShadow: false,
+      parent: null,
       children: [],
       components: {
         Transform: {
@@ -73,6 +74,7 @@ export const SceneProvider = ({
       visible: true,
       castShadow: false,
       receiveShadow: false,
+      parent: null,
       children: [],
       components: {
         Transform: {
@@ -94,6 +96,7 @@ export const SceneProvider = ({
       visible: true,
       castShadow: true,
       receiveShadow: true,
+      parent: null,
       children: [],
       components: {
         Transform: {
@@ -118,6 +121,7 @@ export const SceneProvider = ({
       receiveShadow: true,
       material: "phong",
       geometry: "plane",
+      parent: null,
       children: [],
       components: {
         Transform: {

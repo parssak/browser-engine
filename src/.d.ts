@@ -73,6 +73,7 @@ declare namespace Engine {
     id: EntityID
     name: string
     children: EntityID[]
+    parent: EntityID | null
     components: Record<ComponentType, ComponentProps>
     type: EntityType
     visible: boolean

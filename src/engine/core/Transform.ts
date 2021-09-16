@@ -1,5 +1,4 @@
 import * as THREE from "three"
-import { Vector3 } from "three"
 import Component from "./Component"
 import Entity from "./Entity"
 interface ITransformProps {

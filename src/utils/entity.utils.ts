@@ -10,6 +10,7 @@ export const generateNewEntity = (): Engine.EntityProps => {
     receiveShadow: true,
     geometry: "box",
     material: "phong",
+    parent: null,
     children: [],
     components: {
       Transform: {
@@ -30,6 +31,7 @@ export const generateNewLight = (): Engine.EntityProps => {
     visible: true,
     castShadow: true,
     receiveShadow: true,
+    parent: null,
     children: [],
     components: {
       Transform: {
