@@ -35,7 +35,9 @@ export default class Transform extends Component {
   }
 
   lookAt(location: THREE.Vector3) {
-    const rotation = new THREE.Euler(location.x, location.y, location.z);
+    const object = this.entity.getObject() as THREE.Object3D
+    object.lookAt(location)
+    const rotation = object.rotation;
     this.rotation = rotation;
   }
 
